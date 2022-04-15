@@ -9,14 +9,19 @@
 /* Begin PBXBuildFile section */
 		04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D1E2809D7FC00D4C010 /* AppDelegate.swift */; };
 		04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D202809D7FC00D4C010 /* SceneDelegate.swift */; };
-		04D52D232809D7FC00D4C010 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D222809D7FC00D4C010 /* ViewController.swift */; };
-		04D52D262809D7FC00D4C010 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D242809D7FC00D4C010 /* Main.storyboard */; };
+		04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D222809D7FC00D4C010 /* SignInViewController.swift */; };
 		04D52D282809D80B00D4C010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D272809D80B00D4C010 /* Assets.xcassets */; };
 		04D52D2B2809D80B00D4C010 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D292809D80B00D4C010 /* LaunchScreen.storyboard */; };
 		04D52D362809D80B00D4C010 /* FacebookiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D352809D80B00D4C010 /* FacebookiOSTests.swift */; };
 		04D52D402809D80B00D4C010 /* FacebookiOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D3F2809D80B00D4C010 /* FacebookiOSUITests.swift */; };
 		04D52D422809D80B00D4C010 /* Facebook_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D412809D80B00D4C010 /* Facebook_iOSUITestsLaunchTests.swift */; };
 		04D52D5C2809F14600D4C010 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D5B2809F14600D4C010 /* Images.xcassets */; };
+		04D52D5F2809F48600D4C010 /* DataModels_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D5E2809F48600D4C010 /* DataModels_TODO.txt */; };
+		04D52D622809F4C400D4C010 /* CoreUI_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D612809F4C400D4C010 /* CoreUI_TODO.txt */; };
+		04D52D672809F52F00D4C010 /* Foundation_Extensions_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D662809F52F00D4C010 /* Foundation_Extensions_TODO.txt */; };
+		04D52D692809F55800D4C010 /* UIKit_Extensions_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D682809F55800D4C010 /* UIKit_Extensions_TODO.txt */; };
+		04D52D6C2809F5B900D4C010 /* Services_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D6B2809F5B900D4C010 /* Services_TODO.txt */; };
+		04D52D6F2809F62900D4C010 /* Protocols_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D6E2809F62900D4C010 /* Protocols_TODO.txt */; };
 		11D0FB4AA812D220AAB0F665 /* Pods_App_Facebook_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0612FED3E9831A74E7D5AB4A /* Pods_App_Facebook_iOSUITests.framework */; };
 		7C3F442DFF237028E9588D6D /* Pods_App_Facebook_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDDE8EF9E0905698D95CEFB /* Pods_App_Facebook_iOSTests.framework */; };
 		804077D3F82665B0F6AFD44B /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19AFB9ABC13A53766D399432 /* Pods_App_Facebook_iOS.framework */; };
@@ -43,8 +48,7 @@
 		04D52D1B2809D7FC00D4C010 /* Facebook-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Facebook-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D52D1E2809D7FC00D4C010 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04D52D202809D7FC00D4C010 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		04D52D222809D7FC00D4C010 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		04D52D252809D7FC00D4C010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		04D52D222809D7FC00D4C010 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		04D52D272809D80B00D4C010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04D52D2A2809D80B00D4C010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04D52D2C2809D80B00D4C010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,6 +58,12 @@
 		04D52D3F2809D80B00D4C010 /* FacebookiOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookiOSUITests.swift; sourceTree = "<group>"; };
 		04D52D412809D80B00D4C010 /* Facebook_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Facebook_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		04D52D5B2809F14600D4C010 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		04D52D5E2809F48600D4C010 /* DataModels_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DataModels_TODO.txt; sourceTree = "<group>"; };
+		04D52D612809F4C400D4C010 /* CoreUI_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CoreUI_TODO.txt; sourceTree = "<group>"; };
+		04D52D662809F52F00D4C010 /* Foundation_Extensions_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Foundation_Extensions_TODO.txt; sourceTree = "<group>"; };
+		04D52D682809F55800D4C010 /* UIKit_Extensions_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UIKit_Extensions_TODO.txt; sourceTree = "<group>"; };
+		04D52D6B2809F5B900D4C010 /* Services_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Services_TODO.txt; sourceTree = "<group>"; };
+		04D52D6E2809F62900D4C010 /* Protocols_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Protocols_TODO.txt; sourceTree = "<group>"; };
 		0612FED3E9831A74E7D5AB4A /* Pods_App_Facebook_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App_Facebook_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19AFB9ABC13A53766D399432 /* Pods_App_Facebook_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App_Facebook_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		451B738C78227CFB86451476 /* Pods-App-Facebook-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSTests/Pods-App-Facebook-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +128,11 @@
 		04D52D1D2809D7FC00D4C010 /* Facebook-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				04D52D6D2809F61F00D4C010 /* Protocols */,
+				04D52D6A2809F5A100D4C010 /* Services */,
+				04D52D632809F50B00D4C010 /* Extensions */,
+				04D52D602809F4B800D4C010 /* CoreUI */,
+				04D52D5D2809F45800D4C010 /* DataModels */,
 				04D52D572809EFED00D4C010 /* Resources */,
 				04D52D552809EFCE00D4C010 /* BundleFiles */,
 				04D52D522809EFAD00D4C010 /* Application */,
@@ -213,10 +228,66 @@
 		04D52D5A2809F03400D4C010 /* UserStory */ = {
 			isa = PBXGroup;
 			children = (
-				04D52D222809D7FC00D4C010 /* ViewController.swift */,
-				04D52D242809D7FC00D4C010 /* Main.storyboard */,
+				04D52D222809D7FC00D4C010 /* SignInViewController.swift */,
 			);
 			path = UserStory;
+			sourceTree = "<group>";
+		};
+		04D52D5D2809F45800D4C010 /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D5E2809F48600D4C010 /* DataModels_TODO.txt */,
+			);
+			path = DataModels;
+			sourceTree = "<group>";
+		};
+		04D52D602809F4B800D4C010 /* CoreUI */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D612809F4C400D4C010 /* CoreUI_TODO.txt */,
+			);
+			path = CoreUI;
+			sourceTree = "<group>";
+		};
+		04D52D632809F50B00D4C010 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D652809F51D00D4C010 /* UIKit */,
+				04D52D642809F51500D4C010 /* Foundation */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		04D52D642809F51500D4C010 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D662809F52F00D4C010 /* Foundation_Extensions_TODO.txt */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		04D52D652809F51D00D4C010 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D682809F55800D4C010 /* UIKit_Extensions_TODO.txt */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		04D52D6A2809F5A100D4C010 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D6B2809F5B900D4C010 /* Services_TODO.txt */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		04D52D6D2809F61F00D4C010 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D6E2809F62900D4C010 /* Protocols_TODO.txt */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		DD8C5EFA294DB0B0AEC22A02 /* Pods */ = {
@@ -352,10 +423,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D52D622809F4C400D4C010 /* CoreUI_TODO.txt in Resources */,
+				04D52D5F2809F48600D4C010 /* DataModels_TODO.txt in Resources */,
+				04D52D672809F52F00D4C010 /* Foundation_Extensions_TODO.txt in Resources */,
 				04D52D2B2809D80B00D4C010 /* LaunchScreen.storyboard in Resources */,
+				04D52D6C2809F5B900D4C010 /* Services_TODO.txt in Resources */,
+				04D52D6F2809F62900D4C010 /* Protocols_TODO.txt in Resources */,
+				04D52D692809F55800D4C010 /* UIKit_Extensions_TODO.txt in Resources */,
 				04D52D5C2809F14600D4C010 /* Images.xcassets in Resources */,
 				04D52D282809D80B00D4C010 /* Assets.xcassets in Resources */,
-				04D52D262809D7FC00D4C010 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,7 +579,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04D52D232809D7FC00D4C010 /* ViewController.swift in Sources */,
+				04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */,
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
 			);
@@ -542,14 +618,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		04D52D242809D7FC00D4C010 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04D52D252809D7FC00D4C010 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		04D52D292809D80B00D4C010 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -687,7 +755,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Facebook-iOS/BundleFiles/Plist/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -715,7 +782,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Facebook-iOS/BundleFiles/Plist/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
