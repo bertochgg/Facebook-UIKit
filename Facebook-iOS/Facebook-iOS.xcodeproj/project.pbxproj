@@ -16,6 +16,7 @@
 		04D52D362809D80B00D4C010 /* FacebookiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D352809D80B00D4C010 /* FacebookiOSTests.swift */; };
 		04D52D402809D80B00D4C010 /* FacebookiOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D3F2809D80B00D4C010 /* FacebookiOSUITests.swift */; };
 		04D52D422809D80B00D4C010 /* Facebook_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D412809D80B00D4C010 /* Facebook_iOSUITestsLaunchTests.swift */; };
+		04D52D5C2809F14600D4C010 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D5B2809F14600D4C010 /* Images.xcassets */; };
 		11D0FB4AA812D220AAB0F665 /* Pods_App_Facebook_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0612FED3E9831A74E7D5AB4A /* Pods_App_Facebook_iOSUITests.framework */; };
 		7C3F442DFF237028E9588D6D /* Pods_App_Facebook_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDDE8EF9E0905698D95CEFB /* Pods_App_Facebook_iOSTests.framework */; };
 		804077D3F82665B0F6AFD44B /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19AFB9ABC13A53766D399432 /* Pods_App_Facebook_iOS.framework */; };
@@ -52,6 +53,7 @@
 		04D52D3B2809D80B00D4C010 /* Facebook-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Facebook-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D52D3F2809D80B00D4C010 /* FacebookiOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookiOSUITests.swift; sourceTree = "<group>"; };
 		04D52D412809D80B00D4C010 /* Facebook_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Facebook_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		04D52D5B2809F14600D4C010 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0612FED3E9831A74E7D5AB4A /* Pods_App_Facebook_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App_Facebook_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19AFB9ABC13A53766D399432 /* Pods_App_Facebook_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App_Facebook_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		451B738C78227CFB86451476 /* Pods-App-Facebook-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSTests/Pods-App-Facebook-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,13 +118,10 @@
 		04D52D1D2809D7FC00D4C010 /* Facebook-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				04D52D1E2809D7FC00D4C010 /* AppDelegate.swift */,
-				04D52D202809D7FC00D4C010 /* SceneDelegate.swift */,
-				04D52D222809D7FC00D4C010 /* ViewController.swift */,
-				04D52D242809D7FC00D4C010 /* Main.storyboard */,
-				04D52D272809D80B00D4C010 /* Assets.xcassets */,
-				04D52D292809D80B00D4C010 /* LaunchScreen.storyboard */,
-				04D52D2C2809D80B00D4C010 /* Info.plist */,
+				04D52D572809EFED00D4C010 /* Resources */,
+				04D52D552809EFCE00D4C010 /* BundleFiles */,
+				04D52D522809EFAD00D4C010 /* Application */,
+				04D52D5A2809F03400D4C010 /* UserStory */,
 			);
 			path = "Facebook-iOS";
 			sourceTree = "<group>";
@@ -142,6 +141,82 @@
 				04D52D412809D80B00D4C010 /* Facebook_iOSUITestsLaunchTests.swift */,
 			);
 			path = "Facebook-iOSUITests";
+			sourceTree = "<group>";
+		};
+		04D52D522809EFAD00D4C010 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D542809EFC000D4C010 /* SceneDelegate */,
+				04D52D532809EFB400D4C010 /* AppDelegate */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		04D52D532809EFB400D4C010 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D1E2809D7FC00D4C010 /* AppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		04D52D542809EFC000D4C010 /* SceneDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D202809D7FC00D4C010 /* SceneDelegate.swift */,
+			);
+			path = SceneDelegate;
+			sourceTree = "<group>";
+		};
+		04D52D552809EFCE00D4C010 /* BundleFiles */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D562809EFD600D4C010 /* Plist */,
+			);
+			path = BundleFiles;
+			sourceTree = "<group>";
+		};
+		04D52D562809EFD600D4C010 /* Plist */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D2C2809D80B00D4C010 /* Info.plist */,
+			);
+			path = Plist;
+			sourceTree = "<group>";
+		};
+		04D52D572809EFED00D4C010 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D592809F00600D4C010 /* LaunchScreen */,
+				04D52D582809EFF900D4C010 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		04D52D582809EFF900D4C010 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D272809D80B00D4C010 /* Assets.xcassets */,
+				04D52D5B2809F14600D4C010 /* Images.xcassets */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		04D52D592809F00600D4C010 /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D292809D80B00D4C010 /* LaunchScreen.storyboard */,
+			);
+			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
+		04D52D5A2809F03400D4C010 /* UserStory */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D222809D7FC00D4C010 /* ViewController.swift */,
+				04D52D242809D7FC00D4C010 /* Main.storyboard */,
+			);
+			path = UserStory;
 			sourceTree = "<group>";
 		};
 		DD8C5EFA294DB0B0AEC22A02 /* Pods */ = {
@@ -278,6 +353,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04D52D2B2809D80B00D4C010 /* LaunchScreen.storyboard in Resources */,
+				04D52D5C2809F14600D4C010 /* Images.xcassets in Resources */,
 				04D52D282809D80B00D4C010 /* Assets.xcassets in Resources */,
 				04D52D262809D7FC00D4C010 /* Main.storyboard in Resources */,
 			);
@@ -608,7 +684,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Facebook-iOS/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Facebook-iOS/BundleFiles/Plist/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -636,7 +712,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Facebook-iOS/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Facebook-iOS/BundleFiles/Plist/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
