@@ -36,9 +36,15 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 *.xcodeproj/xcuserdata/*
+
 *.xcworkspace/xcuserdata/*
+Facebook-iOS/Facebook-iOS.xcworkspace/xcuserdata/*
+
 *.xcworkspace/xcshareddata/*
+Facebook-iOS/Facebook-iOS.xcworkspace/xcshareddata/*
+
 xcuserdata/
+Facebook-iOS/Facebook-iOS.xcworkspace/xcuserdata/
 
 *.xcworkspacedata
 IDEWorkspaceChecks.plist
