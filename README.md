@@ -54,13 +54,6 @@ Congratulations! Now you are ready to go!
 
 ### https://www.figma.com/file/xzxnswNro32VIddbdoJ2aU/Facebook-App-UI-(Community)?node-id=0%3A1
 
-# Product specification, Behaviour and etc:
-
-### https://apps.apple.com/ua/app/calculator/id1069511488
-
-### Please, open project issues - to have a plan for app building and implementation process. 
-
-
 ## Facebook Graph Api Explorer:
 
 https://developers.facebook.com/tools/explorer/
@@ -68,3 +61,12 @@ https://developers.facebook.com/tools/explorer/
 ## Facebook Authentication for iOS:
 
 https://developers.facebook.com/docs/facebook-login/ios/
+
+
+# Product specification, Behaviour and etc:
+
+### https://apps.apple.com/ua/app/facebook/id284882215
+
+### Please, open project issues - to have a plan for app building and implementation process. 
+
+
