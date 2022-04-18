@@ -54,6 +54,10 @@ Congratulations! Now you are ready to go!
 
 ### https://www.figma.com/file/xzxnswNro32VIddbdoJ2aU/Facebook-App-UI-(Community)?node-id=0%3A1
 
+# UI / UX Spec - more detailes:
+
+### https://www.figma.com/file/wnUlGsh2kkczjRlHSzy58n/Facebook-App-UI-Clone?node-id=0%3A1
+
 ## Facebook Graph Api Explorer:
 
 https://developers.facebook.com/tools/explorer/
