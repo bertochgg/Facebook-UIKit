@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047DC73A2819341000717EEC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 047DC7392819341000717EEC /* Colors.xcassets */; };
+		047DC73C281934EB00717EEC /* Localization_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 047DC73B281934EB00717EEC /* Localization_TODO.txt */; };
+		047DC73E2819357800717EEC /* Fonts_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 047DC73D2819357800717EEC /* Fonts_TODO.txt */; };
+		047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047DC73F281935E500717EEC /* UIColor+Extension.swift */; };
 		04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D1E2809D7FC00D4C010 /* AppDelegate.swift */; };
 		04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D202809D7FC00D4C010 /* SceneDelegate.swift */; };
 		04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D52D222809D7FC00D4C010 /* SignInViewController.swift */; };
@@ -45,6 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		047DC7392819341000717EEC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		047DC73B281934EB00717EEC /* Localization_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Localization_TODO.txt; sourceTree = "<group>"; };
+		047DC73D2819357800717EEC /* Fonts_TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fonts_TODO.txt; sourceTree = "<group>"; };
+		047DC73F281935E500717EEC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		04D52D1B2809D7FC00D4C010 /* Facebook-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Facebook-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D52D1E2809D7FC00D4C010 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04D52D202809D7FC00D4C010 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +111,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		047DC736281933DC00717EEC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				047DC73D2819357800717EEC /* Fonts_TODO.txt */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		047DC737281933E600717EEC /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				047DC73B281934EB00717EEC /* Localization_TODO.txt */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		047DC738281933F900717EEC /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				047DC7392819341000717EEC /* Colors.xcassets */,
+				047DC73F281935E500717EEC /* UIColor+Extension.swift */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
 		04D52D122809D7FC00D4C010 = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +235,9 @@
 		04D52D572809EFED00D4C010 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				047DC738281933F900717EEC /* Colors */,
+				047DC737281933E600717EEC /* Localization */,
+				047DC736281933DC00717EEC /* Fonts */,
 				04D52D592809F00600D4C010 /* LaunchScreen */,
 				04D52D582809EFF900D4C010 /* Images */,
 			);
@@ -426,8 +462,11 @@
 				04D52D622809F4C400D4C010 /* CoreUI_TODO.txt in Resources */,
 				04D52D5F2809F48600D4C010 /* DataModels_TODO.txt in Resources */,
 				04D52D672809F52F00D4C010 /* Foundation_Extensions_TODO.txt in Resources */,
+				047DC73E2819357800717EEC /* Fonts_TODO.txt in Resources */,
 				04D52D2B2809D80B00D4C010 /* LaunchScreen.storyboard in Resources */,
 				04D52D6C2809F5B900D4C010 /* Services_TODO.txt in Resources */,
+				047DC73C281934EB00717EEC /* Localization_TODO.txt in Resources */,
+				047DC73A2819341000717EEC /* Colors.xcassets in Resources */,
 				04D52D6F2809F62900D4C010 /* Protocols_TODO.txt in Resources */,
 				04D52D692809F55800D4C010 /* UIKit_Extensions_TODO.txt in Resources */,
 				04D52D5C2809F14600D4C010 /* Images.xcassets in Resources */,
@@ -582,6 +621,7 @@
 				04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */,
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
+				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
