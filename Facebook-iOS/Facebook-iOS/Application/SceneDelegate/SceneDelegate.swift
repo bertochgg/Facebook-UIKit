@@ -11,6 +11,7 @@ final class SceneDelegate: UIResponder {
 
     // https://stackoverflow.com/questions/56588843/uiapplication-shared-delegate-equivalent-for-scenedelegate-xcode11
     var window: UIWindow?
+    var appCoordinator: AppCoordinator?
     
     static var shared: SceneDelegate {
         guard let sceneDelegate = UIApplication.shared.connectedScenes
@@ -25,13 +26,16 @@ final class SceneDelegate: UIResponder {
 extension SceneDelegate: UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else {
-            return
-        }
-        let rootWindow = UIWindow(windowScene: windowScene)
-        window = rootWindow
-        rootWindow.rootViewController = SignInViewController()
-        rootWindow.makeKeyAndVisible()
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        let navigationViewController = UINavigationController()
+        let coordinator = appCoordinator
+        
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = navigationViewController
+        window.makeKeyAndVisible()
+        self.window = window
+        
+        coordinator?.start()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
