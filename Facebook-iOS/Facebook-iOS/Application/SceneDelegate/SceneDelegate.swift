@@ -28,14 +28,15 @@ extension SceneDelegate: UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let navigationViewController = UINavigationController()
-        let coordinator = appCoordinator
+//        guard let coordinator = appCoordinator else { return }
+        appCoordinator = AppCoordinator(navigationController: navigationViewController)
         
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = navigationViewController
         window.makeKeyAndVisible()
         self.window = window
         
-        coordinator?.start()
+        appCoordinator?.start()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

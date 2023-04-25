@@ -16,13 +16,10 @@ enum CoordinatorType {
     case myProfile
 }
 
-protocol Coordinator: Hashable {
-    var parentCoordinator: (any Coordinator)? { get set }
-    var children: [any Coordinator] { get set }
+protocol Coordinator: Hashable, Equatable {
     var navigationController: UINavigationController? { get set }
     
     func start()
-    
 }
 
 extension Coordinator {
@@ -35,21 +32,4 @@ extension Coordinator {
     }
 }
 
-protocol Coordinating {
-    var coordinator: (any Coordinator)? { get set }
-}
 
-class AppCoordinator: Coordinator {
-    var parentCoordinator: (any Coordinator)?
-    var children: [any Coordinator] = []
-    var navigationController: UINavigationController?
-    
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-    
-    func start() {
-        print("app coor start")
-    }
-    
-}
