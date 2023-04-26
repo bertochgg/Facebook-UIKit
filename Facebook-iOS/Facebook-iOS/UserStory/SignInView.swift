@@ -78,6 +78,9 @@ class SignInView: UIView {
         button.contentHorizontalAlignment = .center
         button.layer.cornerRadius = 26
         button.backgroundColor = UIColor(hexString: "#1877F2")
+        
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.4
         return button
     }
 
