@@ -10,14 +10,35 @@ import UIKit
 
 class SignInView: UIView {
     
+    private let view: UIView = UIView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func setupLayout() {
+        addSubview(view)
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: topAnchor),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+        
         let stackView = setupStackView()
-        addSubview(stackView)
+        view.addSubview(stackView)
         let fbLogo = createFbLogo()
         stackView.addArrangedSubview(fbLogo)
         addStackViewConstraints(stackView: stackView)
         let fbLoginButton = setupFbLoginButton()
-        addSubview(fbLoginButton)
+        view.addSubview(fbLoginButton)
         addFbLoginButtonConstraints(fbLoginButton: fbLoginButton)
     }
     
@@ -33,8 +54,8 @@ class SignInView: UIView {
     private func addStackViewConstraints(stackView: UIStackView) {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 3),
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 3),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
             stackView.widthAnchor.constraint(equalToConstant: 130),
             stackView.heightAnchor.constraint(equalToConstant: 165)
         ])
@@ -63,10 +84,10 @@ class SignInView: UIView {
     private func addFbLoginButtonConstraints(fbLoginButton: UIButton) {
         fbLoginButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            fbLoginButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            fbLoginButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            fbLoginButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 44),
-            fbLoginButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -44),
+            fbLoginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            fbLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            fbLoginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 44),
+            fbLoginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -44),
             fbLoginButton.heightAnchor.constraint(equalToConstant: 52)
         ])
     }
