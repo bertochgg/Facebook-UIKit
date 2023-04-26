@@ -20,20 +20,20 @@ final class SignInViewController: UIViewController {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.spacing = 10
-            // stackView.alignment = .center
-            // stackView.distribution = .fill
+            stackView.alignment = .center
+            stackView.distribution = .fill
             return stackView
         }()
-
+        
         view.addSubview(stackView)
-
+        
         let fbLogo: UIImageView = {
             let logoImage = UIImageView()
             logoImage.image = UIImage(named: "app-logo")
             logoImage.contentMode = .scaleAspectFit
             return logoImage
         }()
-
+        
         let fbLabel: UILabel = {
             let label = UILabel()
             label.text = "facebook"
@@ -43,10 +43,10 @@ final class SignInViewController: UIViewController {
             label.numberOfLines = 1
             return label
         }()
-
+        
         stackView.addArrangedSubview(fbLogo)
         stackView.addArrangedSubview(fbLabel)
-
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -54,23 +54,21 @@ final class SignInViewController: UIViewController {
             stackView.widthAnchor.constraint(equalToConstant: 130),
             stackView.heightAnchor.constraint(equalToConstant: 165)
         ])
-//
+        
         let fbLoginButton: UIButton = {
             let button = UIButton()
             button.setImage(UIImage(named: "facebook"), for: .normal)
             return button
         }()
-
+        
         view.addSubview(fbLoginButton)
         
         fbLoginButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             fbLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -46),
             fbLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            fbLoginButton.topAnchor.constraint(equalTo: stackView.bottomAnchor),
             fbLoginButton.widthAnchor.constraint(equalToConstant: 234),
             fbLoginButton.heightAnchor.constraint(equalToConstant: 37)
-
         ])
         
     }
