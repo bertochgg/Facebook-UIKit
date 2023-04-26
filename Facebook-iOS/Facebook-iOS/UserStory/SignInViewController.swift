@@ -15,8 +15,6 @@ final class SignInViewController: UIViewController {
     private let signInView = SignInView()
     
     override func loadView() {
-        // super.loadView()
-        // exampleUI()
         view = signInView
     }
     

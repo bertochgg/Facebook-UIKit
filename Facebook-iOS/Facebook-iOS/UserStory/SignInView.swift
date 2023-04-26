@@ -71,13 +71,14 @@ class SignInView: UIView {
     private func setupFbLoginButton() -> UIButton {
         let button = UIButton()
         button.setImage(UIImage(named: "fb-circle-logo"), for: .normal)
-        button.setTitle("Continue with Facebook", for: .normal)
+        let localizedString = NSLocalizedString("login", comment: "holi :3")
+        button.setTitle(localizedString, for: .normal)
         button.titleLabel?.font = UIFont.robotoBoldItalic24
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 31, bottom: 0, right: 18)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
         button.contentHorizontalAlignment = .center
         button.layer.cornerRadius = 26
-        button.backgroundColor = UIColor(hexString: "#1877F2")
+        button.backgroundColor = UIColor.facebookLoginButtonBlue
         
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.4
