@@ -38,26 +38,26 @@ final class SignInViewController: UIViewController {
     }
     
     private func setupLayout() {
-        let stackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .vertical
-            stackView.spacing = 10
-            stackView.alignment = .center
-            stackView.distribution = .fill
-            return stackView
-        }()
-        
+        let stackView = setupStackView()
         view.addSubview(stackView)
-        
-        let fbLogo: UIImageView = {
-            let logoImage = UIImageView()
-            logoImage.image = UIImage(named: "facebook")
-            logoImage.contentMode = .scaleAspectFit
-            return logoImage
-        }()
-        
+        let fbLogo = createFbLogo()
         stackView.addArrangedSubview(fbLogo)
-        
+        addStackViewConstraints(stackView: stackView)
+        let fbLoginButton = setupFbLoginButton()
+        view.addSubview(fbLoginButton)
+        addFbLoginButtonConstraints(fbLoginButton: fbLoginButton)
+    }
+    
+    private func setupStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        return stackView
+    }
+
+    private func addStackViewConstraints(stackView: UIStackView) {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 3),
@@ -65,22 +65,29 @@ final class SignInViewController: UIViewController {
             stackView.widthAnchor.constraint(equalToConstant: 130),
             stackView.heightAnchor.constraint(equalToConstant: 165)
         ])
-        
-        let fbLoginButton: UIButton = {
-            let button = UIButton()
-            button.setImage(UIImage(named: "fb-circle-logo"), for: .normal)
-            button.setTitle("Continue with Facebook", for: .normal)
-            button.titleLabel?.font = UIFont.robotoBoldItalic24
-            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 0)
-            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
-            button.contentHorizontalAlignment = .center
-            button.layer.cornerRadius = 26
-            button.backgroundColor = UIColor(hex: "#1877f2")
-            return button
-        }()
-        
-        view.addSubview(fbLoginButton)
-        
+    }
+
+    private func createFbLogo() -> UIImageView {
+        let logoImage = UIImageView()
+        logoImage.image = UIImage(named: "facebook")
+        logoImage.contentMode = .scaleAspectFit
+        return logoImage
+    }
+
+    private func setupFbLoginButton() -> UIButton {
+        let button = UIButton()
+        button.setImage(UIImage(named: "fb-circle-logo"), for: .normal)
+        button.setTitle("Continue with Facebook", for: .normal)
+        button.titleLabel?.font = UIFont.robotoBoldItalic24
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 0)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
+        button.contentHorizontalAlignment = .center
+        button.layer.cornerRadius = 26
+        button.backgroundColor = UIColor(hex: "#1877f2")
+        return button
+    }
+
+    private func addFbLoginButtonConstraints(fbLoginButton: UIButton) {
         fbLoginButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             fbLoginButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
@@ -89,7 +96,6 @@ final class SignInViewController: UIViewController {
             fbLoginButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -44),
             fbLoginButton.heightAnchor.constraint(equalToConstant: 52)
         ])
-        
     }
     
 }
