@@ -54,4 +54,12 @@ extension UIFont {
         }
         return font
     }
+    
+    static var robotoMediumItalic24: UIFont {
+        guard let font = UIFont(name: FontName.robotoMediumItalic.rawValue, size: 24.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 24.0, weight: UIFont.Weight(rawValue: 600) )
+        }
+        return font
+    }
 }

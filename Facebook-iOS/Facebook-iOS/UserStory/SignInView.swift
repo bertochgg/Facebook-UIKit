@@ -73,8 +73,8 @@ class SignInView: UIView {
         button.setImage(UIImage(named: "fb-circle-logo"), for: .normal)
         button.setTitle("Continue with Facebook", for: .normal)
         button.titleLabel?.font = UIFont.robotoBoldItalic24
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 0)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 31, bottom: 0, right: 18)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
         button.contentHorizontalAlignment = .center
         button.layer.cornerRadius = 26
         button.backgroundColor = UIColor(hexString: "#1877F2")
