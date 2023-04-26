@@ -9,6 +9,9 @@ import UIKit
 
 final class SignInViewController: UIViewController {
     
+    var viewModel: SignInViewModel?
+    var coordinator: AppCoordinator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white

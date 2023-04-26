@@ -31,6 +31,7 @@
 		04D52D6C2809F5B900D4C010 /* Services_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D6B2809F5B900D4C010 /* Services_TODO.txt */; };
 		04D52D6F2809F62900D4C010 /* Protocols_TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04D52D6E2809F62900D4C010 /* Protocols_TODO.txt */; };
 		5FD7019B29F8D89600C81E85 /* Reference.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FD7019A29F8D89600C81E85 /* Reference.storyboard */; };
+		5FD7019D29F8F7BB00C81E85 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7019C29F8F7BB00C81E85 /* SignInViewModel.swift */; };
 		5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */; };
 		5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */; };
 		61C181CCF1F7735CEDAB988D /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B0769E5513789A098B1E06 /* Pods_App_Facebook_iOS.framework */; };
@@ -87,6 +88,7 @@
 		15A5B658A64061E412B41C2E /* Pods-App-Facebook-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOS.release.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOS/Pods-App-Facebook-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		30D6BA4859E3C0D7A3A15332 /* Pods-App-Facebook-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSTests.release.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSTests/Pods-App-Facebook-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5FD7019A29F8D89600C81E85 /* Reference.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reference.storyboard; sourceTree = "<group>"; };
+		5FD7019C29F8F7BB00C81E85 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		7E05FEFB5EC52FFA0886D0B1 /* Pods-App-Facebook-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 			children = (
 				04D52D222809D7FC00D4C010 /* SignInViewController.swift */,
 				5FD7019A29F8D89600C81E85 /* Reference.storyboard */,
+				5FD7019C29F8F7BB00C81E85 /* SignInViewModel.swift */,
 			);
 			path = UserStory;
 			sourceTree = "<group>";
@@ -655,6 +658,7 @@
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
 				5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
+				5FD7019D29F8F7BB00C81E85 /* SignInViewModel.swift in Sources */,
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
 				5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */,

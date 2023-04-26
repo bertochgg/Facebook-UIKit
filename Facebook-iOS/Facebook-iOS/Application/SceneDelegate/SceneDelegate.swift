@@ -31,7 +31,7 @@ extension SceneDelegate: UIWindowSceneDelegate {
         appCoordinator = AppCoordinator(navigationController: navigationViewController)
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = SignInViewController()
+        window.rootViewController = navigationViewController
         window.makeKeyAndVisible()
         self.window = window
         
