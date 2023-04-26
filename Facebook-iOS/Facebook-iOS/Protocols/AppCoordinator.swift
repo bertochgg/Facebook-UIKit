@@ -16,6 +16,6 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        print("app coor start")
+        print("app coordinator start")
     }
 }

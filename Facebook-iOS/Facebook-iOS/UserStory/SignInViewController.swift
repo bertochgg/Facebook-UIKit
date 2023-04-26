@@ -8,27 +8,70 @@
 import UIKit
 
 final class SignInViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
         setupLayout()
     }
     
     private func setupLayout() {
-        
-        view.backgroundColor = UIColor.systemBackground
-        
-        let label = UILabel()
-        label.text = "Hello World"
-        
-        view.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        let stackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .vertical
+            stackView.spacing = 10
+            // stackView.alignment = .center
+            // stackView.distribution = .fill
+            return stackView
+        }()
+
+        view.addSubview(stackView)
+
+        let fbLogo: UIImageView = {
+            let logoImage = UIImageView()
+            logoImage.image = UIImage(named: "app-logo")
+            logoImage.contentMode = .scaleAspectFit
+            return logoImage
+        }()
+
+        let fbLabel: UILabel = {
+            let label = UILabel()
+            label.text = "facebook"
+            label.font = .ralewayBold28
+            label.textColor = UIColor(red: 56 / 255, green: 76 / 255, blue: 255 / 255, alpha: 1)
+            label.contentMode = .center
+            label.numberOfLines = 1
+            return label
+        }()
+
+        stackView.addArrangedSubview(fbLogo)
+        stackView.addArrangedSubview(fbLabel)
+
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            label.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16)
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.widthAnchor.constraint(equalToConstant: 130),
+            stackView.heightAnchor.constraint(equalToConstant: 165)
         ])
+//
+        let fbLoginButton: UIButton = {
+            let button = UIButton()
+            button.setImage(UIImage(named: "facebook"), for: .normal)
+            return button
+        }()
+
+        view.addSubview(fbLoginButton)
+        
+        fbLoginButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            fbLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -46),
+            fbLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            fbLoginButton.topAnchor.constraint(equalTo: stackView.bottomAnchor),
+            fbLoginButton.widthAnchor.constraint(equalToConstant: 234),
+            fbLoginButton.heightAnchor.constraint(equalToConstant: 37)
+
+        ])
+        
     }
 }
