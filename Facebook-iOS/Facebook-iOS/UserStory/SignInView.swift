@@ -21,7 +21,7 @@ class SignInView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         addSubview(view)
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
