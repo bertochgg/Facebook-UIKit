@@ -31,5 +31,3 @@ extension Coordinator {
         return lhs == rhs
     }
 }
-
-
