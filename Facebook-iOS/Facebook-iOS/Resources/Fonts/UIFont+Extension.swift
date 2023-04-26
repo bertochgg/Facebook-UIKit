@@ -14,6 +14,8 @@ private enum FontName: String, CaseIterable {
     case ralewayMedium = "Raleway-Medium"
     case ralewaySemiBold = "Raleway-SemiBold"
     case ralewayBold = "Raleway-Bold"
+    case robotoMediumItalic = "Roboto-MediumItalic"
+    case robotoBoldItalic = "Roboto-BoldItalic"
 }
 
 extension UIFont {
@@ -40,6 +42,15 @@ extension UIFont {
         guard let font = UIFont(name: FontName.ralewayMedium.rawValue, size: 18.0) else {
             assertionFailure("Font not found")
             return UIFont.systemFont(ofSize: 18.0, weight: .medium)
+        }
+        return font
+    }
+    
+    // MARK: - Roboto Medium Bold Italic
+    static var robotoBoldItalic24: UIFont {
+        guard let font = UIFont(name: FontName.robotoBoldItalic.rawValue, size: 24.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 24.0, weight: .bold)
         }
         return font
     }

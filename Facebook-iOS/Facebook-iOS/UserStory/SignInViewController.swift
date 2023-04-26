@@ -15,7 +15,26 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        exampleUI()
         setupLayout()
+    }
+    
+    private func exampleUI() {
+        let background: UIImageView = {
+            let image = UIImageView()
+            image.image = UIImage(named: "Login")
+            image.alpha = 0.5
+            return image
+        }()
+        view.addSubview(background)
+        
+        background.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            background.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            background.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            background.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            background.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+        ])
     }
     
     private func setupLayout() {
@@ -32,37 +51,31 @@ final class SignInViewController: UIViewController {
         
         let fbLogo: UIImageView = {
             let logoImage = UIImageView()
-            logoImage.image = UIImage(named: "app-logo")
+            logoImage.image = UIImage(named: "facebook")
             logoImage.contentMode = .scaleAspectFit
             return logoImage
         }()
         
-        let fbLabel: UILabel = {
-            let label = UILabel(frame: .zero)
-            label.text = "facebook"
-            label.font = .ralewayBold28
-            let gradient = getGradientLayer(bounds: label.bounds)
-            label.textColor = gradientColor(bounds: label.bounds, gradientLayer: gradient)
-            label.textColor = UIColor(red: 56 / 255, green: 76 / 255, blue: 255 / 255, alpha: 1)
-            label.contentMode = .center
-            label.numberOfLines = 1
-            return label
-        }()
-        
         stackView.addArrangedSubview(fbLogo)
-        stackView.addArrangedSubview(fbLabel)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 3),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
             stackView.widthAnchor.constraint(equalToConstant: 130),
             stackView.heightAnchor.constraint(equalToConstant: 165)
         ])
         
         let fbLoginButton: UIButton = {
             let button = UIButton()
-            button.setImage(UIImage(named: "facebook"), for: .normal)
+            button.setImage(UIImage(named: "fb-circle-logo"), for: .normal)
+            button.setTitle("Continue with Facebook", for: .normal)
+            button.titleLabel?.font = UIFont.robotoBoldItalic24
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 0)
+            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
+            button.contentHorizontalAlignment = .center
+            button.layer.cornerRadius = 26
+            button.backgroundColor = .systemBlue
             return button
         }()
         
@@ -70,33 +83,13 @@ final class SignInViewController: UIViewController {
         
         fbLoginButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            fbLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -46),
-            fbLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            fbLoginButton.widthAnchor.constraint(equalToConstant: 234),
-            fbLoginButton.heightAnchor.constraint(equalToConstant: 37)
+            fbLoginButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            fbLoginButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            fbLoginButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 44),
+            fbLoginButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -44),
+            fbLoginButton.heightAnchor.constraint(equalToConstant: 52)
         ])
         
     }
     
-    func getGradientLayer(bounds: CGRect) -> CAGradientLayer {
-        let gradient = CAGradientLayer()
-        gradient.frame = bounds
-        // order of gradient colors
-        gradient.colors = [UIColor(red: 56 / 255, green: 76 / 255, blue: 255 / 255, alpha: 1),
-                           UIColor(red: 0 / 255, green: 163 / 255, blue: 255 / 255, alpha: 1)]
-        // start and end points
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
-        return gradient
-    }
-    
-    func gradientColor(bounds: CGRect, gradientLayer: CAGradientLayer) -> UIColor? {
-        if let context = UIGraphicsGetCurrentContext(), let image = UIGraphicsGetImageFromCurrentImageContext() {
-            UIGraphicsBeginImageContext(gradientLayer.bounds.size)
-            gradientLayer.render(in: context)
-            UIGraphicsEndImageContext()
-            return UIColor(patternImage: image)
-        }
-        return nil
-    }
 }
