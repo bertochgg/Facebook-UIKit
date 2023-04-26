@@ -15,7 +15,7 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        exampleUI()
+        // exampleUI()
         setupLayout()
     }
     
@@ -75,7 +75,7 @@ final class SignInViewController: UIViewController {
             button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
             button.contentHorizontalAlignment = .center
             button.layer.cornerRadius = 26
-            button.backgroundColor = .systemBlue
+            button.backgroundColor = UIColor(hex: "#1877f2")
             return button
         }()
         

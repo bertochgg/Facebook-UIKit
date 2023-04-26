@@ -35,6 +35,7 @@
 		5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */; };
 		5FD923A129F98F8700633203 /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */; };
 		5FD923A329F9913500633203 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FD923A229F9913500633203 /* Roboto-BoldItalic.ttf */; };
+		5FD923A529F99AF000633203 /* HexColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD923A429F99AF000633203 /* HexColor+Extension.swift */; };
 		5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */; };
 		61C181CCF1F7735CEDAB988D /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B0769E5513789A098B1E06 /* Pods_App_Facebook_iOS.framework */; };
 		B032E04476ADF3C218F4B0A4 /* Pods_App_Facebook_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3712D4409C66C44EF8F8F67 /* Pods_App_Facebook_iOSUITests.framework */; };
@@ -94,6 +95,7 @@
 		5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
 		5FD923A229F9913500633203 /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
+		5FD923A429F99AF000633203 /* HexColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HexColor+Extension.swift"; sourceTree = "<group>"; };
 		5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		7E05FEFB5EC52FFA0886D0B1 /* Pods-App-Facebook-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		835884B22417993333F3A885 /* Pods-App-Facebook-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOS.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOS/Pods-App-Facebook-iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				04D52D682809F55800D4C010 /* UIKit_Extensions_TODO.txt */,
+				5FD923A429F99AF000633203 /* HexColor+Extension.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
 				5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */,
+				5FD923A529F99AF000633203 /* HexColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
