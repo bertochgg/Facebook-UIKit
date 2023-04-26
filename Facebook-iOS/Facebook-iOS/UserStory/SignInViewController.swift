@@ -35,9 +35,11 @@ final class SignInViewController: UIViewController {
         }()
         
         let fbLabel: UILabel = {
-            let label = UILabel()
+            let label = UILabel(frame: .zero)
             label.text = "facebook"
             label.font = .ralewayBold28
+            let gradient = getGradientLayer(bounds: label.bounds)
+            label.textColor = gradientColor(bounds: label.bounds, gradientLayer: gradient)
             label.textColor = UIColor(red: 56 / 255, green: 76 / 255, blue: 255 / 255, alpha: 1)
             label.contentMode = .center
             label.numberOfLines = 1
@@ -71,5 +73,27 @@ final class SignInViewController: UIViewController {
             fbLoginButton.heightAnchor.constraint(equalToConstant: 37)
         ])
         
+    }
+    
+    func getGradientLayer(bounds: CGRect) -> CAGradientLayer {
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        // order of gradient colors
+        gradient.colors = [UIColor(red: 56 / 255, green: 76 / 255, blue: 255 / 255, alpha: 1),
+                           UIColor(red: 0 / 255, green: 163 / 255, blue: 255 / 255, alpha: 1)]
+        // start and end points
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        return gradient
+    }
+    
+    func gradientColor(bounds: CGRect, gradientLayer: CAGradientLayer) -> UIColor? {
+        if let context = UIGraphicsGetCurrentContext(), let image = UIGraphicsGetImageFromCurrentImageContext() {
+            UIGraphicsBeginImageContext(gradientLayer.bounds.size)
+            gradientLayer.render(in: context)
+            UIGraphicsEndImageContext()
+            return UIColor(patternImage: image)
+        }
+        return nil
     }
 }
