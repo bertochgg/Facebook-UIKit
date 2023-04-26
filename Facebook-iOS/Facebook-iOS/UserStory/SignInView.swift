@@ -71,8 +71,7 @@ class SignInView: UIView {
     private func setupFbLoginButton() -> UIButton {
         let button = UIButton()
         button.setImage(UIImage(named: "fb-circle-logo"), for: .normal)
-        let localizedString = NSLocalizedString("login", comment: "holi :3")
-        button.setTitle(localizedString, for: .normal)
+        button.setTitle(Constants.localizedString, for: .normal)
         button.titleLabel?.font = UIFont.robotoBoldItalic24
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 31, bottom: 0, right: 18)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)

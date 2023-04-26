@@ -11,13 +11,13 @@ extension UIColor {
     
     @nonobjc class var facebookBlue: UIColor {
         // #4267b2 = rgba(66,103,178,255)
-        return UIColor(red: 66.0 / 255.0, green: 103.0 / 255.0, blue: 178.0 / 255.0, alpha: 1.0)
+        return UIColor(hexString: "#4267b2") ?? .blue
     }
     
-    @nonobjc class var facebookLoginButtonBlue: UIColor {
-        if let facebookLoginButtonBlue = UIColor(hexString: "#1877F2") {
-            return facebookLoginButtonBlue
-        }
-        return UIColor.blue
+    class var facebookLoginButtonBlue: UIColor {
+        
+        return UIColor(hexString: "#1877F2") ?? .blue
     }
+    
+    
 }
