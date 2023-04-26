@@ -15,6 +15,7 @@ final class SignInViewController: UIViewController {
     weak var signInView: SignInView?
     
     override func loadView() {
+        super.loadView()
         // exampleUI()
         let signInView = SignInView(frame: .zero)
         view.addSubview(signInView)

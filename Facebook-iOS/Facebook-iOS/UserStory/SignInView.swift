@@ -56,7 +56,7 @@ class SignInView: UIView {
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: 0)
         button.contentHorizontalAlignment = .center
         button.layer.cornerRadius = 26
-        button.backgroundColor = UIColor(red: 24 / 255, green: 119 / 255, blue: 242 / 255, alpha: 1.0)
+        button.backgroundColor = UIColor(hexString: "#1877F2")
         return button
     }
 
