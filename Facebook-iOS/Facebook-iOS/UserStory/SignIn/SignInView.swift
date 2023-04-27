@@ -18,7 +18,6 @@ private enum Constants {
 class SignInView: UIView {
     
     private let view: UIView = UIView()
-    private let viewModel = SignInViewModel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -107,6 +106,6 @@ class SignInView: UIView {
     
     @objc
     func tappedLogin() {
-        viewModel.fetchSignInData()
+        
     }
 }

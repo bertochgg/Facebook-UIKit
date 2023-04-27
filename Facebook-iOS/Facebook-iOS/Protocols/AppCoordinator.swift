@@ -16,9 +16,11 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        let signInViewController = SignInViewController()
+        let signInViewModel = SignInViewModel()
+        let signInViewController = SignInViewController(viewModel: signInViewModel)
+        signInViewModel.delegate = signInViewController
         signInViewController.coordinator = self
-        // signInViewController.viewModel = SignInViewModel()
         navigationController?.pushViewController(signInViewController, animated: true)
     }
+
 }

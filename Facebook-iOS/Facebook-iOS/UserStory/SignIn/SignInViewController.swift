@@ -10,8 +10,18 @@ import UIKit
 final class SignInViewController: UIViewController {
     
     private let signInView = SignInView()
-    private var viewModel: SignInViewModelProtocol?
+    private let viewModel: SignInViewModelProtocol
+    
     var coordinator: AppCoordinator?
+    
+    init(viewModel: SignInViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = signInView
@@ -20,14 +30,13 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel?.delegate = self
-        viewModel?.fetchSignInData()
+        viewModel.fetchSignInData()
         
     }
     
 }
 
-extension SignInViewController: SignInDelegate {
+extension SignInViewController: AuthenticationDelegate {
     
     func didSignIn() {
         
