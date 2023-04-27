@@ -26,7 +26,7 @@ extension SignInViewModel: SignInViewModelProtocol {
     
     func fetchSignInData() {
         // Notitfy View that data has been accepted
-        delegate?.didSignIn() //Async?
+        delegate?.didSignIn() // Async?
     }
     
 }
