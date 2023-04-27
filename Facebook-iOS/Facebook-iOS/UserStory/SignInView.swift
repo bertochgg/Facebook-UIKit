@@ -11,6 +11,8 @@ import UIKit
 private enum Constants {
     static let fbLoginButtonTitle = NSLocalizedString("login", comment: "holi :3")
     static let fbLoginButtonBackgroundColor = UIColor.facebookLoginButtonBlue
+    static let fbLoginImage = UIImage(named: "facebook")
+    static let fbLoginButtonIcon = UIImage(named: "fb-circle-logo")
 }
 
 class SignInView: UIView {
@@ -68,14 +70,14 @@ class SignInView: UIView {
 
     private func createFbLogo() -> UIImageView {
         let logoImage = UIImageView()
-        logoImage.image = UIImage(named: "facebook")
+        logoImage.image = Constants.fbLoginImage
         logoImage.contentMode = .scaleAspectFit
         return logoImage
     }
 
     private func setupFbLoginButton() -> UIButton {
         let button = UIButton()
-        button.setImage(UIImage(named: "fb-circle-logo"), for: .normal)
+        button.setImage(Constants.fbLoginButtonIcon, for: .normal)
         button.setTitle(Constants.fbLoginButtonTitle, for: .normal)
         button.titleLabel?.font = UIFont.robotoBoldItalic24
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 31, bottom: 0, right: 18)
