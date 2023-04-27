@@ -9,7 +9,7 @@ import UIKit
 
 extension UIColor {
     
-    @nonobjc class var facebookBlue: UIColor {
+    class var facebookBlue: UIColor {
         // #4267b2 = rgba(66,103,178,255)
         return UIColor(hexString: "#4267b2") ?? .blue
     }
@@ -18,6 +18,5 @@ extension UIColor {
         
         return UIColor(hexString: "#1877F2") ?? .blue
     }
-    
     
 }
