@@ -9,10 +9,9 @@ import UIKit
 
 final class SignInViewController: UIViewController {
     
-    var viewModel: SignInViewModel?
-    var coordinator: AppCoordinator?
-    
     private let signInView = SignInView()
+    private var viewModel: SignInViewModelProtocol?
+    var coordinator: AppCoordinator?
     
     override func loadView() {
         view = signInView
@@ -20,7 +19,18 @@ final class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel?.delegate = self
+        viewModel?.fetchSignInData()
+        
+    }
+    
+}
 
+extension SignInViewController: SignInDelegate {
+    
+    func didSignIn() {
+        
     }
     
 }

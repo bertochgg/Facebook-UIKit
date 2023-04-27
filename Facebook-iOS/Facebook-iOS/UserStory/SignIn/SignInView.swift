@@ -18,6 +18,7 @@ private enum Constants {
 class SignInView: UIView {
     
     private let view: UIView = UIView()
+    private let viewModel = SignInViewModel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -88,6 +89,8 @@ class SignInView: UIView {
         
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.4
+        
+        button.addTarget(self, action: #selector(tappedLogin), for: .touchUpInside)
         return button
     }
 
@@ -100,5 +103,10 @@ class SignInView: UIView {
             fbLoginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -44),
             fbLoginButton.heightAnchor.constraint(equalToConstant: 52)
         ])
+    }
+    
+    @objc
+    func tappedLogin() {
+        viewModel.fetchSignInData()
     }
 }

@@ -306,10 +306,8 @@
 		04D52D5A2809F03400D4C010 /* UserStory */ = {
 			isa = PBXGroup;
 			children = (
-				04D52D222809D7FC00D4C010 /* SignInViewController.swift */,
+				5FDD790829FAE64600CE9C1C /* SignIn */,
 				5FD7019A29F8D89600C81E85 /* Reference.storyboard */,
-				5FD7019C29F8F7BB00C81E85 /* SignInViewModel.swift */,
-				5FD923A629F9A44600633203 /* SignInView.swift */,
 			);
 			path = UserStory;
 			sourceTree = "<group>";
@@ -391,6 +389,16 @@
 				5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */,
 			);
 			path = Roboto;
+			sourceTree = "<group>";
+		};
+		5FDD790829FAE64600CE9C1C /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				04D52D222809D7FC00D4C010 /* SignInViewController.swift */,
+				5FD7019C29F8F7BB00C81E85 /* SignInViewModel.swift */,
+				5FD923A629F9A44600633203 /* SignInView.swift */,
+			);
+			path = SignIn;
 			sourceTree = "<group>";
 		};
 		DD8C5EFA294DB0B0AEC22A02 /* Pods */ = {
