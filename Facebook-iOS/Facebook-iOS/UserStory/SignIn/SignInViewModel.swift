@@ -7,18 +7,18 @@
 
 import Foundation
 
-protocol AuthenticationDelegate: AnyObject {
+protocol SignInViewModelDelegate: AnyObject {
     func didSignIn()
 }
 
 protocol SignInViewModelProtocol {
-    var delegate: AuthenticationDelegate? { get set }
+    var delegate: SignInViewModelDelegate? { get set }
     func fetchSignInData()
 }
 
 class SignInViewModel {
     
-    weak var delegate: AuthenticationDelegate?
+    weak var delegate: SignInViewModelDelegate?
     
 }
 

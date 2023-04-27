@@ -36,7 +36,7 @@ final class SignInViewController: UIViewController {
     
 }
 
-extension SignInViewController: AuthenticationDelegate {
+extension SignInViewController: SignInViewModelDelegate {
     
     func didSignIn() {
         
