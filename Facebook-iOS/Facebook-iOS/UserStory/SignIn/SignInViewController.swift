@@ -12,7 +12,7 @@ final class SignInViewController: UIViewController {
     private let signInView = SignInView()
     private let viewModel: SignInViewModelProtocol
     
-    var coordinator: AppCoordinator?
+    weak var coordinator: AppCoordinator?
     
     init(viewModel: SignInViewModelProtocol) {
         self.viewModel = viewModel

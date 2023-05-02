@@ -4,7 +4,7 @@
 //
 //  Created by Humberto Garcia on 26/04/23.
 //
-
+import FacebookLogin
 import Foundation
 
 protocol SignInViewModelDelegate: AnyObject {
@@ -19,7 +19,12 @@ protocol SignInViewModelProtocol {
 class SignInViewModel {
     
     weak var delegate: SignInViewModelDelegate?
-    
+//    private let fbAuthService: FacebookAuthServiceProtocol = FacebookAuthService()
+//
+//    func signInWithFacebook(from viewController: UIViewController, completion: @escaping (Result<AccessToken, Error>) -> Void) {
+//        fbAuthService.signIn(from: viewController, completion: completion)
+//    }
+
 }
 
 extension SignInViewModel: SignInViewModelProtocol {

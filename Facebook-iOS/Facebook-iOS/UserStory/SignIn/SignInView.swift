@@ -4,7 +4,7 @@
 //
 //  Created by Humberto Garcia on 26/04/23.
 //
-
+import FacebookLogin
 import Foundation
 import UIKit
 
@@ -75,8 +75,8 @@ class SignInView: UIView {
         return logoImage
     }
 
-    private func setupFbLoginButton() -> UIButton {
-        let button = UIButton()
+    private func setupFbLoginButton() -> FBLoginButton {
+        let button = FBLoginButton()
         button.setImage(Constants.fbLoginButtonIcon, for: .normal)
         button.setTitle(Constants.fbLoginButtonTitle, for: .normal)
         button.titleLabel?.font = UIFont.robotoBoldItalic24
