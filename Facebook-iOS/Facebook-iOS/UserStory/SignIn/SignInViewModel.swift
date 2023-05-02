@@ -13,25 +13,30 @@ protocol SignInViewModelDelegate: AnyObject {
 
 protocol SignInViewModelProtocol {
     var delegate: SignInViewModelDelegate? { get set }
-    func fetchSignInData()
+    func fetchSignInData(from viewController: UIViewController, completion: @escaping (Result<AccessToken, Error>) -> Void)
 }
 
 class SignInViewModel {
     
     weak var delegate: SignInViewModelDelegate?
-//    private let fbAuthService: FacebookAuthServiceProtocol = FacebookAuthService()
-//
-//    func signInWithFacebook(from viewController: UIViewController, completion: @escaping (Result<AccessToken, Error>) -> Void) {
-//        fbAuthService.signIn(from: viewController, completion: completion)
-//    }
+    private let fbAuthService: FacebookAuthServiceProtocol = FacebookAuthService()
 
 }
 
 extension SignInViewModel: SignInViewModelProtocol {
     
-    func fetchSignInData() {
-        // Notitfy View that data has been accepted
-        delegate?.didSignIn() // Async?
+    func fetchSignInData(from viewController: UIViewController, completion: @escaping (Result<AccessToken, Error>) -> Void) {
+        fbAuthService.signIn(from: viewController) { result in
+            switch result {
+            case .success(let token):
+                // Notitfy View that data has been accepted
+                self.delegate?.didSignIn() // Async?
+            case .failure(let error):
+                // Notitfy View that data has been accepted
+                self.delegate?.didSignIn() // Async?
+            }
+        }
+        
     }
     
 }

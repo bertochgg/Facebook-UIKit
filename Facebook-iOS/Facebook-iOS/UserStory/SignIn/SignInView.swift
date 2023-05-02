@@ -18,6 +18,7 @@ private enum Constants {
 class SignInView: UIView {
     
     private let view: UIView = UIView()
+    private let viewModel = SignInViewModel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,8 +76,8 @@ class SignInView: UIView {
         return logoImage
     }
 
-    private func setupFbLoginButton() -> FBLoginButton {
-        let button = FBLoginButton()
+    private func setupFbLoginButton() -> UIButton {
+        let button = UIButton()
         button.setImage(Constants.fbLoginButtonIcon, for: .normal)
         button.setTitle(Constants.fbLoginButtonTitle, for: .normal)
         button.titleLabel?.font = UIFont.robotoBoldItalic24
@@ -106,6 +107,14 @@ class SignInView: UIView {
     
     @objc
     func tappedLogin() {
-        
+        didSignIn()
     }
+}
+
+extension SignInView: SignInViewModelDelegate {
+    func didSignIn() {
+        
+            
+    }
+    
 }

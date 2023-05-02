@@ -30,7 +30,7 @@ final class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.fetchSignInData()
+        // viewModel.fetchSignInData(from: <#UIViewController#>, completion: <#(Result<AccessToken, Error>) -> Void#>)
         
     }
     
