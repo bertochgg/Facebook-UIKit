@@ -4,7 +4,6 @@
 //
 //  Created by Serhii Liamtsev on 4/15/22.
 //
-import FacebookLogin
 import UIKit
 
 final class SignInViewController: UIViewController {
