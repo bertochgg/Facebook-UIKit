@@ -43,6 +43,9 @@
 		5FD923A529F99AF000633203 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD923A429F99AF000633203 /* UIColor+Hex.swift */; };
 		5FD923A729F9A44600633203 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD923A629F9A44600633203 /* SignInView.swift */; };
 		5FD923AB29F9DC6500633203 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FD923AD29F9DC6500633203 /* Localizable.strings */; };
+		5FDCD6B72A02F28A00AA6E73 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDCD6B62A02F28A00AA6E73 /* BaseViewController.swift */; };
+		5FDCD6B92A02F2DF00AA6E73 /* ProgressHUDProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */; };
+		5FDCD6BC2A02F51300AA6E73 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 5FDCD6BB2A02F51300AA6E73 /* JGProgressHUD */; };
 		5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */; };
 		61C181CCF1F7735CEDAB988D /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B0769E5513789A098B1E06 /* Pods_App_Facebook_iOS.framework */; };
 		B032E04476ADF3C218F4B0A4 /* Pods_App_Facebook_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3712D4409C66C44EF8F8F67 /* Pods_App_Facebook_iOSUITests.framework */; };
@@ -110,6 +113,8 @@
 		5FD923A829F9DC4000633203 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		5FD923AC29F9DC6500633203 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FD923AE29F9DC6700633203 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5FDCD6B62A02F28A00AA6E73 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUDProtocol.swift; sourceTree = "<group>"; };
 		5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		7E05FEFB5EC52FFA0886D0B1 /* Pods-App-Facebook-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		835884B22417993333F3A885 /* Pods-App-Facebook-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOS.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOS/Pods-App-Facebook-iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +133,7 @@
 				5F14F1A029FB9BAD0079C0A4 /* FacebookCore in Frameworks */,
 				5F14F1A429FB9BAD0079C0A4 /* FacebookShare in Frameworks */,
 				5F14F1A229FB9BAD0079C0A4 /* FacebookLogin in Frameworks */,
+				5FDCD6BC2A02F51300AA6E73 /* JGProgressHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +326,7 @@
 			children = (
 				5FDD790829FAE64600CE9C1C /* SignIn */,
 				5FD7019A29F8D89600C81E85 /* Reference.storyboard */,
+				5FDCD6B62A02F28A00AA6E73 /* BaseViewController.swift */,
 			);
 			path = UserStory;
 			sourceTree = "<group>";
@@ -382,6 +389,7 @@
 				04D52D6E2809F62900D4C010 /* Protocols_TODO.txt */,
 				5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */,
 				5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */,
+				5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -450,6 +458,7 @@
 				5F14F19F29FB9BAD0079C0A4 /* FacebookCore */,
 				5F14F1A129FB9BAD0079C0A4 /* FacebookLogin */,
 				5F14F1A329FB9BAD0079C0A4 /* FacebookShare */,
+				5FDCD6BB2A02F51300AA6E73 /* JGProgressHUD */,
 			);
 			productName = "Facebook-iOS";
 			productReference = 04D52D1B2809D7FC00D4C010 /* Facebook-iOS.app */;
@@ -530,6 +539,7 @@
 			mainGroup = 04D52D122809D7FC00D4C010;
 			packageReferences = (
 				5F14F19E29FB9BAD0079C0A4 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				5FDCD6BA2A02F51300AA6E73 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 			);
 			productRefGroup = 04D52D1C2809D7FC00D4C010 /* Products */;
 			projectDirPath = "";
@@ -713,7 +723,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FDCD6B72A02F28A00AA6E73 /* BaseViewController.swift in Sources */,
 				04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */,
+				5FDCD6B92A02F2DF00AA6E73 /* ProgressHUDProtocol.swift in Sources */,
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
 				5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
@@ -1082,6 +1094,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		5FDCD6BA2A02F51300AA6E73 /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1099,6 +1119,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5F14F19E29FB9BAD0079C0A4 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookShare;
+		};
+		5FDCD6BB2A02F51300AA6E73 /* JGProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FDCD6BA2A02F51300AA6E73 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

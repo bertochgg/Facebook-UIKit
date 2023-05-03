@@ -6,7 +6,7 @@
 //
 import UIKit
 
-final class SignInViewController: UIViewController {
+final class SignInViewController: BaseViewController {
     
     private let signInView = SignInView()
     private let viewModel: SignInViewModelProtocol
@@ -37,9 +37,11 @@ final class SignInViewController: UIViewController {
  extension SignInViewController: SignInViewModelDelegate {
     func didSignIn() {
         self.coordinator?.didChangeNavigation()
+        self.hideProgress(completion: nil)
     }
      
      func didSignInWithFailure() {
+         self.hideProgress(completion: nil)
          let alertController = UIAlertController(title: "Login Failed",
                                                  message: "Something went wrong while trying to login",
                                                  preferredStyle: .alert)
@@ -56,6 +58,7 @@ final class SignInViewController: UIViewController {
 
 extension SignInViewController: SignInViewDelegate {
     func signInButtonTapped() {
+        self.showProgress("Loading")
         self.viewModel.fetchSignInData()
     }
 }
