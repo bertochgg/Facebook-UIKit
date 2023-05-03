@@ -22,7 +22,6 @@ private enum Constants {
 class SignInView: UIView {
     
     private let view: UIView = UIView()
-    private let viewModel = SignInViewModel()
     weak var delegate: SignInViewDelegate?
     
     override init(frame: CGRect) {
