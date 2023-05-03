@@ -37,14 +37,13 @@ final class SignInViewController: UIViewController {
 
  extension SignInViewController: SignInViewModelDelegate {
     func didSignIn() {
-        self.viewModel.fetchSignInData()
+        // self.viewModel.fetchSignInData()
     }
     
  }
 
 extension SignInViewController: SignInViewDelegate {
     func signInButtonTapped() {
-        didSignIn()
-        //         self.viewModel.fetchSignInData()
+        self.viewModel.fetchSignInData()
     }
 }

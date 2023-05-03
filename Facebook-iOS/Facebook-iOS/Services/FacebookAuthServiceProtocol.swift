@@ -8,5 +8,5 @@ import FacebookLogin
 import UIKit
 
 protocol FacebookAuthServiceProtocol {
-    func signIn(completion: @escaping (Result<AccessToken, Error>) -> Void)
+    func signIn(completion: @escaping (Result<AccessToken, AuthServiceError>) -> Void)
 }

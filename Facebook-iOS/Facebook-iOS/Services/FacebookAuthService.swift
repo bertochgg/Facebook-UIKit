@@ -10,7 +10,7 @@ import Foundation
 class FacebookAuthService: FacebookAuthServiceProtocol {
     private let loginManager = LoginManager()
     
-    func signIn(completion: @escaping (Result<AccessToken, Error>) -> Void) {
+    func signIn(completion: @escaping (Result<AccessToken, AuthServiceError>) -> Void) {
         
         self.loginManager.logIn(permissions: [.publicProfile, .email]) { loginResult in
             switch loginResult {
