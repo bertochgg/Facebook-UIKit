@@ -37,7 +37,7 @@ final class SignInViewController: UIViewController {
 
  extension SignInViewController: SignInViewModelDelegate {
     func didSignIn() {
-        // self.viewModel.fetchSignInData()
+        self.coordinator?.isLoggedIn = true
     }
     
  }
