@@ -12,7 +12,7 @@ class FacebookAuthService: FacebookAuthServiceProtocol {
     
     func signIn(completion: @escaping (Result<AccessToken, Error>) -> Void) {
         
-        self.loginManager.logIn(permissions: [.publicProfile, .email], viewController: SignInViewController(viewModel: SignInViewModel())) { loginResult in
+        self.loginManager.logIn(permissions: [.publicProfile, .email]) { loginResult in
             switch loginResult {
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 // Handle successful login
