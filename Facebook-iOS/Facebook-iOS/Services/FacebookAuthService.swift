@@ -6,7 +6,6 @@
 //
 import FacebookLogin
 import Foundation
-import JGProgressHUD
 
 class FacebookAuthService: FacebookAuthServiceProtocol {
     private let loginManager = LoginManager()
@@ -30,8 +29,6 @@ class FacebookAuthService: FacebookAuthServiceProtocol {
                 
             case .cancelled:
                 // Handle cancelled login
-                
-                print("Facebook login cancelled")
                  completion(.failure(AuthServiceError.cancelLogin))
                 
             }
@@ -50,8 +47,6 @@ enum AuthServiceError: Error {
         case .invalidAccessToken:
             return "Invalid access token received from Facebook SDK."
         case .cancelLogin:
-            let hug = JGProgressHUD()
-            hug.dismiss(animated: true)
             return "Facebook login cancelled"
         }
     }

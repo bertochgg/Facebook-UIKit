@@ -34,27 +34,31 @@ final class SignInViewController: BaseViewController {
     
 }
 
- extension SignInViewController: SignInViewModelDelegate {
+extension SignInViewController: SignInViewModelDelegate {
     func didSignIn() {
         self.coordinator?.didChangeNavigation()
         self.hideProgress(completion: nil)
     }
-     
-     func didSignInWithFailure() {
-         self.hideProgress(completion: nil)
-         let alertController = UIAlertController(title: "Login Failed",
-                                                 message: "Something went wrong while trying to login",
-                                                 preferredStyle: .alert)
-         
-         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
-             alertController.dismiss(animated: true)
-         }
-         alertController.addAction(okAction)
-         self.present(alertController, animated: true, completion: nil)
-         
-     }
     
- }
+    func didCancelSignIn() {
+        self.hideProgress(completion: nil)
+    }
+    
+    func didSignInWithFailure() {
+        self.hideProgress(completion: nil)
+        let alertController = UIAlertController(title: "Login Failed",
+                                                message: "Something went wrong while trying to login",
+                                                preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
+            alertController.dismiss(animated: true)
+        }
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+    
+}
 
 extension SignInViewController: SignInViewDelegate {
     func signInButtonTapped() {

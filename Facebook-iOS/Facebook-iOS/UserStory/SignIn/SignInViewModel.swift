@@ -10,6 +10,7 @@ import Foundation
 protocol SignInViewModelDelegate: AnyObject {
     func didSignIn()
     func didSignInWithFailure()
+    func didCancelSignIn()
 }
 
 protocol SignInViewModelProtocol {
@@ -36,8 +37,14 @@ extension SignInViewModel: SignInViewModelProtocol {
                 print(result)
             case .failure(let error):
                 // Notitfy View there is an error while signing in
-                print(error.localizedDescription)
-                self.delegate?.didSignInWithFailure()
+                switch error {
+                case .cancelLogin:
+                    self.delegate?.didCancelSignIn()
+                case .invalidAccessToken:
+                    print(error.localizedDescription)
+                    self.delegate?.didSignInWithFailure()
+                }
+                
             }
         }
         
