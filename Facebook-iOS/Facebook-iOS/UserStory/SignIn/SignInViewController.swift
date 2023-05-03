@@ -12,7 +12,7 @@ final class SignInViewController: UIViewController {
     private let signInView = SignInView()
     private let viewModel: SignInViewModelProtocol
     
-    weak var coordinator: AppCoordinator?
+    weak var coordinator: (any AppCoordinatorProtocol)?
     
     init(viewModel: SignInViewModelProtocol) {
         self.viewModel = viewModel
@@ -37,7 +37,7 @@ final class SignInViewController: UIViewController {
 
  extension SignInViewController: SignInViewModelDelegate {
     func didSignIn() {
-        self.coordinator?.isLoggedIn = true
+        self.coordinator?.didChangeNavigation()
     }
      
      func didSignInWithFailure() {

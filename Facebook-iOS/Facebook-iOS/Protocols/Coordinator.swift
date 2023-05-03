@@ -16,6 +16,10 @@ enum CoordinatorType {
     case myProfile
 }
 
+protocol AppCoordinatorProtocol: Coordinator, AnyObject {
+    func didChangeNavigation()
+}
+
 protocol Coordinator: Hashable, Equatable {
     var navigationController: UINavigationController? { get set }
     

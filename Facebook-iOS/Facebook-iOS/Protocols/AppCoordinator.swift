@@ -8,9 +8,10 @@
 import Foundation
 import UIKit
 
-class AppCoordinator: Coordinator {
+class AppCoordinator: AppCoordinatorProtocol {
+    
     var navigationController: UINavigationController?
-    var isLoggedIn: Bool = false
+    private var isLoggedIn: Bool = false
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -22,6 +23,10 @@ class AppCoordinator: Coordinator {
         } else {
             showSignInScreen()
         }
+    }
+    
+    func didChangeNavigation() {
+        isLoggedIn = true
     }
     
     func showSignInScreen() {

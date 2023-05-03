@@ -4,7 +4,6 @@
 //
 //  Created by Humberto Garcia on 26/04/23.
 //
-import FacebookLogin
 import Foundation
 import UIKit
 
