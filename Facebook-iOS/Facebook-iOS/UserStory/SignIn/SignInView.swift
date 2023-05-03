@@ -8,6 +8,10 @@ import FacebookLogin
 import Foundation
 import UIKit
 
+protocol SignInViewDelegate: AnyObject {
+    func signInButtonTapped()
+}
+
 private enum Constants {
     static let fbLoginButtonTitle = NSLocalizedString("login", comment: "holi :3")
     static let fbLoginButtonBackgroundColor = UIColor.facebookLoginButtonBlue
@@ -19,6 +23,7 @@ class SignInView: UIView {
     
     private let view: UIView = UIView()
     private let viewModel = SignInViewModel()
+    weak var delegate: SignInViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -107,14 +112,6 @@ class SignInView: UIView {
     
     @objc
     func tappedLogin() {
-        didSignIn()
+        self.delegate?.signInButtonTapped()
     }
-}
-
-extension SignInView: SignInViewModelDelegate {
-    func didSignIn() {
-        
-            
-    }
-    
 }

@@ -9,10 +9,10 @@ import Foundation
 
 class FacebookAuthService: FacebookAuthServiceProtocol {
     private let loginManager = LoginManager()
-
-    func signIn(from viewController: UIViewController, completion: @escaping (Result<AccessToken, Error>) -> Void) {
+    
+    func signIn(completion: @escaping (Result<AccessToken, Error>) -> Void) {
         
-        self.loginManager.logIn(permissions: [.publicProfile, .email], viewController: viewController) { loginResult in
+        self.loginManager.logIn(permissions: [.publicProfile, .email], viewController: SignInViewController(viewModel: SignInViewModel())) { loginResult in
             switch loginResult {
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 // Handle successful login
@@ -21,7 +21,7 @@ class FacebookAuthService: FacebookAuthServiceProtocol {
                 if let token = accessToken {
                     completion(.success(token))
                 }
-            
+                
             case .failed(let error):
                 // Handle login failure
                 print("Facebook login failed: \(error.localizedDescription)")
@@ -30,7 +30,7 @@ class FacebookAuthService: FacebookAuthServiceProtocol {
             case .cancelled:
                 // Handle cancelled login
                 print("Facebook login cancelled")
-            
+                
             }
             
         }
@@ -40,7 +40,7 @@ class FacebookAuthService: FacebookAuthServiceProtocol {
 
 enum AuthServiceError: Error {
     case invalidAccessToken
-
+    
     var localizedDescription: String {
         switch self {
         case .invalidAccessToken:

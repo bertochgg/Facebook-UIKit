@@ -4,7 +4,7 @@
 //
 //  Created by Serhii Liamtsev on 4/15/22.
 //
-
+import FacebookLogin
 import UIKit
 
 final class SignInViewController: UIViewController {
@@ -24,22 +24,27 @@ final class SignInViewController: UIViewController {
     }
     
     override func loadView() {
+        signInView.delegate = self
         view = signInView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // viewModel.fetchSignInData(from: <#UIViewController#>, completion: <#(Result<AccessToken, Error>) -> Void#>)
-        
     }
     
 }
 
-extension SignInViewController: SignInViewModelDelegate {
-    
-    func didSignIn() {
-        
+// extension SignInViewController: SignInViewModelDelegate {
+//    func didSignIn() {
+//         self.viewModel.fetchSignInData()
+//    }
+//    
+// }
+
+extension SignInViewController: SignInViewDelegate {
+    func signInButtonTapped() {
+        // didSignIn()
+        self.viewModel.fetchSignInData()
     }
-    
 }
