@@ -39,6 +39,19 @@ final class SignInViewController: UIViewController {
     func didSignIn() {
         self.coordinator?.isLoggedIn = true
     }
+     
+     func didSignInWithFailure() {
+         let alertController = UIAlertController(title: "Login Failed",
+                                                 message: "Something went wrong while trying to login",
+                                                 preferredStyle: .alert)
+         
+         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
+             alertController.dismiss(animated: true)
+         }
+         alertController.addAction(okAction)
+         self.present(alertController, animated: true, completion: nil)
+         
+     }
     
  }
 
