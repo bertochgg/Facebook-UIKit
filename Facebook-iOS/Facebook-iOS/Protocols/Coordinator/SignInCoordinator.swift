@@ -1,35 +1,36 @@
 //
-//  AppCoordinator.swift
+//  SignInCoordinator.swift
 //  Facebook-iOS
 //
-//  Created by Humberto Garcia on 25/04/23.
+//  Created by Humberto Garcia on 04/05/23.
 //
 
-import Foundation
 import UIKit
 
-class AppCoordinator: AppCoordinatorProtocol {
+protocol SignInCoordinatorProtocol: Coordinator {
+    func showSignInViewController()
+}
+
+class SignInCoordinator: SignInCoordinatorProtocol {
     
+    var finishDelegate: CoordinatorFinishDelegate?
     var navigationController: UINavigationController?
-    private var isLoggedIn: Bool = false
+    var childCoordinators: [any Coordinator] = []
+    var type: CoordinatorType { .signIn }
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     func start() {
-        if self.isLoggedIn {
-            showMainScreen()
-        } else {
-            showSignInScreen()
-        }
+        showSignInViewController()
     }
     
-    func didChangeNavigation() {
-        isLoggedIn = true
+    deinit {
+        print("Bye: from SignInCoordinator - SignInViewController")
     }
     
-    func showSignInScreen() {
+    func showSignInViewController() {
         let signInViewModel = SignInViewModel()
         let signInViewController = SignInViewController(viewModel: signInViewModel)
         signInViewModel.delegate = signInViewController
@@ -37,8 +38,4 @@ class AppCoordinator: AppCoordinatorProtocol {
         navigationController?.pushViewController(signInViewController, animated: true)
     }
     
-    func showMainScreen() {
-        print("You are in main screen")
-    }
-
 }

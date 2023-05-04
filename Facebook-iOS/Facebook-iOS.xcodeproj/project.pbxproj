@@ -43,6 +43,12 @@
 		5FD923A529F99AF000633203 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD923A429F99AF000633203 /* UIColor+Hex.swift */; };
 		5FD923A729F9A44600633203 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD923A629F9A44600633203 /* SignInView.swift */; };
 		5FD923AB29F9DC6500633203 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FD923AD29F9DC6500633203 /* Localizable.strings */; };
+		5FDB34162A041A020067A320 /* SignInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB34152A041A020067A320 /* SignInCoordinator.swift */; };
+		5FDB34192A04350D0067A320 /* TabBarOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB34182A04350D0067A320 /* TabBarOptions.swift */; };
+		5FDB341B2A0436700067A320 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB341A2A0436700067A320 /* TabBarCoordinator.swift */; };
+		5FDB341F2A0466AE0067A320 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB341E2A0466AE0067A320 /* ProfileViewController.swift */; };
+		5FDB34212A0466C00067A320 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB34202A0466C00067A320 /* FeedViewController.swift */; };
+		5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB34222A0479480067A320 /* ImagesConstants.swift */; };
 		5FDCD6B72A02F28A00AA6E73 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDCD6B62A02F28A00AA6E73 /* BaseViewController.swift */; };
 		5FDCD6B92A02F2DF00AA6E73 /* ProgressHUDProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */; };
 		5FDCD6BC2A02F51300AA6E73 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 5FDCD6BB2A02F51300AA6E73 /* JGProgressHUD */; };
@@ -113,6 +119,12 @@
 		5FD923A829F9DC4000633203 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		5FD923AC29F9DC6500633203 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FD923AE29F9DC6700633203 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5FDB34152A041A020067A320 /* SignInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCoordinator.swift; sourceTree = "<group>"; };
+		5FDB34182A04350D0067A320 /* TabBarOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarOptions.swift; sourceTree = "<group>"; };
+		5FDB341A2A0436700067A320 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
+		5FDB341E2A0466AE0067A320 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		5FDB34202A0466C00067A320 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		5FDB34222A0479480067A320 /* ImagesConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesConstants.swift; sourceTree = "<group>"; };
 		5FDCD6B62A02F28A00AA6E73 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUDProtocol.swift; sourceTree = "<group>"; };
 		5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -309,6 +321,7 @@
 			children = (
 				04D52D272809D80B00D4C010 /* Assets.xcassets */,
 				04D52D5B2809F14600D4C010 /* Images.xcassets */,
+				5FDB34222A0479480067A320 /* ImagesConstants.swift */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -324,6 +337,7 @@
 		04D52D5A2809F03400D4C010 /* UserStory */ = {
 			isa = PBXGroup;
 			children = (
+				5FDB34172A0434A50067A320 /* Main */,
 				5FDD790829FAE64600CE9C1C /* SignIn */,
 				5FD7019A29F8D89600C81E85 /* Reference.storyboard */,
 				5FDCD6B62A02F28A00AA6E73 /* BaseViewController.swift */,
@@ -387,8 +401,7 @@
 			isa = PBXGroup;
 			children = (
 				04D52D6E2809F62900D4C010 /* Protocols_TODO.txt */,
-				5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */,
-				5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */,
+				5FDB34142A0419D30067A320 /* Coordinator */,
 				5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */,
 			);
 			path = Protocols;
@@ -411,6 +424,43 @@
 				5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */,
 			);
 			path = Roboto;
+			sourceTree = "<group>";
+		};
+		5FDB34142A0419D30067A320 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */,
+				5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */,
+				5FDB34152A041A020067A320 /* SignInCoordinator.swift */,
+				5FDB341A2A0436700067A320 /* TabBarCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		5FDB34172A0434A50067A320 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				5FDB341D2A04669C0067A320 /* Profile */,
+				5FDB341C2A04668F0067A320 /* Feed */,
+				5FDB34182A04350D0067A320 /* TabBarOptions.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		5FDB341C2A04668F0067A320 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				5FDB34202A0466C00067A320 /* FeedViewController.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		5FDB341D2A04669C0067A320 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5FDB341E2A0466AE0067A320 /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		5FDD790829FAE64600CE9C1C /* SignIn */ = {
@@ -727,12 +777,18 @@
 				04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */,
 				5FDCD6B92A02F2DF00AA6E73 /* ProgressHUDProtocol.swift in Sources */,
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
+				5FDB34212A0466C00067A320 /* FeedViewController.swift in Sources */,
+				5FDB34162A041A020067A320 /* SignInCoordinator.swift in Sources */,
+				5FDB341B2A0436700067A320 /* TabBarCoordinator.swift in Sources */,
+				5FDB341F2A0466AE0067A320 /* ProfileViewController.swift in Sources */,
 				5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */,
+				5FDB34192A04350D0067A320 /* TabBarOptions.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
 				5FD923A729F9A44600633203 /* SignInView.swift in Sources */,
 				5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */,
 				5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */,
 				5FD7019D29F8F7BB00C81E85 /* SignInViewModel.swift in Sources */,
+				5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */,
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
 				5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */,

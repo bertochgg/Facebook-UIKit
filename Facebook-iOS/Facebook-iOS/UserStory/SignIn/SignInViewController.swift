@@ -11,7 +11,7 @@ final class SignInViewController: BaseViewController {
     private let signInView = SignInView()
     private let viewModel: SignInViewModelProtocol
     
-    weak var coordinator: (any AppCoordinatorProtocol)?
+    weak var coordinator: (any SignInCoordinatorProtocol)?
     
     init(viewModel: SignInViewModelProtocol) {
         self.viewModel = viewModel
@@ -36,7 +36,7 @@ final class SignInViewController: BaseViewController {
 
 extension SignInViewController: SignInViewModelDelegate {
     func didSignIn() {
-        self.coordinator?.didChangeNavigation()
+        self.coordinator?.finish()
         self.hideProgress(completion: nil)
     }
     
