@@ -35,7 +35,7 @@ final class SignInViewController: BaseViewController {
 }
 
 extension SignInViewController: SignInViewModelDelegate {
-    func didSignIn() {
+    func didSignIn() {  
         self.coordinator?.finish()
         self.hideProgress(completion: nil)
     }

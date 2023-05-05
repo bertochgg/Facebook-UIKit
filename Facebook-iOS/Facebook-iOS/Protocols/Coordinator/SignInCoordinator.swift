@@ -35,7 +35,7 @@ class SignInCoordinator: SignInCoordinatorProtocol {
         let signInViewController = SignInViewController(viewModel: signInViewModel)
         signInViewModel.delegate = signInViewController
         signInViewController.coordinator = self
-        navigationController?.pushViewController(signInViewController, animated: true)
+        navigationController?.pushViewController(signInViewController, animated: false)
     }
     
 }

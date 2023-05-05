@@ -53,12 +53,17 @@ class TabBarCoordinator: NSObject, Coordinator {
         tabBarController.tabBar.backgroundColor = .white
         
         // In this step, we attach tabBarController to navigation controller associated with this coordanator
-        navigationController.viewControllers = [tabBarController]
+        // navigationController.viewControllers = [tabBarController]
+        tabBarController.modalTransitionStyle = .crossDissolve
+        tabBarController.modalPresentationStyle = .fullScreen
+        
+        navigationController.present(tabBarController, animated: true)
+        
     }
     
     private func getTabController(_ page: TabBarOptions) -> UINavigationController {
         let navController = UINavigationController()
-        navController.setNavigationBarHidden(false, animated: false)
+        navController.setNavigationBarHidden(false, animated: true)
         
         switch page {
         case .feed:

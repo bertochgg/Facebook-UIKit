@@ -9,5 +9,5 @@ import UIKit
 
 enum ImagesNames {
     static let feed = UIImage(named: "Feed Icon")
-    static let profile = UIImage(systemName: "person.crop.circle")
+    static let profile = UIImage(named: "Profile Icon")
 }
