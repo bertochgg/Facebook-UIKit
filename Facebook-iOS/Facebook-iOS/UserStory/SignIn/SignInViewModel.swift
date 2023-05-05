@@ -22,6 +22,7 @@ class SignInViewModel {
     
     weak var delegate: SignInViewModelDelegate?
     private let fbAuthService: FacebookAuthServiceProtocol = FacebookAuthService()
+    private let keychainService = KeyChainService()
     
 }
 
@@ -30,7 +31,35 @@ extension SignInViewModel: SignInViewModelProtocol {
     func fetchSignInData() {
         fbAuthService.signIn { result in
             switch result {
-            case .success:
+            case .success(let token):
+                if let tokenData = token.tokenString.data(using: .utf8) {
+                    self.keychainService.save(data: tokenData, forKey: KeychainKeys.userAccessTokenKey) { result in
+                        switch result {
+                        case .success:
+                            print(result)
+                            print("Access Token Saved")
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                            print("Access Token could not be saved")
+                        }
+                        
+                    }
+                }
+                
+                if let expirationTokenData = token.expirationDate.description.data(using: .utf8) {
+                    self.keychainService.save(data: expirationTokenData, forKey: KeychainKeys.tokenExpirationDateKey) { result in
+                        switch result{
+                        case .success:
+                            print(result)
+                            print("Token Expiration Date Saved")
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                            print("Tokex Expiration Date could not be saved")
+                        }
+                        
+                    }
+                }
+                
                 // Notitfy View that data has been accepted
                 self.delegate?.didSignIn() // Async?
                 // Something should happen here, maybe we can get data or set flags to see if we are logged in

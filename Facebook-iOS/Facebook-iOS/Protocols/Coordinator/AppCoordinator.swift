@@ -24,13 +24,26 @@ class AppCoordinator: AppCoordinatorProtocol {
     
     var type: CoordinatorType { .application }
     
+    private let keychainService = KeyChainService()
+    
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         navigationController.setNavigationBarHidden(true, animated: true)
     }
     
     func start() {
-        showSignIn()
+        keychainService.loadData(forKey: KeychainKeys.userAccessTokenKey, completion: { result in
+            switch result {
+            case .success(let token):
+                // If access token is present, then show main scree. Question: how do I read access token, string, data, do I need to decode?
+                self.showMainScreen()
+                
+            case .failure(let error):
+                // If access token is NOT present, then go again to SignIn until it is successful
+                self.showSignIn()
+            }
+        })
+        
     }
     
     func showSignIn() {
@@ -41,7 +54,7 @@ class AppCoordinator: AppCoordinatorProtocol {
         signInCoordinator.finishDelegate = self
         signInCoordinator.start()
         childCoordinators.append(signInCoordinator)
-
+        
     }
     
     func showMainScreen() {
@@ -53,7 +66,7 @@ class AppCoordinator: AppCoordinatorProtocol {
         tabBarCoordinator.start()
         childCoordinators.append(tabBarCoordinator)
     }
-
+    
 }
 
 extension AppCoordinator: CoordinatorFinishDelegate {

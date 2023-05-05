@@ -43,6 +43,7 @@
 		5FD923A529F99AF000633203 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD923A429F99AF000633203 /* UIColor+Hex.swift */; };
 		5FD923A729F9A44600633203 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD923A629F9A44600633203 /* SignInView.swift */; };
 		5FD923AB29F9DC6500633203 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FD923AD29F9DC6500633203 /* Localizable.strings */; };
+		5FD939572A05766300AD2823 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD939562A05766300AD2823 /* KeyChainService.swift */; };
 		5FDB34162A041A020067A320 /* SignInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB34152A041A020067A320 /* SignInCoordinator.swift */; };
 		5FDB34192A04350D0067A320 /* TabBarOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB34182A04350D0067A320 /* TabBarOptions.swift */; };
 		5FDB341B2A0436700067A320 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB341A2A0436700067A320 /* TabBarCoordinator.swift */; };
@@ -119,6 +120,7 @@
 		5FD923A829F9DC4000633203 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		5FD923AC29F9DC6500633203 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FD923AE29F9DC6700633203 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5FD939562A05766300AD2823 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 		5FDB34152A041A020067A320 /* SignInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCoordinator.swift; sourceTree = "<group>"; };
 		5FDB34182A04350D0067A320 /* TabBarOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarOptions.swift; sourceTree = "<group>"; };
 		5FDB341A2A0436700067A320 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 		04D52D6A2809F5A100D4C010 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5FD939552A05764800AD2823 /* Keychain */,
 				04D52D6B2809F5B900D4C010 /* Services_TODO.txt */,
 				5FD0217729FC222D003AC04E /* FacebookAuthService.swift */,
 				5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */,
@@ -424,6 +427,14 @@
 				5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */,
 			);
 			path = Roboto;
+			sourceTree = "<group>";
+		};
+		5FD939552A05764800AD2823 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				5FD939562A05766300AD2823 /* KeyChainService.swift */,
+			);
+			path = Keychain;
 			sourceTree = "<group>";
 		};
 		5FDB34142A0419D30067A320 /* Coordinator */ = {
@@ -782,6 +793,7 @@
 				5FDB341B2A0436700067A320 /* TabBarCoordinator.swift in Sources */,
 				5FDB341F2A0466AE0067A320 /* ProfileViewController.swift in Sources */,
 				5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */,
+				5FD939572A05766300AD2823 /* KeyChainService.swift in Sources */,
 				5FDB34192A04350D0067A320 /* TabBarOptions.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
 				5FD923A729F9A44600633203 /* SignInView.swift in Sources */,
