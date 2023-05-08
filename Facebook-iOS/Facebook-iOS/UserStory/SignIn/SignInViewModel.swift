@@ -57,43 +57,36 @@ extension SignInViewModel: SignInViewModelProtocol {
     }
     
     func saveToken(_ token: AccessToken) {
-        let dispatchGroup = DispatchGroup()
         var tokenData: Data?
         var expirationTokenData: Data?
         
-        dispatchGroup.enter()
-        DispatchQueue.global().async {
-            tokenData = token.tokenString.data(using: .utf8)
-            expirationTokenData = token.expirationDate.description.data(using: .utf8)
-            dispatchGroup.leave()
+        tokenData = token.tokenString.data(using: .utf8)
+        expirationTokenData = token.expirationDate.description.data(using: .utf8)
+        
+        if let tokenData = tokenData {
+            self.keychainService.save(data: tokenData, forKey: KeychainKeys.userAccessTokenKey) { result in
+                switch result {
+                case .success:
+                    print("Access Token Saved")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    print("Access Token could not be saved")
+                }
+            }
         }
         
-        dispatchGroup.notify(queue: .main) {
-            if let tokenData = tokenData {
-                self.keychainService.save(data: tokenData, forKey: KeychainKeys.userAccessTokenKey) { result in
-                    switch result {
-                    case .success:
-                        print("Access Token Saved")
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                        print("Access Token could not be saved")
-                    }
+        if let expirationTokenData = expirationTokenData {
+            self.keychainService.save(data: expirationTokenData, forKey: KeychainKeys.tokenExpirationDateKey) { result in
+                switch result {
+                case .success:
+                    print("Token Expiration Date Saved")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    print("Token Expiration Date could not be saved")
                 }
             }
-            
-            if let expirationTokenData = expirationTokenData {
-                self.keychainService.save(data: expirationTokenData, forKey: KeychainKeys.tokenExpirationDateKey) { result in
-                    switch result {
-                    case .success:
-                        print("Token Expiration Date Saved")
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                        print("Token Expiration Date could not be saved")
-                    }
-                }
-            }
-            
         }
+        
     }
     
 }
