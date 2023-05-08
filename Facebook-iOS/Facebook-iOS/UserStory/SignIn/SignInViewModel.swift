@@ -22,7 +22,7 @@ class SignInViewModel {
     
     weak var delegate: SignInViewModelDelegate?
     private let fbAuthService: FacebookAuthServiceProtocol = FacebookAuthService()
-    private let keychainService = KeyChainService()
+    private let keychainService: KeyChainProtocol = KeyChainService()
     
 }
 
@@ -48,7 +48,7 @@ extension SignInViewModel: SignInViewModelProtocol {
                 
                 if let expirationTokenData = token.expirationDate.description.data(using: .utf8) {
                     self.keychainService.save(data: expirationTokenData, forKey: KeychainKeys.tokenExpirationDateKey) { result in
-                        switch result{
+                        switch result {
                         case .success:
                             print(result)
                             print("Token Expiration Date Saved")

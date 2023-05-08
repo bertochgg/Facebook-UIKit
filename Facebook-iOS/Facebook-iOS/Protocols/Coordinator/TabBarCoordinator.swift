@@ -54,10 +54,15 @@ class TabBarCoordinator: NSObject, Coordinator {
         
         // In this step, we attach tabBarController to navigation controller associated with this coordanator
         // navigationController.viewControllers = [tabBarController]
-        tabBarController.modalTransitionStyle = .crossDissolve
-        tabBarController.modalPresentationStyle = .fullScreen
-        
-        navigationController.present(tabBarController, animated: true)
+//        tabBarController.modalTransitionStyle = .crossDissolve
+//        tabBarController.modalPresentationStyle = .fullScreen
+//
+//        navigationController.present(tabBarController, animated: true)
+        let transition = CATransition()
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        navigationController.view.layer.add(transition, forKey: nil)
+        navigationController.pushViewController(tabBarController, animated: false)
         
     }
     
