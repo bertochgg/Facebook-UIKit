@@ -19,5 +19,5 @@ enum KeychainError: Error {
     case invalidItemFormat
     
     // Any operation result status than errSecSuccess
-    case unexpectedError(OSStatus)
+    case unexpectedError
 }

@@ -46,7 +46,7 @@ final class KeychainService: KeychainServiceProtocol {
         } else if let error = result?.error, let finalError = error {
             completion(.failure(finalError))
         } else {
-            completion(.failure(KeychainError.unexpectedError(.max)))
+            completion(.failure(KeychainError.unexpectedError))
         }
     }
     
@@ -81,7 +81,7 @@ final class KeychainService: KeychainServiceProtocol {
         } else if let error = result?.error, let finalError = error {
             completion(.failure(finalError))
         } else {
-            completion(.failure(KeychainError.unexpectedError(.max)))
+            completion(.failure(KeychainError.unexpectedError))
         }
     }
     
@@ -96,7 +96,7 @@ final class KeychainService: KeychainServiceProtocol {
         
         let status: OSStatus = SecItemUpdate(query, updateDictionary)
         
-        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError(.max)))
+        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError))
     }
     
     // Delete a cached value for a given key
@@ -111,7 +111,7 @@ final class KeychainService: KeychainServiceProtocol {
         
         let status: OSStatus = SecItemDelete(query)
         
-        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError(.max)))
+        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError))
     }
     
 }
