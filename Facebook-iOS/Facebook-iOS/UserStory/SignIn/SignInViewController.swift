@@ -63,6 +63,6 @@ extension SignInViewController: SignInViewModelDelegate {
 extension SignInViewController: SignInViewDelegate {
     func signInButtonTapped() {
         self.showProgress("Loading")
-        self.viewModel.fetchSignInData()
+        self.viewModel.signInWithFacebook()
     }
 }
