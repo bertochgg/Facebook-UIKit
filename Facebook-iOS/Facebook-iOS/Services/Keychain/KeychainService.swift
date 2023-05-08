@@ -16,36 +16,15 @@ typealias KeychainLoadResult = Swift.Result<Data, Error>
 enum KeychainKeys {
     static let userAccessTokenKey = "accessToken"
     static let tokenExpirationDateKey = "tokenExpirationDate"
+    static let keychainServiceName = "com.bertochgg.UltimateSocialApp"
 }
 
-enum KeychainError: Error {
-    // Attempted read for an item that does not exist.
-    case itemNotFound
+final class KeychainService: KeychainServiceProtocol {
     
-    // Attempted save to override an existing item.
-    // Use update instead of save to update existing items
-    case duplicatedItem
+    private var serviceName: String
     
-    // A read of an item in any format other than Data
-    case invalidItemFormat
-    
-    // Any operation result status than errSecSuccess
-    case unexpectedError
-}
-
-protocol KeyChainProtocol {
-    
-    func save(data: Data, forKey key: String, completion: @escaping (KeychainResult) -> Void)
-    func loadData(forKey key: String, completion: @escaping (KeychainLoadResult) -> Void)
-    func update(_ data: Data, forKey key: String, completion: @escaping (KeychainResult) -> Void)
-    func deleteCache(forKey key: String, completion: @escaping (KeychainResult) -> Void)
-    
-}
-
-final class KeyChainService: KeyChainProtocol {
-    
-    private var serviceName: String {
-        Bundle.main.bundleIdentifier ?? "KeychainStore"
+    init(serviceName: String) {
+        self.serviceName = serviceName
     }
     
     // Save a Data value for a given key
@@ -67,7 +46,7 @@ final class KeyChainService: KeyChainProtocol {
         } else if let error = result?.error, let finalError = error {
             completion(.failure(finalError))
         } else {
-            completion(.failure(KeychainError.unexpectedError))
+            completion(.failure(KeychainError.unexpectedError(.max)))
         }
     }
     
@@ -102,7 +81,7 @@ final class KeyChainService: KeyChainProtocol {
         } else if let error = result?.error, let finalError = error {
             completion(.failure(finalError))
         } else {
-            completion(.failure(KeychainError.unexpectedError))
+            completion(.failure(KeychainError.unexpectedError(.max)))
         }
     }
     
@@ -117,7 +96,7 @@ final class KeyChainService: KeyChainProtocol {
         
         let status: OSStatus = SecItemUpdate(query, updateDictionary)
         
-        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError))
+        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError(.max)))
     }
     
     // Delete a cached value for a given key
@@ -132,7 +111,7 @@ final class KeyChainService: KeyChainProtocol {
         
         let status: OSStatus = SecItemDelete(query)
         
-        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError))
+        completion(status == errSecSuccess ? .success(()) : .failure(KeychainError.unexpectedError(.max)))
     }
     
 }

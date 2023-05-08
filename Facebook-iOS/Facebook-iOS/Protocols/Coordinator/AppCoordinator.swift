@@ -24,7 +24,7 @@ class AppCoordinator: AppCoordinatorProtocol {
     
     var type: CoordinatorType { .application }
     
-    private let keychainService: KeyChainProtocol = KeyChainService()
+    private let keychainService: KeychainServiceProtocol = KeychainService(serviceName: KeychainKeys.keychainServiceName)
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController

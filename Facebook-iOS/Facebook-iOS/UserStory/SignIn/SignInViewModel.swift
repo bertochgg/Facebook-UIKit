@@ -22,7 +22,7 @@ class SignInViewModel {
     
     weak var delegate: SignInViewModelDelegate?
     private let fbAuthService: FacebookAuthServiceProtocol = FacebookAuthService()
-    private let keychainService: KeyChainProtocol = KeyChainService()
+    private let keychainService: KeychainServiceProtocol = KeychainService(serviceName: KeychainKeys.keychainServiceName)
     
 }
 
@@ -36,7 +36,6 @@ extension SignInViewModel: SignInViewModelProtocol {
                     self.keychainService.save(data: tokenData, forKey: KeychainKeys.userAccessTokenKey) { result in
                         switch result {
                         case .success:
-                            print(result)
                             print("Access Token Saved")
                         case .failure(let error):
                             print(error.localizedDescription)
@@ -50,7 +49,6 @@ extension SignInViewModel: SignInViewModelProtocol {
                     self.keychainService.save(data: expirationTokenData, forKey: KeychainKeys.tokenExpirationDateKey) { result in
                         switch result {
                         case .success:
-                            print(result)
                             print("Token Expiration Date Saved")
                         case .failure(let error):
                             print(error.localizedDescription)
