@@ -29,10 +29,8 @@ class SignInViewModel {
 extension SignInViewModel: SignInViewModelProtocol {
     
     func signInWithFacebook() {
-        let dispatchGroup = DispatchGroup()
         var token: AccessToken?
         
-        dispatchGroup.enter()
         fbAuthService.signIn { result in
             switch result {
             case .success(let fbToken):
@@ -48,18 +46,16 @@ extension SignInViewModel: SignInViewModelProtocol {
                     self.delegate?.didSignInWithFailure()
                 }
             }
-            dispatchGroup.leave()
         }
         
-        dispatchGroup.notify(queue: .main) {
-            if let token = token {
-                self.saveToken(token)
-                self.delegate?.didSignIn()
-            }
-            // Something should happen here, maybe we can get data or set flags to see if we are logged in
+        if let token = token {
+            self.saveToken(token)
+            self.delegate?.didSignIn()
         }
+        // Something should happen here, maybe we can get data or set flags to see if we are logged in
+        
     }
-
+    
     func saveToken(_ token: AccessToken) {
         let dispatchGroup = DispatchGroup()
         var tokenData: Data?
