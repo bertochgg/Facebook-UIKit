@@ -76,14 +76,16 @@ class TabBarCoordinator: NSObject, Coordinator {
             navController.tabBarItem = UITabBarItem(title: page.pageTitleValue(),
                                                     image: ImagesNames.feed,
                                                          tag: page.pageOrderNumber())
-            let feedVC = FeedViewController()
-            navController.pushViewController(feedVC, animated: true)
+            let feedCoordinator = FeedCoordinator(navigationController: navController)
+            feedCoordinator.start()
         case .profile:
             navController.tabBarItem = UITabBarItem(title: page.pageTitleValue(),
                                                     image: ImagesNames.profile,
                                                          tag: page.pageOrderNumber())
-            let profileVC = ProfileViewController()
-            navController.pushViewController(profileVC, animated: true)
+//            let profileVC = ProfileViewController()
+//            navController.pushViewController(profileVC, animated: true)
+            let profileCoordinator = ProfileCoordinator(navigationController: navController)
+            profileCoordinator.start()
         
         }
         

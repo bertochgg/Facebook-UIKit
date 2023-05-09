@@ -7,12 +7,23 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
-
+final class ProfileViewController: UIViewController {
+    
+    weak var coordinator: (any ProfileCoordinatorProtocol)?
+    private var profileViewModel: ProfileViewModelProtocol = ProfileViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .yellow
+        view.backgroundColor = .systemOrange
+        profileViewModel.delegate = self
     }
 
+}
+
+extension ProfileViewController: ProfileViewModelDelegate {
+    
+    func didFetchProfileData() {
+        
+    }
+    
 }

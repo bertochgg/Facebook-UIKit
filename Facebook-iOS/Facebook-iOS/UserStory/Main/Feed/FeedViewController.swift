@@ -7,11 +7,24 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
-
+final class FeedViewController: UIViewController {
+    
+    weak var coordinator: (any FeedCoordinatorProtocol)?
+    private var feedViewModel: FeedViewModelProtocol = FeedViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemPink
+        feedViewModel.delegate = self
     }
+    
+}
 
+extension FeedViewController: FeedViewModelDelegate {
+    
+    func didFetchFeedData() {
+        
+    }
+    
 }

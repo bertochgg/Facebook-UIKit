@@ -33,6 +33,10 @@
 		5F14F1A029FB9BAD0079C0A4 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5F14F19F29FB9BAD0079C0A4 /* FacebookCore */; };
 		5F14F1A229FB9BAD0079C0A4 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 5F14F1A129FB9BAD0079C0A4 /* FacebookLogin */; };
 		5F14F1A429FB9BAD0079C0A4 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = 5F14F1A329FB9BAD0079C0A4 /* FacebookShare */; };
+		5F76A2522A09A92400349063 /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2512A09A92400349063 /* FeedCoordinator.swift */; };
+		5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2532A09A93200349063 /* ProfileCoordinator.swift */; };
+		5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2552A09A96C00349063 /* FeedViewModel.swift */; };
+		5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2572A09A98700349063 /* ProfileViewModel.swift */; };
 		5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217729FC222D003AC04E /* FacebookAuthService.swift */; };
 		5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */; };
 		5FD6CE962A09693800FA785C /* KeyChainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6CE952A09693800FA785C /* KeyChainServiceProtocol.swift */; };
@@ -110,6 +114,10 @@
 		15A5B658A64061E412B41C2E /* Pods-App-Facebook-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOS.release.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOS/Pods-App-Facebook-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		30D6BA4859E3C0D7A3A15332 /* Pods-App-Facebook-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSTests.release.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSTests/Pods-App-Facebook-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5F14F1A529FB9EEA0079C0A4 /* Facebook-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Facebook-iOS.entitlements"; sourceTree = "<group>"; };
+		5F76A2512A09A92400349063 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
+		5F76A2532A09A93200349063 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
+		5F76A2552A09A96C00349063 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		5F76A2572A09A98700349063 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		5FD0217729FC222D003AC04E /* FacebookAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthService.swift; sourceTree = "<group>"; };
 		5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthServiceProtocol.swift; sourceTree = "<group>"; };
 		5FD6CE952A09693800FA785C /* KeyChainServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainServiceProtocol.swift; sourceTree = "<group>"; };
@@ -450,6 +458,8 @@
 				5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */,
 				5FDB34152A041A020067A320 /* SignInCoordinator.swift */,
 				5FDB341A2A0436700067A320 /* TabBarCoordinator.swift */,
+				5F76A2512A09A92400349063 /* FeedCoordinator.swift */,
+				5F76A2532A09A93200349063 /* ProfileCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -468,6 +478,7 @@
 			isa = PBXGroup;
 			children = (
 				5FDB34202A0466C00067A320 /* FeedViewController.swift */,
+				5F76A2552A09A96C00349063 /* FeedViewModel.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -476,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				5FDB341E2A0466AE0067A320 /* ProfileViewController.swift */,
+				5F76A2572A09A98700349063 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -793,6 +805,8 @@
 				5FDCD6B72A02F28A00AA6E73 /* BaseViewController.swift in Sources */,
 				5FD6CE982A0969F200FA785C /* KeychainServiceError.swift in Sources */,
 				04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */,
+				5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */,
+				5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */,
 				5FDCD6B92A02F2DF00AA6E73 /* ProgressHUDProtocol.swift in Sources */,
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
 				5FDB34212A0466C00067A320 /* FeedViewController.swift in Sources */,
@@ -801,11 +815,13 @@
 				5FD6CE962A09693800FA785C /* KeyChainServiceProtocol.swift in Sources */,
 				5FDB341F2A0466AE0067A320 /* ProfileViewController.swift in Sources */,
 				5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */,
+				5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */,
 				5FD939572A05766300AD2823 /* KeychainService.swift in Sources */,
 				5FDB34192A04350D0067A320 /* TabBarOptions.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
 				5FD923A729F9A44600633203 /* SignInView.swift in Sources */,
 				5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */,
+				5F76A2522A09A92400349063 /* FeedCoordinator.swift in Sources */,
 				5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */,
 				5FD7019D29F8F7BB00C81E85 /* SignInViewModel.swift in Sources */,
 				5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */,
