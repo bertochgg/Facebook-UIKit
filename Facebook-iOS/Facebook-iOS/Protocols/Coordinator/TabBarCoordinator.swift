@@ -7,12 +7,15 @@
 
 import UIKit
 
-protocol TabCoordinatorProtocol: Coordinator {
+protocol TabCoordinatorProtocol: Coordinator, AnyObject {
     var tabBarController: UITabBarController { get set }
     
     func selectPage(_ page: TabBarOptions)
     func setSelectedIndex(_ index: Int)
     func currentPage() -> TabBarOptions?
+    
+    func showFeedScreen()
+    func showProfile()
 }
 
 class TabBarCoordinator: NSObject, Coordinator {
@@ -75,18 +78,18 @@ class TabBarCoordinator: NSObject, Coordinator {
             // If needed: Each tab bar flow can have it's own Coordinator.
             navController.tabBarItem = UITabBarItem(title: page.pageTitleValue(),
                                                     image: ImagesNames.feed,
-                                                         tag: page.pageOrderNumber())
+                                                    tag: page.pageOrderNumber())
             let feedCoordinator = FeedCoordinator(navigationController: navController)
             feedCoordinator.start()
         case .profile:
             navController.tabBarItem = UITabBarItem(title: page.pageTitleValue(),
                                                     image: ImagesNames.profile,
-                                                         tag: page.pageOrderNumber())
-//            let profileVC = ProfileViewController()
-//            navController.pushViewController(profileVC, animated: true)
+                                                    tag: page.pageOrderNumber())
+            //            let profileVC = ProfileViewController()
+            //            navController.pushViewController(profileVC, animated: true)
             let profileCoordinator = ProfileCoordinator(navigationController: navController)
             profileCoordinator.start()
-        
+            
         }
         
         return navController
@@ -105,6 +108,26 @@ class TabBarCoordinator: NSObject, Coordinator {
         
         tabBarController.selectedIndex = page.pageOrderNumber()
     }
+    
+    func showFeedScreen() {
+        guard let navigationController = navigationController else {
+            return
+        }
+        let feedCoordinator = FeedCoordinator(navigationController: navigationController)
+        feedCoordinator.finishDelegate = self
+        feedCoordinator.start()
+        childCoordinators.append(feedCoordinator)
+    }
+    
+    func showProfileScreen() {
+        guard let navigationController = navigationController else {
+            return
+        }
+        let profileCoordinator = ProfileCoordinator(navigationController: navigationController)
+        profileCoordinator.finishDelegate = self
+        profileCoordinator.start()
+        childCoordinators.append(profileCoordinator)
+    }
 }
 
 // MARK: - UITabBarControllerDelegate
@@ -112,5 +135,28 @@ extension TabBarCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
         // Some implementation
+    }
+}
+
+extension TabBarCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: any Coordinator) {
+        guard let navigationController = navigationController else {
+            return
+        }
+        
+        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
+        
+        switch childCoordinator.type {
+        case .feed:
+            navigationController.viewControllers.removeAll()
+            
+            showFeedScreen()
+        case .myProfile:
+            navigationController.viewControllers.removeAll()
+            
+            showProfileScreen()
+        default:
+            break
+        }
     }
 }

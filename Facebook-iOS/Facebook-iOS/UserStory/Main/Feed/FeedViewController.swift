@@ -10,7 +10,7 @@ import UIKit
 final class FeedViewController: UIViewController {
     
     weak var coordinator: (any FeedCoordinatorProtocol)?
-    private var feedViewModel: FeedViewModelProtocol = FeedViewModel()
+    private let feedViewModel: FeedViewModelProtocol = FeedViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

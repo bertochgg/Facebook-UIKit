@@ -11,7 +11,7 @@ protocol ProfileViewModelDelegate: AnyObject {
     func didFetchProfileData()
 }
 
-protocol ProfileViewModelProtocol {
+protocol ProfileViewModelProtocol: AnyObject {
     var delegate: ProfileViewModelDelegate? { get set }
     func fetchProfileData()
 }

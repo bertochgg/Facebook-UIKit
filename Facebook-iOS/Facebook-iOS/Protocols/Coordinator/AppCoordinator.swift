@@ -12,7 +12,6 @@ import UIKit
 protocol AppCoordinatorProtocol: Coordinator, AnyObject {
     func showSignIn()
     func showMainScreen()
-    func showFeedScreen()
 }
 
 // App coordinator is the only one coordinator which will exist during app's life cycle
@@ -68,26 +67,6 @@ class AppCoordinator: AppCoordinatorProtocol {
         childCoordinators.append(tabBarCoordinator)
     }
     
-    func showFeedScreen() {
-        guard let navigationController = navigationController else {
-            return
-        }
-        let feedCoordinator = FeedCoordinator(navigationController: navigationController)
-        feedCoordinator.finishDelegate = self
-        feedCoordinator.start()
-        childCoordinators.append(feedCoordinator)
-    }
-    
-    func showProfileScreen() {
-        guard let navigationController = navigationController else {
-            return
-        }
-        let profileCoordinator = ProfileCoordinator(navigationController: navigationController)
-        profileCoordinator.finishDelegate = self
-        profileCoordinator.start()
-        childCoordinators.append(profileCoordinator)
-    }
-    
 }
 
 extension AppCoordinator: CoordinatorFinishDelegate {
@@ -107,14 +86,6 @@ extension AppCoordinator: CoordinatorFinishDelegate {
             navigationController.viewControllers.removeAll()
             
             showMainScreen()
-        case .feed:
-            navigationController.viewControllers.removeAll()
-            
-            showFeedScreen()
-        case .myProfile:
-            navigationController.viewControllers.removeAll()
-            
-            showProfileScreen()
         default:
             break
         }

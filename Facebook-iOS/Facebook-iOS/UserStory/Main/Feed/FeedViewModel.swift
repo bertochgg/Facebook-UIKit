@@ -11,7 +11,7 @@ protocol FeedViewModelDelegate: AnyObject {
     func didFetchFeedData()
 }
 
-protocol FeedViewModelProtocol {
+protocol FeedViewModelProtocol: AnyObject {
     var delegate: FeedViewModelDelegate? { get set }
     func fetchFeedData()
 }
