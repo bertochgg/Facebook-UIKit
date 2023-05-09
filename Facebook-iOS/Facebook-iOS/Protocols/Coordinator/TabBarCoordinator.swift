@@ -52,15 +52,9 @@ class TabBarCoordinator: NSObject, Coordinator {
         tabBarController.selectedIndex = TabBarOptions.feed.pageOrderNumber()
         // Styling
         tabBarController.tabBar.isTranslucent = false
-        // tabBarController.tabBar.barTintColor = .white
         tabBarController.tabBar.backgroundColor = .white
         
         // In this step, we attach tabBarController to navigation controller associated with this coordanator
-        // navigationController.viewControllers = [tabBarController]
-//        tabBarController.modalTransitionStyle = .crossDissolve
-//        tabBarController.modalPresentationStyle = .fullScreen
-//
-//        navigationController.present(tabBarController, animated: true)
         let transition = CATransition()
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromRight
@@ -85,8 +79,6 @@ class TabBarCoordinator: NSObject, Coordinator {
             navController.tabBarItem = UITabBarItem(title: page.pageTitleValue(),
                                                     image: ImagesNames.profile,
                                                     tag: page.pageOrderNumber())
-            //            let profileVC = ProfileViewController()
-            //            navController.pushViewController(profileVC, animated: true)
             let profileCoordinator = ProfileCoordinator(navigationController: navController)
             profileCoordinator.start()
             
@@ -114,7 +106,7 @@ class TabBarCoordinator: NSObject, Coordinator {
             return
         }
         let feedCoordinator = FeedCoordinator(navigationController: navigationController)
-        // feedCoordinator.finishDelegate = self
+        feedCoordinator.finishDelegate = self
         feedCoordinator.start()
         childCoordinators.append(feedCoordinator)
     }
@@ -124,7 +116,7 @@ class TabBarCoordinator: NSObject, Coordinator {
             return
         }
         let profileCoordinator = ProfileCoordinator(navigationController: navigationController)
-        // profileCoordinator.finishDelegate = self
+        profileCoordinator.finishDelegate = self
         profileCoordinator.start()
         childCoordinators.append(profileCoordinator)
     }
@@ -138,25 +130,25 @@ extension TabBarCoordinator: UITabBarControllerDelegate {
     }
 }
 
-//extension TabBarCoordinator: CoordinatorFinishDelegate {
-//    func coordinatorDidFinish(childCoordinator: any Coordinator) {
-//        guard let navigationController = navigationController else {
-//            return
-//        }
-//
-//        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
-//
-//        switch childCoordinator.type {
-//        case .feed:
-//            navigationController.viewControllers.removeAll()
-//
-//            showFeedScreen()
-//        case .myProfile:
-//            navigationController.viewControllers.removeAll()
-//
-//            showProfileScreen()
-//        default:
-//            break
-//        }
-//    }
-//}
+extension TabBarCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: any Coordinator) {
+        guard let navigationController = navigationController else {
+            return
+        }
+
+        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
+
+        switch childCoordinator.type {
+        case .feed:
+            navigationController.viewControllers.removeAll()
+
+            showFeedScreen()
+        case .myProfile:
+            navigationController.viewControllers.removeAll()
+
+            showProfileScreen()
+        default:
+            break
+        }
+    }
+}
