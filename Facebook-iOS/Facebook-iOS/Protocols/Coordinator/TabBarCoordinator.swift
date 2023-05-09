@@ -114,7 +114,7 @@ class TabBarCoordinator: NSObject, Coordinator {
             return
         }
         let feedCoordinator = FeedCoordinator(navigationController: navigationController)
-        feedCoordinator.finishDelegate = self
+        // feedCoordinator.finishDelegate = self
         feedCoordinator.start()
         childCoordinators.append(feedCoordinator)
     }
@@ -124,7 +124,7 @@ class TabBarCoordinator: NSObject, Coordinator {
             return
         }
         let profileCoordinator = ProfileCoordinator(navigationController: navigationController)
-        profileCoordinator.finishDelegate = self
+        // profileCoordinator.finishDelegate = self
         profileCoordinator.start()
         childCoordinators.append(profileCoordinator)
     }
@@ -138,25 +138,25 @@ extension TabBarCoordinator: UITabBarControllerDelegate {
     }
 }
 
-extension TabBarCoordinator: CoordinatorFinishDelegate {
-    func coordinatorDidFinish(childCoordinator: any Coordinator) {
-        guard let navigationController = navigationController else {
-            return
-        }
-        
-        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
-        
-        switch childCoordinator.type {
-        case .feed:
-            navigationController.viewControllers.removeAll()
-            
-            showFeedScreen()
-        case .myProfile:
-            navigationController.viewControllers.removeAll()
-            
-            showProfileScreen()
-        default:
-            break
-        }
-    }
-}
+//extension TabBarCoordinator: CoordinatorFinishDelegate {
+//    func coordinatorDidFinish(childCoordinator: any Coordinator) {
+//        guard let navigationController = navigationController else {
+//            return
+//        }
+//
+//        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
+//
+//        switch childCoordinator.type {
+//        case .feed:
+//            navigationController.viewControllers.removeAll()
+//
+//            showFeedScreen()
+//        case .myProfile:
+//            navigationController.viewControllers.removeAll()
+//
+//            showProfileScreen()
+//        default:
+//            break
+//        }
+//    }
+//}

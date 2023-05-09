@@ -36,6 +36,7 @@ class AppCoordinator: AppCoordinatorProtocol {
             switch result {
             case .success(let token):
                 // If access token is present, then show main scree. Question: how do I read access token, string, data, do I need to decode?
+                print("sign in successful, i go to main screen")
                 self.showMainScreen()
                 
             case .failure(let error):

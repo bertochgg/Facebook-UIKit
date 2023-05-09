@@ -13,7 +13,7 @@ protocol SignInViewModelDelegate: AnyObject {
     func didCancelSignIn()
 }
 
-protocol SignInViewModelProtocol {
+protocol SignInViewModelProtocol: AnyObject {
     var delegate: SignInViewModelDelegate? { get set }
     func signInWithFacebook()
 }
