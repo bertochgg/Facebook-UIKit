@@ -79,6 +79,7 @@ extension SignInViewModel: SignInViewModelProtocol {
             switch result {
             case .success:
                 print("Token Expiration Date Saved")
+                print(expirationTokenData)
             case .failure(let error):
                 print(error.localizedDescription)
                 print("Token Expiration Date could not be saved")
