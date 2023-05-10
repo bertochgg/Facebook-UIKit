@@ -7,37 +7,37 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct UserProfileData: Codable, Hashable, Equatable {
-    
-    let id:String
+// MARK: - User Profile Data
+struct UserProfileData: Codable {
+    let id: String
     let firstName: String
     let picture: Picture
     let lastName: String
+    let birthday: String
+    let email: String
+    let ageRange: AgeRange
 
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case firstName = "first_name"
         case picture
         case lastName = "last_name"
+        case birthday, email
+        case ageRange = "age_range"
     }
-    
-    static func == (lhs: UserProfileData, rhs: UserProfileData) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self)
-    }
-    
+}
+
+// MARK: - Age Range
+struct AgeRange: Codable {
+    let min: Int
 }
 
 // MARK: - Picture
 struct Picture: Codable {
-    let data: DataClass
+    let data: PictureData
 }
 
-// MARK: - DataClass
-struct DataClass: Codable {
+// MARK: - Picture Data
+struct PictureData: Codable {
     let url: String
 }
