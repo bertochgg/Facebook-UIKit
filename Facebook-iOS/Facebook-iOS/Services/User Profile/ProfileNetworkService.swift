@@ -10,34 +10,44 @@ import Foundation
 
 class ProfileNetworkService: ProfileNetworkServiceProtocol {
     
-    let connection = GraphRequestConnection()
-    let params = ["fields": "id, first_name, picture, last_name"]
+    private let connection: GraphRequestConnection = GraphRequestConnection()
+    private let requestParameters: [String: Any] = ["fields": "id, first_name, picture, last_name"]
     
-    func fetchProfileData(completion: @escaping (Result<UserProfileData, Error>) -> Void) {
+    func fetchProfileData(completion: @escaping (Result<UserProfileData, ProfileNetworkServiceErrors>) -> Void) {
         connection.add(GraphRequest(graphPath: "me",
-                                    parameters: params,
+                                    parameters: requestParameters,
                                     httpMethod: .get)) { connection, result, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(ProfileNetworkServiceErrors.invalidResponse))
                 print("Getting user data error: \(error.localizedDescription)")
                 return
-            } else if let userData = result as? [String: Any] {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: userData)
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    print(jsonData)
-                    let userProfileData = try decoder.decode(UserProfileData.self, from: jsonData)
-                    print("object created")
-                    completion(.success(userProfileData))
-                } catch {
-                    completion(.failure(error))
+            } else if let userData = result {
+                print("JSON: \(userData). END")
+                self.parseJSON(json: userData) { result in
+                    switch result {
+                    case .success(let data):
+                        completion(.success(data))
+                    case .failure(let error):
+                        completion(.failure(ProfileNetworkServiceErrors.decodingFailed))
+                        print(error.localizedDescription)
+                    }
                 }
-            } else {
-                let error = NSError(domain: "Invalid response", code: 0, userInfo: nil)
-                completion(.failure(error))
+                
             }
         }
         connection.start()
     }
+    
+    private func parseJSON(json: Any, completion: @escaping (Result<UserProfileData, ProfileNetworkServiceErrors>) -> Void) {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: json)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .useDefaultKeys
+            let userProfileData = try decoder.decode(UserProfileData.self, from: jsonData)
+            completion(.success(userProfileData))
+        } catch {
+            completion(.failure(ProfileNetworkServiceErrors.serverError))
+        }
+    }
+    
 }

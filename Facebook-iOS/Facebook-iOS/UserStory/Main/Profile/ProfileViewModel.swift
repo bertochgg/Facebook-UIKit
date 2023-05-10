@@ -18,19 +18,19 @@ protocol ProfileViewModelProtocol: AnyObject {
 
 final class ProfileViewModel: ProfileViewModelProtocol {
     weak var delegate: ProfileViewModelDelegate?
-    var profileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
+    private let profileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
     
     func fetchProfileData() {
         profileNetworkService.fetchProfileData { result in
             switch result {
             case .success(let data):
-                print(data.id)
-                print(data.firstName)
-                print(data.lastName)
-                // print(data.ageRange)
+                print("ID: \(data.id)")
+                print("Name: \(data.firstName)")
+                print("Last: \(data.lastName)")
+                print(data.ageRange?.min)
                 print(data.email)
                 print(data.birthday)
-                print(data.picture.data.url)
+                print("Picture: \(data.picture.data.url)")
                 print("user data fetching successful")
             case .failure(let error):
                 print("Error fetching user profile data: \(error)")
