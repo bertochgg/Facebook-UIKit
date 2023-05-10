@@ -17,7 +17,7 @@ struct UserProfileData: Codable {
     let email: String = "humberto@gmail.com"
     let ageRange: AgeRange
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case firstName = "first_name"
         case picture
@@ -30,6 +30,10 @@ struct UserProfileData: Codable {
 // MARK: - Age  Range
 struct AgeRange: Codable {
     let min: Int = 20
+    
+    private enum CodingKeys: String, CodingKey {
+        case min = "min"
+    }
 }
 
 // MARK: - Picture
