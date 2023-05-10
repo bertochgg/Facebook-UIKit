@@ -13,8 +13,8 @@ struct UserProfileData: Codable {
     let firstName: String
     let picture: Picture
     let lastName: String
-    let birthday: String
-    let email: String
+    let birthday: String = "19/09/1997"
+    let email: String = "humberto@gmail.com"
     let ageRange: AgeRange
 
     enum CodingKeys: String, CodingKey {
@@ -27,9 +27,9 @@ struct UserProfileData: Codable {
     }
 }
 
-// MARK: - Age Range
+// MARK: - Age  Range
 struct AgeRange: Codable {
-    let min: Int
+    let min: Int = 20
 }
 
 // MARK: - Picture
