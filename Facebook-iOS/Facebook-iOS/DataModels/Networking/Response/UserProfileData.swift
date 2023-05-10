@@ -15,26 +15,27 @@ struct UserProfileData: Codable {
     let lastName: String
     let birthday: String = "19/09/1997"
     let email: String = "humberto@gmail.com"
-    let ageRange: AgeRange
+    // let ageRange: AgeRange
 
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case firstName = "first_name"
         case picture
         case lastName = "last_name"
-        case birthday, email
-        case ageRange = "age_range"
+        case birthday
+        case email
+        // case ageRange = "age_range"
     }
 }
 
 // MARK: - Age  Range
-struct AgeRange: Codable {
-    let min: Int = 20
-    
-    private enum CodingKeys: String, CodingKey {
-        case min = "min"
-    }
-}
+//struct AgeRange: Codable {
+//    let min: Int = 20
+//
+//    enum CodingKeys: String, CodingKey {
+//        case min = "min"
+//    }
+//}
 
 // MARK: - Picture
 struct Picture: Codable {

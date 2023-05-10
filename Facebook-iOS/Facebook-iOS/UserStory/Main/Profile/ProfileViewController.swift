@@ -16,6 +16,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemOrange
         profileViewModel.delegate = self
+        profileViewModel.fetchProfileData()
     }
 
 }
