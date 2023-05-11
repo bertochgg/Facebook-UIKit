@@ -18,7 +18,7 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
                                     parameters: requestParameters,
                                     httpMethod: .get)) { connection, result, error in
             if let error = error {
-                completion(.failure(NetworkServiceErrors.invalidResponse))
+                completion(.failure(NetworkServiceErrors.noConnection))
                 print("Getting user data error: \(error.localizedDescription)")
                 return
             } else if let userData = result {
@@ -28,7 +28,7 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
                     case .success(let data):
                         completion(.success(data))
                     case .failure(let error):
-                        completion(.failure(NetworkServiceErrors.noConnection))
+                        completion(.failure(NetworkServiceErrors.invalidResponse))
                         print(error.localizedDescription)
                     }
                 }

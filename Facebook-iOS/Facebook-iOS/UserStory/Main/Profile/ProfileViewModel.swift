@@ -33,7 +33,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 print("Picture: \(data.picture.data.url)")
                 print("user data fetching successful")
             case .failure(let error):
-                print("Error fetching user profile data: \(error)")
+                print("Error fetching user profile data: \(error.localizedDescription)")
             }
         }
     }
