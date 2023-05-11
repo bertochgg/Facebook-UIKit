@@ -31,11 +31,11 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
             switch httpResponse.statusCode {
             case 200...299:
                 // Success
-                guard let userData = response as? [String: Any] else {
+                guard let jsonProfileData = response as? [String: Any] else {
                     completion(.failure(NetworkServiceErrors.decodingFailed))
                     return
                 }
-                self.handleSuccess(jsonData: userData, completion: completion)
+                self.parseJSON(json: jsonProfileData, completion: completion)
             case 400...499:
                 // Client error
                 completion(.failure(NetworkServiceErrors.clientError))
@@ -61,19 +61,6 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
         } catch let error {
             completion(.failure(NetworkServiceErrors.decodingFailed))
             print(error.localizedDescription)
-        }
-    }
-    
-    private func handleSuccess(jsonData: Any, completion: @escaping (Result<UserProfileData, NetworkServiceErrors>) -> Void) {
-        
-        self.parseJSON(json: jsonData) { result in
-            switch result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(NetworkServiceErrors.decodingFailed))
-                print("Failed parse JSON Error: \(error.localizedDescription)")
-            }
         }
     }
     

@@ -23,17 +23,18 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     func fetchProfileData() {
         profileNetworkService.fetchProfileData { result in
             switch result {
-            case .success(let data):
-                print("ID: \(data.id)")
-                print("Name: \(data.firstName)")
-                print("Last: \(data.lastName)")
-                print(data.ageRange?.min)
-                print(data.email)
-                print(data.birthday)
-                print("Picture: \(data.picture.data.url)")
+            case .success(let userData):
+                print("ID: \(userData.id)")
+                print("Name: \(userData.firstName)")
+                print("Last: \(userData.lastName)")
+                print(userData.ageRange?.min)
+                print(userData.email)
+                print(userData.birthday)
+                print("Picture: \(userData.picture.data.url)")
                 print("user data fetching successful")
             case .failure(let error):
-                print("Error fetching user profile data: \(error.localizedDescription)")
+                print("Error fetching user profile data: \(NetworkServiceErrors.decodingFailed)")
+                print(error.localizedDescription)
             }
         }
     }
