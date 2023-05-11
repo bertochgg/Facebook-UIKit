@@ -13,12 +13,12 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
     private let connection: GraphRequestConnection = GraphRequestConnection()
     private let requestParameters: [String: Any] = ["fields": "id, first_name, picture, last_name"]
     
-    func fetchProfileData(completion: @escaping (Result<UserProfileData, ProfileNetworkServiceErrors>) -> Void) {
+    func fetchProfileData(completion: @escaping (Result<UserProfileData, NetworkServiceErrors>) -> Void) {
         connection.add(GraphRequest(graphPath: "me",
                                     parameters: requestParameters,
                                     httpMethod: .get)) { connection, result, error in
             if let error = error {
-                completion(.failure(ProfileNetworkServiceErrors.invalidResponse))
+                completion(.failure(NetworkServiceErrors.invalidResponse))
                 print("Getting user data error: \(error.localizedDescription)")
                 return
             } else if let userData = result {
@@ -28,7 +28,7 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
                     case .success(let data):
                         completion(.success(data))
                     case .failure(let error):
-                        completion(.failure(ProfileNetworkServiceErrors.decodingFailed))
+                        completion(.failure(NetworkServiceErrors.noConnection))
                         print(error.localizedDescription)
                     }
                 }
@@ -38,7 +38,7 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
         connection.start()
     }
     
-    private func parseJSON(json: Any, completion: @escaping (Result<UserProfileData, ProfileNetworkServiceErrors>) -> Void) {
+    private func parseJSON(json: Any, completion: @escaping (Result<UserProfileData, NetworkServiceErrors>) -> Void) {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: json)
             let decoder = JSONDecoder()
@@ -46,7 +46,7 @@ class ProfileNetworkService: ProfileNetworkServiceProtocol {
             let userProfileData = try decoder.decode(UserProfileData.self, from: jsonData)
             completion(.success(userProfileData))
         } catch {
-            completion(.failure(ProfileNetworkServiceErrors.serverError))
+            completion(.failure(NetworkServiceErrors.decodingFailed))
         }
     }
     
