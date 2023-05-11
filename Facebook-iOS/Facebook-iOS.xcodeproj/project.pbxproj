@@ -37,6 +37,7 @@
 		5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2532A09A93200349063 /* ProfileCoordinator.swift */; };
 		5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2552A09A96C00349063 /* FeedViewModel.swift */; };
 		5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2572A09A98700349063 /* ProfileViewModel.swift */; };
+		5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */; };
 		5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217729FC222D003AC04E /* FacebookAuthService.swift */; };
 		5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */; };
 		5FD175D52A0B6323008C5A4B /* UserProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD175D42A0B6323008C5A4B /* UserProfileData.swift */; };
@@ -121,6 +122,7 @@
 		5F76A2532A09A93200349063 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		5F76A2552A09A96C00349063 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5F76A2572A09A98700349063 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5FD0217729FC222D003AC04E /* FacebookAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthService.swift; sourceTree = "<group>"; };
 		5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthServiceProtocol.swift; sourceTree = "<group>"; };
 		5FD175D42A0B6323008C5A4B /* UserProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileData.swift; sourceTree = "<group>"; };
@@ -440,6 +442,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5FC6BFB12A0CC2A400C157DA /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		5FC6BFB22A0CC2B900C157DA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5FC6BFB12A0CC2A400C157DA /* Subviews */,
+				5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		5FD175D22A0B6181008C5A4B /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,6 +528,7 @@
 		5FDB341D2A04669C0067A320 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				5FC6BFB22A0CC2B900C157DA /* Views */,
 				5FDB341E2A0466AE0067A320 /* ProfileViewController.swift */,
 				5F76A2572A09A98700349063 /* ProfileViewModel.swift */,
 			);
@@ -853,6 +872,7 @@
 				5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */,
 				5FD939572A05766300AD2823 /* KeychainService.swift in Sources */,
 				5FDB34192A04350D0067A320 /* TabBarOptions.swift in Sources */,
+				5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
 				5FD923A729F9A44600633203 /* SignInView.swift in Sources */,
 				5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */,
