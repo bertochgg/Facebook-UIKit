@@ -37,6 +37,9 @@
 		5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2532A09A93200349063 /* ProfileCoordinator.swift */; };
 		5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2552A09A96C00349063 /* FeedViewModel.swift */; };
 		5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2572A09A98700349063 /* ProfileViewModel.swift */; };
+		5F8DEB722A0D8DBF002B8835 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */; };
+		5F8DEB742A0DA500002B8835 /* UIView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */; };
+		5F8DEB762A0DA692002B8835 /* UIImageView+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB752A0DA692002B8835 /* UIImageView+Setup.swift */; };
 		5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */; };
 		5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217729FC222D003AC04E /* FacebookAuthService.swift */; };
 		5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */; };
@@ -122,6 +125,9 @@
 		5F76A2532A09A93200349063 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		5F76A2552A09A96C00349063 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5F76A2572A09A98700349063 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Padding.swift"; sourceTree = "<group>"; };
+		5F8DEB752A0DA692002B8835 /* UIImageView+Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Setup.swift"; sourceTree = "<group>"; };
 		5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5FD0217729FC222D003AC04E /* FacebookAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthService.swift; sourceTree = "<group>"; };
 		5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthServiceProtocol.swift; sourceTree = "<group>"; };
@@ -406,6 +412,8 @@
 			children = (
 				04D52D682809F55800D4C010 /* UIKit_Extensions_TODO.txt */,
 				5FD923A429F99AF000633203 /* UIColor+Hex.swift */,
+				5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */,
+				5F8DEB752A0DA692002B8835 /* UIImageView+Setup.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -445,6 +453,7 @@
 		5FC6BFB12A0CC2A400C157DA /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -863,6 +872,7 @@
 				5FDD99322A0BFE8E0091285C /* ProfileNetworkService.swift in Sources */,
 				5FDCD6B92A02F2DF00AA6E73 /* ProgressHUDProtocol.swift in Sources */,
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
+				5F8DEB722A0D8DBF002B8835 /* CustomImageView.swift in Sources */,
 				5FDB34212A0466C00067A320 /* FeedViewController.swift in Sources */,
 				5FDB34162A041A020067A320 /* SignInCoordinator.swift in Sources */,
 				5FDB341B2A0436700067A320 /* TabBarCoordinator.swift in Sources */,
@@ -879,11 +889,13 @@
 				5F76A2522A09A92400349063 /* FeedCoordinator.swift in Sources */,
 				5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */,
 				5FD7019D29F8F7BB00C81E85 /* SignInViewModel.swift in Sources */,
+				5F8DEB742A0DA500002B8835 /* UIView+Padding.swift in Sources */,
 				5FD175D52A0B6323008C5A4B /* UserProfileData.swift in Sources */,
 				5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */,
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
 				5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */,
+				5F8DEB762A0DA692002B8835 /* UIImageView+Setup.swift in Sources */,
 				5FD923A529F99AF000633203 /* UIColor+Hex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

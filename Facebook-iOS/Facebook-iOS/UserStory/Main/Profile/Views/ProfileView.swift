@@ -7,55 +7,65 @@
 
 import UIKit
 
+private enum Constants {
+    static let profileImageName = "Profile image"
+    static let headerBackgroundImageName = "Header Background Image"
+}
+
 class ProfileView: UIView {
     
-    private let view: UIView = UIView()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        
+        addSubview(containerView)
+        containerView.anchor(top: topAnchor,
+                             left: leftAnchor,
+                             bottom: bottomAnchor,
+                             right: rightAnchor)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupView() {
-        addSubview(view)
-        view.backgroundColor = .systemPurple
-        view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: topAnchor),
-            view.bottomAnchor.constraint(equalTo: bottomAnchor),
-            view.leadingAnchor.constraint(equalTo: leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
+    lazy var containerView: UIView = {
+        let mainView = UIView()
+        mainView.backgroundColor = .systemBlue
         
-        let stackView = setupStackViewForHeader()
-        view.addSubview(stackView)
-        addStackViewForHeaderConstraints(stackView: stackView)
+        mainView.addSubview(subContainerView)
         
-    }
+        subContainerView.anchor(top: mainView.topAnchor, left: mainView.leftAnchor, right: mainView.rightAnchor, height: 220)
+        return mainView
+    }()
     
-    private func setupStackViewForHeader() -> UIStackView {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.backgroundColor = .brown
-        return stackView
-    }
+    lazy var subContainerView: UIView = {
+        let subView = UIView()
+        subView.backgroundColor = .yellow
+//        subView.anchor(top: containerView.topAnchor, left: containerView.leadingAnchor, right: containerView.trailingAnchor, height: 250)
+        
+//        customProfileImage.setupImageViewWithChildImage(image: UIImage(named: Constants.profileImageName),
+//                                                        radius: 25,
+//                                                        borderWidth: 13,
+//                                                        borderColor: .white,
+//                                                        hasChildImage: true)
+        
+        return subView
+    }()
     
-    private func addStackViewForHeaderConstraints(stackView: UIStackView) {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 200)
-        ])
-    }
+    private let customProfileImage = CustomImageView(frame: .zero)
     
-    private func customImageView() {
-        let image = UIImageView()
-        image.image = UIImage(named: "")
-    }
+    //    private let headerBackgroundImageView: UIImageView = {
+    //        let imageView = UIImageView()
+    //        imageView.setupImageView(image: UIImage(named: Constants.headerBackgroundImageName),
+    //                                 radius: 0,
+    //                                 borderWidth: 0,
+    //                                 borderColor: .clear)
+    //        return imageView
+    //    }()
+    
 }
