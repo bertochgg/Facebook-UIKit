@@ -39,33 +39,37 @@ class ProfileView: UIView {
         
         mainView.addSubview(subContainerView)
         
-        subContainerView.anchor(top: mainView.topAnchor, left: mainView.leftAnchor, right: mainView.rightAnchor, height: 220)
+        subContainerView.anchor(top: mainView.safeAreaLayoutGuide.topAnchor, left: mainView.leftAnchor, right: mainView.rightAnchor, height: 220)
         return mainView
     }()
     
     lazy var subContainerView: UIView = {
         let subView = UIView()
         subView.backgroundColor = .yellow
-//        subView.anchor(top: containerView.topAnchor, left: containerView.leadingAnchor, right: containerView.trailingAnchor, height: 250)
         
-//        customProfileImage.setupImageViewWithChildImage(image: UIImage(named: Constants.profileImageName),
-//                                                        radius: 25,
-//                                                        borderWidth: 13,
-//                                                        borderColor: .white,
-//                                                        hasChildImage: true)
-        
+        subView.addSubview(customProfileImage)
+        customProfileImage.setupImageViewWithChildImage(image: UIImage(named: Constants.profileImageName),
+                                                        radius: 25,
+                                                        borderWidth: 8,
+                                                        borderColor: .white,
+                                                        hasChildImage: true)
+        customProfileImage.translatesAutoresizingMaskIntoConstraints = false
+        customProfileImage.centerXAnchor.constraint(equalTo: subView.centerXAnchor).isActive = true
+        customProfileImage.centerYAnchor.constraint(equalTo: subView.centerYAnchor).isActive = true
+        customProfileImage.widthAnchor.constraint(equalToConstant: 180).isActive = true
+        customProfileImage.heightAnchor.constraint(equalToConstant: 180).isActive = true
         return subView
     }()
     
     private let customProfileImage = CustomImageView(frame: .zero)
     
-    //    private let headerBackgroundImageView: UIImageView = {
-    //        let imageView = UIImageView()
-    //        imageView.setupImageView(image: UIImage(named: Constants.headerBackgroundImageName),
-    //                                 radius: 0,
-    //                                 borderWidth: 0,
-    //                                 borderColor: .clear)
-    //        return imageView
-    //    }()
+    private let headerBackgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.setupImageView(image: UIImage(named: Constants.headerBackgroundImageName),
+                                 radius: 0,
+                                 borderWidth: 0,
+                                 borderColor: .clear)
+        return imageView
+    }()
     
 }
