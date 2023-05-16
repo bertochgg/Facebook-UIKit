@@ -2,31 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb1244537116174317</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>1244537116174317</string>
-    <key>FacebookDisplayName</key>
-    <string>Ultimate Social App</string>
-    
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
-    
-    <key>FacebookClientToken</key>
-    <string>774e4621959d33a66a5b1b59c488f0df</string>
-    
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1244537116174317</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1244537116174317</string>
+	<key>FacebookDisplayName</key>
+	<string>Ultimate Social App</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
+	<key>FacebookClientToken</key>
+	<string>774e4621959d33a66a5b1b59c488f0df</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Raleway-Medium.ttf</string>
@@ -34,6 +31,8 @@
 		<string>Raleway-Regular.ttf</string>
 		<string>Roboto-MediumItalic.ttf</string>
 		<string>Roboto-BoldItalic.ttf</string>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

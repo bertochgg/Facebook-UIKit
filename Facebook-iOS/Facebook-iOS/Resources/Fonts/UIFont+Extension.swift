@@ -14,8 +14,11 @@ private enum FontName: String, CaseIterable {
     case ralewayMedium = "Raleway-Medium"
     case ralewaySemiBold = "Raleway-SemiBold"
     case ralewayBold = "Raleway-Bold"
+    
     case robotoMediumItalic = "Roboto-MediumItalic"
+    case robotoBold = "Roboto-Bold"
     case robotoBoldItalic = "Roboto-BoldItalic"
+    case robotoRegular = "Roboto-Regular"
 }
 
 extension UIFont {
@@ -59,6 +62,30 @@ extension UIFont {
         guard let font = UIFont(name: FontName.robotoMediumItalic.rawValue, size: 24.0) else {
             assertionFailure("Font not found")
             return UIFont.systemFont(ofSize: 24.0, weight: UIFont.Weight(rawValue: 600) )
+        }
+        return font
+    }
+    
+    static var robotoBold14: UIFont {
+        guard let font = UIFont(name: FontName.robotoBold.rawValue, size: 14.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight(rawValue: 700) )
+        }
+        return font
+    }
+    
+    static var robotoRegular24: UIFont {
+        guard let font = UIFont(name: FontName.robotoRegular.rawValue, size: 24.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 24.0, weight: UIFont.Weight(rawValue: 400) )
+        }
+        return font
+    }
+    
+    static var robotoRegular14: UIFont {
+        guard let font = UIFont(name: FontName.robotoRegular.rawValue, size: 14.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight(rawValue: 400) )
         }
         return font
     }

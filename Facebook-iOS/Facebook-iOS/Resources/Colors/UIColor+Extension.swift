@@ -19,4 +19,12 @@ extension UIColor {
         return UIColor(hexString: "#1877F2") ?? .blue
     }
     
+    class var takeProfileImageGrayColor: UIColor {
+        return UIColor(hexString: "#DDDDDD") ?? .gray
+    }
+    
+    class var profileCameraIconBackgroundColor: UIColor {
+        return UIColor(hexString: "#000000") ?? .black
+    }
+    
 }

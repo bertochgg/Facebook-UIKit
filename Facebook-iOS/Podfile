@@ -20,6 +20,7 @@ def development_pods
   
   # Code-style
   pod 'SwiftLint', '~> 0.47.0'
+  pod 'UITextView+Placeholder'
   
 end
 
@@ -30,6 +31,7 @@ def testing_pods
   
   # Code-style
   pod 'SwiftLint', '~> 0.47.0'
+  pod 'UITextView+Placeholder'
 end
 
 abstract_target 'App' do
