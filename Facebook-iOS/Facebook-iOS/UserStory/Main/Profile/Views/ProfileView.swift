@@ -67,18 +67,35 @@ class ProfileView: UIView {
         subView.contentMode = .scaleAspectFill
         
         let customProfileImage = CustomImageView(frame: .zero)
-        customProfileImage.isUserInteractionEnabled = true
+        let customCameraImage = CustomImageView(frame: .zero)
+        
         subView.addSubview(customProfileImage)
+        subView.addSubview(customCameraImage)
         customProfileImage.translatesAutoresizingMaskIntoConstraints = false
         customProfileImage.centerXAnchor.constraint(equalTo: subView.centerXAnchor).isActive = true
+        customProfileImage.setupImageView(image: UIImage(named: Constants.profileImageName),
+                                                        radius: 25,
+                                                        borderWidth: 10,
+                                                        borderColor: .white)
+        
         let cameraSymbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
-        customProfileImage.setupChildImageView(image: UIImage(systemName: "camera.fill", withConfiguration: cameraSymbolConfiguration),
+        customCameraImage.setupChildImageView(image: UIImage(systemName: "camera.fill", withConfiguration: cameraSymbolConfiguration),
                             radius: 7,
                             backgroundColor: Constants.takeProfileImageCameraBackgroundColor,
                             opacity: 0.7,
                             imageColor: Constants.takeProfileImageCameraIconColor)
         
         customProfileImage.anchor(top: subView.topAnchor, paddingTop: 130, width: 180, height: 180)
+        customCameraImage.anchor(bottom: customProfileImage.bottomAnchor,
+                                 right: customProfileImage.rightAnchor,
+                                 paddingBottom: 21,
+                                 paddingRight: 21,
+                                 width: 26,
+                                 height: 28)
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(buttonTapped(_:)))
+        customCameraImage.isUserInteractionEnabled = true
+        customCameraImage.addGestureRecognizer(gesture)
         
         subView.addSubview(addPostButton)
         addPostButton.anchor(top: subView.topAnchor, left: subView.leftAnchor, paddingTop: 35, paddingLeft: 22)
@@ -99,6 +116,11 @@ class ProfileView: UIView {
         
         return subView
     }()
+    
+    @objc
+    func buttonTapped(_ sender: UITapGestureRecognizer) {
+        print("hola")
+    }
     
     lazy var addPostButton: UIButton = {
         let button = UIButton()

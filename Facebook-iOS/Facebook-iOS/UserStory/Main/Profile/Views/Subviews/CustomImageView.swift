@@ -19,19 +19,9 @@ protocol takeProfilePhotoDelegate: AnyObject {
 
 class CustomImageView: UIImageView {
     
-    private let childImageViewAsButton = UIImageView()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupImageViewWithChildImage(image: UIImage(named: Constants.profileImageName),
-                                     radius: 25,
-                                     borderWidth: 10,
-                                     borderColor: .white,
-                                     hasChildImage: true)
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedTakePhotoButton(_:)))
-        childImageViewAsButton.isUserInteractionEnabled = true
-        childImageViewAsButton.addGestureRecognizer(tapGestureRecognizer)
     }
     
     required init?(coder: NSCoder) {
@@ -40,15 +30,10 @@ class CustomImageView: UIImageView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        childImageViewAsButton.anchor(bottom: bottomAnchor,
-                                      right: rightAnchor,
-                                      paddingBottom: 21,
-                                      paddingRight: 21,
-                                      width: 26,
-                                      height: 28)
+        
     }
     
-    func setupImageViewWithChildImage(image: UIImage?, radius: CGFloat, borderWidth: CGFloat, borderColor: UIColor, hasChildImage: Bool) {
+    func setupImageView(image: UIImage?, radius: CGFloat, borderWidth: CGFloat, borderColor: UIColor) {
         self.image = image
         self.layer.cornerRadius = radius
         self.layer.borderWidth = borderWidth
@@ -57,26 +42,16 @@ class CustomImageView: UIImageView {
         self.contentMode = .scaleAspectFill
         self.clipsToBounds = true
         
-        if hasChildImage {
-            addSubview(childImageViewAsButton)
-        } else {
-            childImageViewAsButton.isHidden = true
-        }
     }
     
     func setupChildImageView(image: UIImage?, radius: CGFloat, backgroundColor: UIColor, opacity: Float, imageColor: UIColor) {
-        childImageViewAsButton.image = image
-        childImageViewAsButton.layer.cornerRadius = radius
-        childImageViewAsButton.backgroundColor = backgroundColor
-        childImageViewAsButton.tintColor = imageColor
-        childImageViewAsButton.layer.opacity = opacity
-        childImageViewAsButton.contentMode = .center
+        self.image = image
+        self.layer.cornerRadius = radius
+        self.backgroundColor = backgroundColor
+        self.tintColor = imageColor
+        self.layer.opacity = opacity
+        self.contentMode = .center
         
-    }
-    
-    @objc
-    func tappedTakePhotoButton(_ sender: UITapGestureRecognizer) {
-        print("I'll take button")
     }
     
 }
