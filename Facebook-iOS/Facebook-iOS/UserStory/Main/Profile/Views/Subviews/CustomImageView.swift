@@ -72,7 +72,6 @@ class CustomImageView: UIImageView {
         childImageViewAsButton.layer.opacity = opacity
         childImageViewAsButton.contentMode = .center
         
-        
     }
     
     @objc
