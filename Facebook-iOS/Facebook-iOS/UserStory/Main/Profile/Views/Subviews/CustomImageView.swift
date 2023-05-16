@@ -7,12 +7,6 @@
 
 import UIKit
 
-private enum Constants {
-    static let profileImageName = "Profile image"
-    static let headerBackgroundImageName = "Header Background Image"
-    
-}
-
 protocol takeProfilePhotoDelegate: AnyObject {
     func didTakePhotoButtonTapped()
 }
@@ -38,7 +32,6 @@ class CustomImageView: UIImageView {
         self.layer.cornerRadius = radius
         self.layer.borderWidth = borderWidth
         self.layer.borderColor = borderColor.cgColor
-        
         self.contentMode = .scaleAspectFill
         self.clipsToBounds = true
         
@@ -51,6 +44,7 @@ class CustomImageView: UIImageView {
         self.tintColor = imageColor
         self.layer.opacity = opacity
         self.contentMode = .center
+        self.clipsToBounds = true
         
     }
     

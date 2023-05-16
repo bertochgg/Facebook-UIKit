@@ -16,6 +16,7 @@ private enum Constants {
     static let takeProfileImageCameraIconColor = UIColor.profileCameraIconBackgroundColor
     
     // SF Symbols
+    static let cameraSymbol = "camera.fill"
 }
 
 protocol ProfileViewProtocol {
@@ -54,6 +55,50 @@ class ProfileView: UIView {
                                 left: mainView.leftAnchor,
                                 right: mainView.rightAnchor,
                                 height: 250)
+        let customProfileImage = CustomImageView(frame: .zero)
+        let customCameraImage = CustomImageView(frame: .zero)
+        
+        mainView.addSubview(customProfileImage)
+        mainView.addSubview(customCameraImage)
+        customProfileImage.setupImageView(image: UIImage(named: Constants.profileImageName),
+                                                        radius: 25,
+                                                        borderWidth: 10,
+                                                        borderColor: .white)
+        
+        let cameraSymbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
+        customCameraImage.setupChildImageView(image: UIImage(systemName: Constants.cameraSymbol, withConfiguration: cameraSymbolConfiguration),
+                            radius: 7,
+                            backgroundColor: Constants.takeProfileImageCameraBackgroundColor,
+                            opacity: 0.7,
+                            imageColor: Constants.takeProfileImageCameraIconColor)
+        
+        customProfileImage.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
+        customProfileImage.anchor(top: mainView.topAnchor, paddingTop: 228, width: 180, height: 180)
+        customCameraImage.anchor(bottom: customProfileImage.bottomAnchor,
+                                 right: customProfileImage.rightAnchor,
+                                 paddingBottom: 21,
+                                 paddingRight: 21,
+                                 width: 26,
+                                 height: 28)
+        
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(takePhotoButtonTapped(_:)))
+        bringSubviewToFront(customProfileImage)
+        customCameraImage.isUserInteractionEnabled = true
+        customCameraImage.addGestureRecognizer(gesture)
+        
+        mainView.addSubview(usernameLabel)
+        usernameLabel.anchor(top: customProfileImage.bottomAnchor,
+                             left: mainView.leftAnchor,
+                             right: mainView.rightAnchor,
+                             paddingTop: 15, paddingLeft: 27, paddingRight: 75)
+        
+        mainView.addSubview(userBioText)
+        userBioText.anchor(top: usernameLabel.bottomAnchor,
+                           left: mainView.leftAnchor,
+                           right: mainView.rightAnchor,
+                           paddingTop: 11, paddingLeft: 29, paddingRight: 18, height: 80)
+        
         return mainView
     }()
     
@@ -63,39 +108,10 @@ class ProfileView: UIView {
             return subView
         }
         
-        subView.backgroundColor = UIColor(patternImage: safeHeaderBackgroundImage)
-        subView.contentMode = .scaleAspectFill
-        
-        let customProfileImage = CustomImageView(frame: .zero)
-        let customCameraImage = CustomImageView(frame: .zero)
-        
-        subView.addSubview(customProfileImage)
-        subView.addSubview(customCameraImage)
-        customProfileImage.translatesAutoresizingMaskIntoConstraints = false
-        customProfileImage.centerXAnchor.constraint(equalTo: subView.centerXAnchor).isActive = true
-        customProfileImage.setupImageView(image: UIImage(named: Constants.profileImageName),
-                                                        radius: 25,
-                                                        borderWidth: 10,
-                                                        borderColor: .white)
-        
-        let cameraSymbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
-        customCameraImage.setupChildImageView(image: UIImage(systemName: "camera.fill", withConfiguration: cameraSymbolConfiguration),
-                            radius: 7,
-                            backgroundColor: Constants.takeProfileImageCameraBackgroundColor,
-                            opacity: 0.7,
-                            imageColor: Constants.takeProfileImageCameraIconColor)
-        
-        customProfileImage.anchor(top: subView.topAnchor, paddingTop: 130, width: 180, height: 180)
-        customCameraImage.anchor(bottom: customProfileImage.bottomAnchor,
-                                 right: customProfileImage.rightAnchor,
-                                 paddingBottom: 21,
-                                 paddingRight: 21,
-                                 width: 26,
-                                 height: 28)
-        let gesture = UITapGestureRecognizer()
-        gesture.addTarget(self, action: #selector(buttonTapped(_:)))
-        customCameraImage.isUserInteractionEnabled = true
-        customCameraImage.addGestureRecognizer(gesture)
+        let backgroundImageView = CustomImageView(frame: .zero)
+        subView.addSubview(backgroundImageView)
+        backgroundImageView.setupImageView(image: UIImage(named: Constants.headerBackgroundImageName), radius: 0, borderWidth: 0, borderColor: .clear)
+        backgroundImageView.anchor(top: subView.topAnchor, left: subView.leftAnchor, bottom: subView.bottomAnchor, right: subView.rightAnchor)
         
         subView.addSubview(addPostButton)
         addPostButton.anchor(top: subView.topAnchor, left: subView.leftAnchor, paddingTop: 35, paddingLeft: 22)
@@ -106,21 +122,8 @@ class ProfileView: UIView {
                             paddingTop: 32.25,
                             paddingRight: 28.25, width: 16.5, height: 15.5)
         
-        subView.addSubview(usernameLabel)
-        usernameLabel.anchor(top: subView.bottomAnchor, left: subView.leftAnchor, right: subView.rightAnchor, paddingTop: 75, paddingLeft: 27, paddingRight: 75)
-        
-        subView.addSubview(userBioText)
-        userBioText.anchor(top: usernameLabel.bottomAnchor,
-                           left: subView.leftAnchor,
-                           right: subView.rightAnchor, paddingTop: 11, paddingLeft: 29, paddingRight: 18, height: 80)
-        
         return subView
     }()
-    
-    @objc
-    func buttonTapped(_ sender: UITapGestureRecognizer) {
-        print("hola")
-    }
     
     lazy var addPostButton: UIButton = {
         let button = UIButton()
@@ -129,6 +132,7 @@ class ProfileView: UIView {
         button.titleLabel?.textColor = .white
         button.backgroundColor = .clear
         // Target action
+        button.addTarget(self, action: #selector(addPostsButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -136,6 +140,7 @@ class ProfileView: UIView {
         let button = UIButton()
         button.setImage(ImagesNames.logout?.withRenderingMode(.alwaysOriginal), for: .normal)
         // Target action
+        button.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -172,6 +177,21 @@ class ProfileView: UIView {
         textView.isSelectable = true
         return textView
     }()
+    
+    @objc
+    func addPostsButtonTapped() {
+        print("posts")
+    }
+    
+    @objc
+    func logoutButtonTapped() {
+        print("logout")
+    }
+    
+    @objc
+    func takePhotoButtonTapped(_ sender: UITapGestureRecognizer) {
+        print("taking photo...")
+    }
     
 }
 
