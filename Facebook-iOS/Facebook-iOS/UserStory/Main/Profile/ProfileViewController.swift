@@ -15,21 +15,58 @@ final class ProfileViewController: UIViewController {
     
     override func loadView() {
         view = profileView
+        profileViewModel.delegate = self
+        profileViewModel.fetchProfileData()
+        profileView.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemOrange
-        profileViewModel.delegate = self
-        profileViewModel.fetchProfileData()
+        
     }
-
+    
 }
 
 extension ProfileViewController: ProfileViewModelDelegate {
     
-    func didFetchProfileData() {
-        
+    func didFetchProfileData(profileData: UserProfileData) {
+        DispatchQueue.main.async { [weak self] in
+            // Update UI elements with the profile data
+            guard let safeProfileImageData = URL(string: profileData.picture.data.url) else {
+                return
+            }
+            self?.profileView.customProfileImage.downloadImage(from: safeProfileImageData)
+            self?.profileView.backgroundImageView.downloadImage(from: safeProfileImageData)
+            self?.profileView.usernameLabel.text = profileData.firstName + " " + profileData.lastName
+            
+            let bioText = profileData.about + " " + profileData.email
+            let highlightText = NSMutableAttributedString(string: bioText)
+            let linkRange = (bioText as NSString).range(of: profileData.email)
+            highlightText.addAttribute(.link, value: profileData.email, range: linkRange)
+            highlightText.addAttribute(.foregroundColor, value: UIColor.blue, range: linkRange)
+            self?.profileView.userBioText.delegate = self
+            self?.profileView.userBioText.attributedText = highlightText
+        }
     }
+    
+}
+
+extension ProfileViewController: ProfileLogoutDelegate {
+    func didLogoutTapped() {
+        self.profileViewModel.startLogout { result in
+            switch result {
+            case .success:
+                print("Profile view finishes, going to Sign In")
+                self.coordinator?.finish()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+}
+
+extension ProfileViewController: UITextViewDelegate {
     
 }

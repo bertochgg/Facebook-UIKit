@@ -19,12 +19,18 @@ private enum Constants {
     static let cameraSymbol = "camera.fill"
 }
 
+protocol ProfileLogoutDelegate: AnyObject {
+    func didLogoutTapped()
+}
+
 protocol ProfileViewProtocol {
-    func didTapLogout()
     func didTapAddPost()
+    func didTakePhotoButtonTapped()
 }
 
 class ProfileView: UIView {
+    
+    weak var delegate: ProfileLogoutDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,6 +51,10 @@ class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    let customProfileImage = CustomImageView(frame: .zero)
+    let customCameraImage = CustomImageView(frame: .zero)
+    let backgroundImageView = CustomImageView(frame: .zero)
+    
     lazy var containerView: UIView = {
         let mainView = UIView()
         mainView.backgroundColor = .white
@@ -55,8 +65,6 @@ class ProfileView: UIView {
                                 left: mainView.leftAnchor,
                                 right: mainView.rightAnchor,
                                 height: 250)
-        let customProfileImage = CustomImageView(frame: .zero)
-        let customCameraImage = CustomImageView(frame: .zero)
         
         mainView.addSubview(customProfileImage)
         mainView.addSubview(customCameraImage)
@@ -108,7 +116,6 @@ class ProfileView: UIView {
             return subView
         }
         
-        let backgroundImageView = CustomImageView(frame: .zero)
         subView.addSubview(backgroundImageView)
         backgroundImageView.setupImageView(image: UIImage(named: Constants.headerBackgroundImageName), radius: 0, borderWidth: 0, borderColor: .clear)
         backgroundImageView.anchor(top: subView.topAnchor, left: subView.leftAnchor, bottom: subView.bottomAnchor, right: subView.rightAnchor)
@@ -159,20 +166,7 @@ class ProfileView: UIView {
         textView.backgroundColor = .clear
         textView.placeholder = "Share who you are"
         textView.placeholderColor = .gray
-        // Set the text and create an attributed string
-        let bioText = "About text bla bla bla. Link to my web-site: https://www.youtube.com/ (up to 200 symbols)."
-        let attributedString = NSMutableAttributedString(string: bioText)
         
-        // Set the link attributes
-        let linkRange = (bioText as NSString).range(of: "https://www.youtube.com/")
-        attributedString.addAttribute(.link, value: "https://www.youtube.com/", range: linkRange)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: linkRange)
-        
-        // Delegate
-        textView.delegate = self
-        
-        // Apply the attributed string to the text view
-        textView.attributedText = attributedString
         textView.isEditable = true
         textView.isSelectable = true
         return textView
@@ -186,15 +180,12 @@ class ProfileView: UIView {
     @objc
     func logoutButtonTapped() {
         print("logout")
+        self.delegate?.didLogoutTapped()
     }
     
     @objc
     func takePhotoButtonTapped(_ sender: UITapGestureRecognizer) {
         print("taking photo...")
     }
-    
-}
-
-extension ProfileView: UITextViewDelegate {
     
 }

@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol takeProfilePhotoDelegate: AnyObject {
-    func didTakePhotoButtonTapped()
-}
-
 class CustomImageView: UIImageView {
     
     override init(frame: CGRect) {

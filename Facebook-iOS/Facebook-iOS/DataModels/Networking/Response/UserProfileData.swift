@@ -13,8 +13,9 @@ struct UserProfileData: Codable {
     let firstName: String
     let picture: Picture
     let lastName: String
+    let about: String = "Hello there, Grid Dynamics is great :D. Link to my website:"
     let birthday: String = "19/09/1997"
-    let email: String = "humberto@gmail.com"
+    let email: String = "https://www.humberto@gmail.com/"
     let ageRange: AgeRange?
 
     enum CodingKeys: String, CodingKey {
@@ -22,6 +23,7 @@ struct UserProfileData: Codable {
         case firstName = "first_name"
         case picture
         case lastName = "last_name"
+        case about
         case birthday
         case email
         case ageRange = "age_range"
