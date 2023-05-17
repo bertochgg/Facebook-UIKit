@@ -81,6 +81,10 @@ extension AppCoordinator: CoordinatorFinishDelegate {
         switch childCoordinator.type {
         case .tabBar:
             navigationController.viewControllers.removeAll()
+            let transition = CATransition()
+            transition.type = CATransitionType.push
+            transition.subtype = CATransitionSubtype.fromLeft
+            navigationController.view.layer.add(transition, forKey: nil)
             
             showSignIn()
         case .signIn:

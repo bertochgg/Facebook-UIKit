@@ -14,8 +14,6 @@ protocol TabCoordinatorProtocol: Coordinator, AnyObject {
     func setSelectedIndex(_ index: Int)
     func currentPage() -> TabBarOptions?
     
-    func showFeedScreen()
-    func showProfile()
 }
 
 class TabBarCoordinator: NSObject, Coordinator {
@@ -74,12 +72,15 @@ class TabBarCoordinator: NSObject, Coordinator {
                                                     image: ImagesNames.feed,
                                                     tag: page.pageOrderNumber())
             let feedCoordinator = FeedCoordinator(navigationController: navController)
+            self.childCoordinators.append(feedCoordinator)
             feedCoordinator.start()
         case .profile:
             navController.tabBarItem = UITabBarItem(title: page.pageTitleValue(),
                                                     image: ImagesNames.profile,
                                                     tag: page.pageOrderNumber())
             let profileCoordinator = ProfileCoordinator(navigationController: navController)
+            self.childCoordinators.append(profileCoordinator)
+            profileCoordinator.finishDelegate = self // Doc mistakes, childs are not self
             profileCoordinator.start()
             
         }
@@ -101,25 +102,6 @@ class TabBarCoordinator: NSObject, Coordinator {
         tabBarController.selectedIndex = page.pageOrderNumber()
     }
     
-    func showFeedScreen() {
-        guard let navigationController = navigationController else {
-            return
-        }
-        let feedCoordinator = FeedCoordinator(navigationController: navigationController)
-        feedCoordinator.finishDelegate = self
-        feedCoordinator.start()
-        childCoordinators.append(feedCoordinator)
-    }
-    
-    func showProfileScreen() {
-        guard let navigationController = navigationController else {
-            return
-        }
-        let profileCoordinator = ProfileCoordinator(navigationController: navigationController)
-        profileCoordinator.finishDelegate = self
-        profileCoordinator.start()
-        childCoordinators.append(profileCoordinator)
-    }
 }
 
 // MARK: - UITabBarControllerDelegate
@@ -132,7 +114,6 @@ extension TabBarCoordinator: UITabBarControllerDelegate {
 
 extension TabBarCoordinator: CoordinatorFinishDelegate {
     func coordinatorDidFinish(childCoordinator: any Coordinator) {
-        self.childCoordinators.removeAll()
         self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
     

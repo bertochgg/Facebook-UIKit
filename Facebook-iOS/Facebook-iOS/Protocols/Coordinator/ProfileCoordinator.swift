@@ -32,15 +32,13 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol {
     
     func showProfileViewController() {
         let profileViewController = ProfileViewController()
-        profileViewController.coordinator = self
+        profileViewController.profileFinishDelegate = self
         navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
 
-extension ProfileCoordinator: CoordinatorFinishDelegate {
-    func coordinatorDidFinish(childCoordinator: any Coordinator) {
-        childCoordinators.removeAll()
+extension ProfileCoordinator: ProfileCoordinatorFinishDelegate {
+    func didFinishProfileCoordinator() {
         self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
-        self.finish()
     }
 }

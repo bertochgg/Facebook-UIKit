@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol ProfileCoordinatorFinishDelegate: AnyObject {
+    func didFinishProfileCoordinator()
+}
+
 final class ProfileViewController: UIViewController {
     
-    weak var coordinator: (any ProfileCoordinatorProtocol)?
+    weak var profileFinishDelegate: ProfileCoordinatorFinishDelegate?
+    
     private let profileViewModel: ProfileViewModelProtocol = ProfileViewModel()
     private let profileView = ProfileView()
     
@@ -18,6 +23,7 @@ final class ProfileViewController: UIViewController {
         profileViewModel.delegate = self
         profileViewModel.fetchProfileData()
         profileView.delegate = self
+        
     }
     
     override func viewDidLoad() {
@@ -58,7 +64,7 @@ extension ProfileViewController: ProfileLogoutDelegate {
             switch result {
             case .success:
                 print("Profile view finishes, going to Sign In")
-                self.coordinator?.finish()
+                self.profileFinishDelegate?.didFinishProfileCoordinator()
             case .failure(let error):
                 print(error.localizedDescription)
             }
