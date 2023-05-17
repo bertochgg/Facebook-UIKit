@@ -77,7 +77,7 @@ class ProfileView: UIView {
         customCameraImage.backgroundColor = Constants.takeProfileImageCameraBackgroundColor
         customCameraImage.layer.opacity = 0.7
         customCameraImage.tintColor = Constants.takeProfileImageCameraIconColor
-        customCameraImage.contentEdgeInsets = UIEdgeInsets(top: 8.5, left: 4, bottom: 2.6, right: 4)
+        customCameraImage.contentEdgeInsets = UIEdgeInsets(top: 8.25, left: 4, bottom: 2.6, right: 4)
         
         customProfileImage.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         customProfileImage.anchor(top: mainView.topAnchor, paddingTop: 228, width: 180, height: 180)
