@@ -68,7 +68,7 @@ class ProfileView: UIView {
         mainView.addSubview(customCameraImage)
         customProfileImage.setupImageView(image: UIImage(named: Constants.profileImageName),
                                           radius: 25,
-                                          borderWidth: 10,
+                                          borderWidth: 5,
                                           borderColor: .white)
         
         let cameraSymbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
@@ -86,6 +86,7 @@ class ProfileView: UIView {
                                  paddingRight: 16,
                                  width: 25,
                                  height: 25)
+        customCameraImage.contentMode = .bottom
         
         let gesture = UITapGestureRecognizer()
         gesture.addTarget(self, action: #selector(takePhotoButtonTapped(_:)))
@@ -96,7 +97,8 @@ class ProfileView: UIView {
         mainView.addSubview(usernameLabel)
         usernameLabel.anchor(top: customProfileImage.bottomAnchor,
                              left: mainView.leftAnchor,
-                             paddingTop: 15, paddingLeft: 27)
+                             right: mainView.rightAnchor,
+                             paddingTop: 15, paddingLeft: 27, paddingRight: 75)
         
         mainView.addSubview(userBioText)
         userBioText.anchor(top: usernameLabel.bottomAnchor,
@@ -153,7 +155,8 @@ class ProfileView: UIView {
         label.font = UIFont.robotoRegular24
         label.textColor = .black
         label.text = "Name of the page"
-        label.numberOfLines = 1
+        label.numberOfLines = 3
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     

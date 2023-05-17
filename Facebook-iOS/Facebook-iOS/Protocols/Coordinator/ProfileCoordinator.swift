@@ -13,7 +13,7 @@ protocol ProfileCoordinatorProtocol: Coordinator {
 
 final class ProfileCoordinator: ProfileCoordinatorProtocol {
     
-    var finishDelegate: CoordinatorFinishDelegate?
+    weak var finishDelegate: CoordinatorFinishDelegate?
     var navigationController: UINavigationController?
     var childCoordinators: [any Coordinator] = []
     var type: CoordinatorType { .myProfile }

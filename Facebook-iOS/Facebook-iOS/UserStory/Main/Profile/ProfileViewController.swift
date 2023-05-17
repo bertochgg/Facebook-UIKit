@@ -17,11 +17,11 @@ final class ProfileViewController: UIViewController {
     
     private let profileViewModel: ProfileViewModelProtocol = ProfileViewModel()
     private let profileView = ProfileView()
+    private var isLoadingData = true
     
     override func loadView() {
         view = profileView
         profileViewModel.delegate = self
-        profileViewModel.fetchProfileData()
         profileView.delegate = self
         
     }
@@ -29,7 +29,8 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemOrange
-        
+        profileViewModel.fetchProfileData()
+        profileView.isHidden = isLoadingData
     }
     
 }
@@ -53,6 +54,9 @@ extension ProfileViewController: ProfileViewModelDelegate {
             highlightText.addAttribute(.foregroundColor, value: UIColor.blue, range: linkRange)
             self?.profileView.userBioText.delegate = self
             self?.profileView.userBioText.attributedText = highlightText
+            
+            self?.isLoadingData = false
+            self?.profileView.isHidden = false
         }
     }
     

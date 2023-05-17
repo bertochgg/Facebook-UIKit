@@ -13,7 +13,7 @@ protocol SignInCoordinatorProtocol: Coordinator {
 
 class SignInCoordinator: SignInCoordinatorProtocol {
     
-    var finishDelegate: CoordinatorFinishDelegate?
+    weak var finishDelegate: CoordinatorFinishDelegate?
     var navigationController: UINavigationController?
     var childCoordinators: [any Coordinator] = []
     var type: CoordinatorType { .signIn }

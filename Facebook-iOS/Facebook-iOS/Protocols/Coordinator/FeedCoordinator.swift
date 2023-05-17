@@ -13,7 +13,7 @@ protocol FeedCoordinatorProtocol: Coordinator {
 
 final class FeedCoordinator: FeedCoordinatorProtocol {
     
-    var finishDelegate: CoordinatorFinishDelegate?
+    weak var finishDelegate: CoordinatorFinishDelegate?
     var navigationController: UINavigationController?
     var childCoordinators: [any Coordinator] = []
     var type: CoordinatorType { .feed }
