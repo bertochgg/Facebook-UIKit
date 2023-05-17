@@ -50,7 +50,7 @@ class ProfileView: UIView {
     }
     
     let customProfileImage = CustomImageView(frame: .zero)
-    let customCameraImage = CustomImageView(frame: .zero)
+    let customCameraImage = UIButton()
     let backgroundImageView = CustomImageView(frame: .zero)
     
     lazy var containerView: UIView = {
@@ -72,11 +72,12 @@ class ProfileView: UIView {
                                           borderColor: .white)
         
         let cameraSymbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
-        customCameraImage.setupChildImageView(image: ImagesNames.camera,
-                                              radius: 7,
-                                              backgroundColor: Constants.takeProfileImageCameraBackgroundColor,
-                                              opacity: 0.7,
-                                              imageColor: Constants.takeProfileImageCameraIconColor)
+        customCameraImage.setImage(ImagesNames.camera, for: .normal)
+        customCameraImage.layer.cornerRadius = 7
+        customCameraImage.backgroundColor = Constants.takeProfileImageCameraBackgroundColor
+        customCameraImage.layer.opacity = 0.7
+        customCameraImage.tintColor = Constants.takeProfileImageCameraIconColor
+        customCameraImage.contentEdgeInsets = UIEdgeInsets(top: 8.5, left: 4, bottom: 2.6, right: 4)
         
         customProfileImage.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         customProfileImage.anchor(top: mainView.topAnchor, paddingTop: 228, width: 180, height: 180)
@@ -86,13 +87,7 @@ class ProfileView: UIView {
                                  paddingRight: 16,
                                  width: 25,
                                  height: 25)
-        customCameraImage.contentMode = .bottom
-        
-        let gesture = UITapGestureRecognizer()
-        gesture.addTarget(self, action: #selector(takePhotoButtonTapped(_:)))
-        bringSubviewToFront(customProfileImage)
-        customCameraImage.isUserInteractionEnabled = true
-        customCameraImage.addGestureRecognizer(gesture)
+        customCameraImage.addTarget(self, action: #selector(takePhotoButtonTapped), for: .touchUpInside)
         
         mainView.addSubview(usernameLabel)
         usernameLabel.anchor(top: customProfileImage.bottomAnchor,
@@ -187,7 +182,7 @@ class ProfileView: UIView {
     }
     
     @objc
-    func takePhotoButtonTapped(_ sender: UITapGestureRecognizer) {
+    func takePhotoButtonTapped() {
         print("taking photo...")
     }
     
