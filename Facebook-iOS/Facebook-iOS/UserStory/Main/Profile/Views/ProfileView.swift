@@ -15,8 +15,6 @@ private enum Constants {
     static let takeProfileImageCameraBackgroundColor = UIColor.takeProfileImageGrayColor
     static let takeProfileImageCameraIconColor = UIColor.profileCameraIconBackgroundColor
     
-    // SF Symbols
-    static let cameraSymbol = "camera.fill"
 }
 
 protocol ProfileLogoutDelegate: AnyObject {
@@ -69,25 +67,25 @@ class ProfileView: UIView {
         mainView.addSubview(customProfileImage)
         mainView.addSubview(customCameraImage)
         customProfileImage.setupImageView(image: UIImage(named: Constants.profileImageName),
-                                                        radius: 25,
-                                                        borderWidth: 10,
-                                                        borderColor: .white)
+                                          radius: 25,
+                                          borderWidth: 10,
+                                          borderColor: .white)
         
         let cameraSymbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
-        customCameraImage.setupChildImageView(image: UIImage(systemName: Constants.cameraSymbol, withConfiguration: cameraSymbolConfiguration),
-                            radius: 7,
-                            backgroundColor: Constants.takeProfileImageCameraBackgroundColor,
-                            opacity: 0.7,
-                            imageColor: Constants.takeProfileImageCameraIconColor)
+        customCameraImage.setupChildImageView(image: ImagesNames.camera,
+                                              radius: 7,
+                                              backgroundColor: Constants.takeProfileImageCameraBackgroundColor,
+                                              opacity: 0.7,
+                                              imageColor: Constants.takeProfileImageCameraIconColor)
         
         customProfileImage.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         customProfileImage.anchor(top: mainView.topAnchor, paddingTop: 228, width: 180, height: 180)
         customCameraImage.anchor(bottom: customProfileImage.bottomAnchor,
                                  right: customProfileImage.rightAnchor,
-                                 paddingBottom: 21,
-                                 paddingRight: 21,
-                                 width: 26,
-                                 height: 28)
+                                 paddingBottom: 16,
+                                 paddingRight: 16,
+                                 width: 25,
+                                 height: 25)
         
         let gesture = UITapGestureRecognizer()
         gesture.addTarget(self, action: #selector(takePhotoButtonTapped(_:)))
@@ -99,13 +97,13 @@ class ProfileView: UIView {
         usernameLabel.anchor(top: customProfileImage.bottomAnchor,
                              left: mainView.leftAnchor,
                              right: mainView.rightAnchor,
-                             paddingTop: 15, paddingLeft: 27, paddingRight: 75)
+                             paddingTop: 15, paddingLeft: 27, paddingRight: 27)
         
         mainView.addSubview(userBioText)
         userBioText.anchor(top: usernameLabel.bottomAnchor,
                            left: mainView.leftAnchor,
                            right: mainView.rightAnchor,
-                           paddingTop: 11, paddingLeft: 29, paddingRight: 18, height: 80)
+                           paddingTop: 11, paddingLeft: 29, paddingRight: 18, height: 56)
         
         return mainView
     }()
@@ -126,8 +124,8 @@ class ProfileView: UIView {
         subView.addSubview(logoutButton)
         logoutButton.anchor(top: subView.topAnchor,
                             right: subView.rightAnchor,
-                            paddingTop: 32.25,
-                            paddingRight: 28.25, width: 16.5, height: 15.5)
+                            paddingTop: 28,
+                            paddingRight: 24, width: 24, height: 24)
         
         return subView
     }()

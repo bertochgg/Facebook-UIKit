@@ -36,3 +36,11 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol {
         navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
+
+extension ProfileCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: any Coordinator) {
+        childCoordinators.removeAll()
+        self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+        self.finish()
+    }
+}

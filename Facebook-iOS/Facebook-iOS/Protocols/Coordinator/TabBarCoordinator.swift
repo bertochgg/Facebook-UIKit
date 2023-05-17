@@ -20,7 +20,7 @@ protocol TabCoordinatorProtocol: Coordinator, AnyObject {
 
 class TabBarCoordinator: NSObject, Coordinator {
     
-    weak var finishDelegate: CoordinatorFinishDelegate?
+    var finishDelegate: CoordinatorFinishDelegate?
     var childCoordinators: [any Coordinator] = []
     var navigationController: UINavigationController?
     var tabBarController: UITabBarController
@@ -49,7 +49,7 @@ class TabBarCoordinator: NSObject, Coordinator {
         // Assign page's controllers
         tabBarController.setViewControllers(tabControllers, animated: true)
         // Let set index
-        tabBarController.selectedIndex = TabBarOptions.feed.pageOrderNumber()
+        tabBarController.selectedIndex = TabBarOptions.profile.pageOrderNumber()
         // Styling
         tabBarController.tabBar.isTranslucent = false
         tabBarController.tabBar.backgroundColor = .white
@@ -65,7 +65,7 @@ class TabBarCoordinator: NSObject, Coordinator {
     
     private func getTabController(_ page: TabBarOptions) -> UINavigationController {
         let navController = UINavigationController()
-        navController.setNavigationBarHidden(false, animated: true)
+        navController.setNavigationBarHidden(true, animated: true)
         
         switch page {
         case .feed:
@@ -132,23 +132,8 @@ extension TabBarCoordinator: UITabBarControllerDelegate {
 
 extension TabBarCoordinator: CoordinatorFinishDelegate {
     func coordinatorDidFinish(childCoordinator: any Coordinator) {
-        guard let navigationController = navigationController else {
-            return
-        }
-
-        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
-
-        switch childCoordinator.type {
-        case .feed:
-            navigationController.viewControllers.removeAll()
-
-            showFeedScreen()
-        case .myProfile:
-            navigationController.viewControllers.removeAll()
-
-            showProfileScreen()
-        default:
-            break
-        }
+        self.childCoordinators.removeAll()
+        self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
+    
 }
