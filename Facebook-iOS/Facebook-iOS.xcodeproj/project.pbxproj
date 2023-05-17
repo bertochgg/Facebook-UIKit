@@ -40,6 +40,7 @@
 		5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2572A09A98700349063 /* ProfileViewModel.swift */; };
 		5F8DEB722A0D8DBF002B8835 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */; };
 		5F8DEB742A0DA500002B8835 /* UIView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */; };
+		5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */; };
 		5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */; };
 		5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217729FC222D003AC04E /* FacebookAuthService.swift */; };
 		5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */; };
@@ -69,6 +70,7 @@
 		5FDD99322A0BFE8E0091285C /* ProfileNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD99312A0BFE8E0091285C /* ProfileNetworkService.swift */; };
 		5FDD99342A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD99332A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift */; };
 		5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */; };
+		5FF4DE9A2A159779002F16C3 /* CustomProfileLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4DE992A159779002F16C3 /* CustomProfileLabel.swift */; };
 		61C181CCF1F7735CEDAB988D /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B0769E5513789A098B1E06 /* Pods_App_Facebook_iOS.framework */; };
 		B032E04476ADF3C218F4B0A4 /* Pods_App_Facebook_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3712D4409C66C44EF8F8F67 /* Pods_App_Facebook_iOSUITests.framework */; };
 		DC0C2845F5CC992B49280B68 /* Pods_App_Facebook_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC3A1A075D7C5B540D36784C /* Pods_App_Facebook_iOSTests.framework */; };
@@ -130,6 +132,7 @@
 		5F76A2572A09A98700349063 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Padding.swift"; sourceTree = "<group>"; };
+		5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileButtons.swift; sourceTree = "<group>"; };
 		5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5FD0217729FC222D003AC04E /* FacebookAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthService.swift; sourceTree = "<group>"; };
 		5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthServiceProtocol.swift; sourceTree = "<group>"; };
@@ -160,6 +163,7 @@
 		5FDD99312A0BFE8E0091285C /* ProfileNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkService.swift; sourceTree = "<group>"; };
 		5FDD99332A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		5FF4DE992A159779002F16C3 /* CustomProfileLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileLabel.swift; sourceTree = "<group>"; };
 		7E05FEFB5EC52FFA0886D0B1 /* Pods-App-Facebook-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		835884B22417993333F3A885 /* Pods-App-Facebook-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOS.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOS/Pods-App-Facebook-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		A5A62398235DFA42D9783365 /* Pods-App-Facebook-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -458,6 +462,8 @@
 			isa = PBXGroup;
 			children = (
 				5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */,
+				5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */,
+				5FF4DE992A159779002F16C3 /* CustomProfileLabel.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -950,10 +956,12 @@
 				5FD175D52A0B6323008C5A4B /* UserProfileData.swift in Sources */,
 				5F30BE412A12EF3E00BF3F0B /* UIImage+DownloadImage.swift in Sources */,
 				5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */,
+				5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */,
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
 				5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */,
 				5FD923A529F99AF000633203 /* UIColor+Hex.swift in Sources */,
+				5FF4DE9A2A159779002F16C3 /* CustomProfileLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

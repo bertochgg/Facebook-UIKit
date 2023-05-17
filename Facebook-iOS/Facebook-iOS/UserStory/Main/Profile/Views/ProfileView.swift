@@ -30,6 +30,15 @@ class ProfileView: UIView {
     
     weak var delegate: ProfileLogoutDelegate?
     
+    let customProfileImage = CustomImageView(frame: .zero)
+    let customCameraImageButton = CustomProfileButtons(frame: .zero)
+    let backgroundImageView = CustomImageView(frame: .zero)
+    
+    let addPostButton = CustomProfileButtons(frame: .zero)
+    let logoutButton = CustomProfileButtons(frame: .zero)
+    
+    let usernameLabel = CustomProfileLabel(frame: .zero)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,18 +49,9 @@ class ProfileView: UIView {
                              right: rightAnchor)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    let customProfileImage = CustomImageView(frame: .zero)
-    let customCameraImage = UIButton()
-    let backgroundImageView = CustomImageView(frame: .zero)
     
     lazy var containerView: UIView = {
         let mainView = UIView()
@@ -65,31 +65,37 @@ class ProfileView: UIView {
                                 height: 250)
         
         mainView.addSubview(customProfileImage)
-        mainView.addSubview(customCameraImage)
         customProfileImage.setupImageView(image: UIImage(named: Constants.profileImageName),
                                           radius: 25,
                                           borderWidth: 5,
                                           borderColor: .white)
+        mainView.addSubview(customCameraImageButton)
+        if let cameraIcon = ImagesNames.camera {
+            customCameraImageButton.setupButtonWithImge(image: cameraIcon,
+                                                        backgroundColor: Constants.takeProfileImageCameraBackgroundColor,
+                                                        radius: 7,
+                                                        opacity: 0.7,
+                                                        tintColor: Constants.takeProfileImageCameraIconColor)
+        }
         
-        let cameraSymbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
-        customCameraImage.setImage(ImagesNames.camera, for: .normal)
-        customCameraImage.layer.cornerRadius = 7
-        customCameraImage.backgroundColor = Constants.takeProfileImageCameraBackgroundColor
-        customCameraImage.layer.opacity = 0.7
-        customCameraImage.tintColor = Constants.takeProfileImageCameraIconColor
-        customCameraImage.contentEdgeInsets = UIEdgeInsets(top: 8.25, left: 4, bottom: 2.6, right: 4)
+        customCameraImageButton.contentEdgeInsets = UIEdgeInsets(top: 8.25, left: 4, bottom: 2.6, right: 4)
         
         customProfileImage.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
-        customProfileImage.anchor(top: mainView.topAnchor, paddingTop: 228, width: 180, height: 180)
-        customCameraImage.anchor(bottom: customProfileImage.bottomAnchor,
-                                 right: customProfileImage.rightAnchor,
-                                 paddingBottom: 16,
-                                 paddingRight: 16,
-                                 width: 25,
-                                 height: 25)
-        customCameraImage.addTarget(self, action: #selector(takePhotoButtonTapped), for: .touchUpInside)
+        customProfileImage.anchor(top: mainView.topAnchor, paddingTop: 190, width: 180, height: 180)
+        customCameraImageButton.anchor(bottom: customProfileImage.bottomAnchor,
+                                       right: customProfileImage.rightAnchor,
+                                       paddingBottom: 16,
+                                       paddingRight: 16,
+                                       width: 25,
+                                       height: 25)
+        customCameraImageButton.addTarget(self, action: #selector(takePhotoButtonTapped), for: .touchUpInside)
         
         mainView.addSubview(usernameLabel)
+        usernameLabel.setupLabel(font: UIFont.robotoRegular24,
+                                 textColor: .black,
+                                 backgroundColor: .clear)
+        usernameLabel.numberOfLines = 1
+        usernameLabel.adjustsFontSizeToFitWidth = true
         usernameLabel.anchor(top: customProfileImage.bottomAnchor,
                              left: mainView.leftAnchor,
                              right: mainView.rightAnchor,
@@ -115,44 +121,29 @@ class ProfileView: UIView {
         backgroundImageView.anchor(top: subView.topAnchor, left: subView.leftAnchor, bottom: subView.bottomAnchor, right: subView.rightAnchor)
         
         subView.addSubview(addPostButton)
+        addPostButton.setupButton(title: "Add Post",
+                                  font: UIFont.robotoBold14,
+                                  textColor: .white,
+                                  backgroundColor: .clear,
+                                  radius: 0)
+        addPostButton.addTarget(self, action: #selector(addPostsButtonTapped), for: .touchUpInside)
         addPostButton.anchor(top: subView.topAnchor, left: subView.leftAnchor, paddingTop: 35, paddingLeft: 22)
         
         subView.addSubview(logoutButton)
+        if let logoutImage = ImagesNames.logout {
+            logoutButton.setupButtonWithImge(image: logoutImage,
+                                             backgroundColor: .clear,
+                                             radius: 0,
+                                             opacity: 1,
+                                             tintColor: .white)
+        }
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         logoutButton.anchor(top: subView.topAnchor,
                             right: subView.rightAnchor,
                             paddingTop: 28,
                             paddingRight: 24, width: 24, height: 24)
         
         return subView
-    }()
-    
-    lazy var addPostButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Add Post", for: .normal)
-        button.titleLabel?.font = UIFont.robotoBold14
-        button.titleLabel?.textColor = .white
-        button.backgroundColor = .clear
-        // Target action
-        button.addTarget(self, action: #selector(addPostsButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var logoutButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImagesNames.logout?.withRenderingMode(.alwaysOriginal), for: .normal)
-        // Target action
-        button.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var usernameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.robotoRegular24
-        label.textColor = .black
-        label.text = "Name of the page"
-        label.numberOfLines = 3
-        label.adjustsFontSizeToFitWidth = true
-        return label
     }()
     
     lazy var userBioText: UITextView = {
@@ -163,8 +154,9 @@ class ProfileView: UIView {
         textView.placeholder = "Share who you are"
         textView.placeholderColor = .gray
         let padding = textView.textContainer.lineFragmentPadding
-        textView.textContainerInset =  UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
-        
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
+        textView.adjustsFontForContentSizeCategory = true
+        textView.minimumZoomScale = 0.5
         textView.isEditable = true
         textView.isSelectable = true
         return textView

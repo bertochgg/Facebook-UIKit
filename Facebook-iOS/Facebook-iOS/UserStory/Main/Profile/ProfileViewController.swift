@@ -7,17 +7,11 @@
 
 import UIKit
 
-protocol ProfileCoordinatorFinishDelegate: AnyObject {
-    func didFinishProfileCoordinator()
-}
-
 final class ProfileViewController: UIViewController {
     
-    weak var profileFinishDelegate: ProfileCoordinatorFinishDelegate?
-    
+    weak var coordinator: (any ProfileCoordinatorProtocol)?
     private let profileViewModel: ProfileViewModelProtocol = ProfileViewModel()
     private let profileView = ProfileView()
-    private var isLoadingData = true
     
     override func loadView() {
         view = profileView
@@ -30,7 +24,6 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemOrange
         profileViewModel.fetchProfileData()
-        profileView.isHidden = isLoadingData
     }
     
 }
@@ -54,9 +47,6 @@ extension ProfileViewController: ProfileViewModelDelegate {
             highlightText.addAttribute(.foregroundColor, value: UIColor.blue, range: linkRange)
             self?.profileView.userBioText.delegate = self
             self?.profileView.userBioText.attributedText = highlightText
-            
-            self?.isLoadingData = false
-            self?.profileView.isHidden = false
         }
     }
     
@@ -68,7 +58,7 @@ extension ProfileViewController: ProfileLogoutDelegate {
             switch result {
             case .success:
                 print("Profile view finishes, going to Sign In")
-                self.profileFinishDelegate?.didFinishProfileCoordinator()
+                self.coordinator?.finish()
             case .failure(let error):
                 print(error.localizedDescription)
             }
