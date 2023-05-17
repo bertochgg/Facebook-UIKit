@@ -96,8 +96,7 @@ class ProfileView: UIView {
         mainView.addSubview(usernameLabel)
         usernameLabel.anchor(top: customProfileImage.bottomAnchor,
                              left: mainView.leftAnchor,
-                             right: mainView.rightAnchor,
-                             paddingTop: 15, paddingLeft: 27, paddingRight: 27)
+                             paddingTop: 15, paddingLeft: 27)
         
         mainView.addSubview(userBioText)
         userBioText.anchor(top: usernameLabel.bottomAnchor,
@@ -154,6 +153,7 @@ class ProfileView: UIView {
         label.font = UIFont.robotoRegular24
         label.textColor = .black
         label.text = "Name of the page"
+        label.numberOfLines = 1
         return label
     }()
     
@@ -164,6 +164,8 @@ class ProfileView: UIView {
         textView.backgroundColor = .clear
         textView.placeholder = "Share who you are"
         textView.placeholderColor = .gray
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset =  UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
         
         textView.isEditable = true
         textView.isSelectable = true
