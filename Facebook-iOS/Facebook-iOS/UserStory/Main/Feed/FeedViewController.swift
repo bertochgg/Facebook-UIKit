@@ -17,6 +17,7 @@ final class FeedViewController: UIViewController {
         
         view.backgroundColor = .systemPink
         feedViewModel.delegate = self
+        feedViewModel.fetchFeedData()
     }
     
 }

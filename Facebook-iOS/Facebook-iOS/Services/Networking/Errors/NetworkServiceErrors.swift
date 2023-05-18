@@ -1,10 +1,10 @@
 //
-//  ProfileNetworkServiceProtocol.swift
+//  NetworkServiceErrors.swift
 //  Facebook-iOS
 //
-//  Created by Humberto Garcia on 10/05/23.
+//  Created by Humberto Garcia on 18/05/23.
 //
-import FBSDKCoreKit
+
 import Foundation
 
 enum NetworkServiceErrors: Error {
@@ -28,8 +28,4 @@ enum NetworkServiceErrors: Error {
             return "No connection to any network detected, please verify wi-fi connection."
         }
     }
-}
-
-protocol ProfileNetworkServiceProtocol {
-    func fetchProfileData(completion: @escaping (Result<UserProfileData, NetworkServiceErrors>) -> Void)
 }

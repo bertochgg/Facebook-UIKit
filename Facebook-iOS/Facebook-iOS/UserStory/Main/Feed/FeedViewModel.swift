@@ -17,9 +17,21 @@ protocol FeedViewModelProtocol: AnyObject {
 }
 
 final class FeedViewModel: FeedViewModelProtocol {
+    
     weak var delegate: FeedViewModelDelegate?
+    private let feedNetworkService: FeedNetworkServiceProtocol = FeedNetworkService()
     
     func fetchFeedData() {
-        
+        feedNetworkService.fetchFeedData { result in
+            switch result {
+            case .success(let feedData):
+                for idx in 0..<3 {
+                    print(feedData.data[idx])
+                }
+            case .failure(let error):
+                print("Error fetching user profile data: \(NetworkServiceErrors.decodingFailed)")
+                print(error.localizedDescription)
+            }
+        }
     }
 }
