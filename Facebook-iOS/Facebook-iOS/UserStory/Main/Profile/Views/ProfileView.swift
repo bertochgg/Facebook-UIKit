@@ -25,15 +25,16 @@ protocol ProfileViewProtocolDelegates {
     func didTakePhotoButtonTapped()
 }
 
-protocol ProfileViewProtocol {
+private protocol ProfileViewProtocol {
     var delegate: ProfileLogoutDelegate? { get set }
+    
     var customProfileImage: CustomImageView { get }
     var customCameraImageButton: CustomProfileButtons { get }
     var backgroundImageView: CustomImageView { get }
     var addPostButton: CustomProfileButtons { get }
     var logoutButton: CustomProfileButtons { get }
     var usernameLabel: CustomProfileLabel { get }
-    var userBioText: UITextView { get }
+    var userBioTextView: UITextView { get set }
     
     var containerView: UIView { get }
     var subContainerView: UIView { get }
@@ -49,14 +50,49 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
     
     weak var delegate: ProfileLogoutDelegate?
     
-    let customProfileImage = CustomImageView(frame: .zero)
-    let customCameraImageButton = CustomProfileButtons(frame: .zero)
-    let backgroundImageView = CustomImageView(frame: .zero)
+    var profileImageURL: URL? {
+        didSet {
+            if let imageURL = profileImageURL {
+                customProfileImage.downloadImage(from: imageURL)
+            }
+        }
+    }
     
-    let addPostButton = CustomProfileButtons(frame: .zero)
-    let logoutButton = CustomProfileButtons(frame: .zero)
+    var backgroundImageURL: URL? {
+        didSet {
+            guard let imageURL = backgroundImageURL else { return }
+            backgroundImageView.downloadImage(from: imageURL)
+        }
+    }
     
-    let usernameLabel = CustomProfileLabel(frame: .zero)
+    var username: String? {
+        didSet {
+            usernameLabel.text = username
+        }
+    }
+    
+    var userBio: (text: String, email: String)? {
+        didSet {
+            guard let text = userBio?.text, let email = userBio?.email else { return }
+            let bioText = text + " " + email
+            let highlightText = NSMutableAttributedString(string: bioText)
+            let linkRange = (bioText as NSString).range(of: email)
+            highlightText.addAttribute(.link, value: email, range: linkRange)
+            highlightText.addAttribute(.foregroundColor, value: UIColor.blue, range: linkRange)
+            userBioTextView.delegate = self
+            userBioTextView.attributedText = highlightText
+        }
+    }
+    
+    fileprivate let customProfileImage = CustomImageView(frame: .zero)
+    fileprivate let customCameraImageButton = CustomProfileButtons(frame: .zero)
+    fileprivate let backgroundImageView = CustomImageView(frame: .zero)
+    
+    fileprivate let addPostButton = CustomProfileButtons(frame: .zero)
+    fileprivate let logoutButton = CustomProfileButtons(frame: .zero)
+    
+    fileprivate let usernameLabel = CustomProfileLabel(frame: .zero)
+    fileprivate var userBioTextView = UITextView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -119,11 +155,20 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
                              right: mainView.rightAnchor,
                              paddingTop: 15, paddingLeft: 27, paddingRight: 75)
         
-        mainView.addSubview(userBioText)
-        userBioText.anchor(top: usernameLabel.bottomAnchor,
-                           left: mainView.leftAnchor,
-                           right: mainView.rightAnchor,
-                           paddingTop: 11, paddingLeft: 29, paddingRight: 18, height: 56)
+        mainView.addSubview(userBioTextView)
+        userBioTextView.font = UIFont.robotoRegular14
+        userBioTextView.textColor = .black
+        userBioTextView.backgroundColor = .clear
+        userBioTextView.placeholder = "Share who you are"
+        userBioTextView.placeholderColor = .gray
+        let padding = userBioTextView.textContainer.lineFragmentPadding
+        userBioTextView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
+        userBioTextView.isEditable = true
+        userBioTextView.isSelectable = true
+        userBioTextView.anchor(top: usernameLabel.bottomAnchor,
+                               left: mainView.leftAnchor,
+                               right: mainView.rightAnchor,
+                               paddingTop: 11, paddingLeft: 29, paddingRight: 18, height: 56)
         
         return mainView
     }()
@@ -164,22 +209,6 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
         return subView
     }()
     
-    lazy var userBioText: UITextView = {
-        let textView = UITextView()
-        textView.font = UIFont.robotoRegular14
-        textView.textColor = .black
-        textView.backgroundColor = .clear
-        textView.placeholder = "Share who you are"
-        textView.placeholderColor = .gray
-        let padding = textView.textContainer.lineFragmentPadding
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
-        textView.adjustsFontForContentSizeCategory = true
-        textView.minimumZoomScale = 0.5
-        textView.isEditable = true
-        textView.isSelectable = true
-        return textView
-    }()
-    
     @objc
     func addPostsButtonTapped() {
         print("posts")
@@ -195,5 +224,9 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
     func takePhotoButtonTapped() {
         print("taking photo...")
     }
+    
+}
+
+extension ProfileView: UITextViewDelegate {
     
 }

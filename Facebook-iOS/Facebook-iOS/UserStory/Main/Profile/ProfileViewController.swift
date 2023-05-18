@@ -36,17 +36,10 @@ extension ProfileViewController: ProfileViewModelDelegate {
             guard let safeProfileImageData = URL(string: profileData.picture.data.url) else {
                 return
             }
-            self?.profileView.customProfileImage.downloadImage(from: safeProfileImageData)
-            self?.profileView.backgroundImageView.downloadImage(from: safeProfileImageData)
-            self?.profileView.usernameLabel.text = profileData.firstName + " " + profileData.lastName
-            
-            let bioText = profileData.about + " " + profileData.email
-            let highlightText = NSMutableAttributedString(string: bioText)
-            let linkRange = (bioText as NSString).range(of: profileData.email)
-            highlightText.addAttribute(.link, value: profileData.email, range: linkRange)
-            highlightText.addAttribute(.foregroundColor, value: UIColor.blue, range: linkRange)
-            self?.profileView.userBioText.delegate = self
-            self?.profileView.userBioText.attributedText = highlightText
+            self?.profileView.profileImageURL = safeProfileImageData
+            self?.profileView.backgroundImageURL = safeProfileImageData
+            self?.profileView.username = profileData.firstName + " " + profileData.lastName
+            self?.profileView.userBio = (text: profileData.about, email: profileData.email)
         }
     }
     
@@ -64,9 +57,5 @@ extension ProfileViewController: ProfileLogoutDelegate {
             }
         }
     }
-    
-}
-
-extension ProfileViewController: UITextViewDelegate {
     
 }
