@@ -14,19 +14,38 @@ private enum Constants {
     // Colors
     static let takeProfileImageCameraBackgroundColor = UIColor.takeProfileImageGrayColor
     static let takeProfileImageCameraIconColor = UIColor.profileCameraIconBackgroundColor
-    
 }
 
 protocol ProfileLogoutDelegate: AnyObject {
     func didLogoutTapped()
 }
 
-protocol ProfileViewProtocol {
+protocol ProfileViewProtocolDelegates {
     func didTapAddPost()
     func didTakePhotoButtonTapped()
 }
 
-class ProfileView: UIView {
+protocol ProfileViewProtocol {
+    var delegate: ProfileLogoutDelegate? { get set }
+    var customProfileImage: CustomImageView { get }
+    var customCameraImageButton: CustomProfileButtons { get }
+    var backgroundImageView: CustomImageView { get }
+    var addPostButton: CustomProfileButtons { get }
+    var logoutButton: CustomProfileButtons { get }
+    var usernameLabel: CustomProfileLabel { get }
+    var userBioText: UITextView { get }
+    
+    var containerView: UIView { get }
+    var subContainerView: UIView { get }
+}
+
+protocol ProfileViewActionsProtocol {
+    func addPostsButtonTapped()
+    func logoutButtonTapped()
+    func takePhotoButtonTapped()
+}
+
+class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
     
     weak var delegate: ProfileLogoutDelegate?
     
@@ -95,7 +114,6 @@ class ProfileView: UIView {
                                  textColor: .black,
                                  backgroundColor: .clear)
         usernameLabel.numberOfLines = 1
-        usernameLabel.adjustsFontSizeToFitWidth = true
         usernameLabel.anchor(top: customProfileImage.bottomAnchor,
                              left: mainView.leftAnchor,
                              right: mainView.rightAnchor,
