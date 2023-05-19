@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FeedViewController: UIViewController {
+final class FeedViewController: BaseViewController {
     
     weak var coordinator: (any FeedCoordinatorProtocol)?
     private let feedViewModel: FeedViewModelProtocol = FeedViewModel()
