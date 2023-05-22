@@ -7,7 +7,7 @@
 
 import UIKit
 
-private protocol FeedTableViewCellProtocol {
+private protocol FeedTableViewCellProtocol: AnyObject {
     func shareButtonTapped()
     func likeButtonTapped()
 }
@@ -17,14 +17,14 @@ class FeedTableViewCell: UITableViewCell {
     static let identifier = "FeedTableViewCell"
     private let images: [UIImage] = []
     
-    private let profileImage: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 10
         image.contentMode = .scaleAspectFill
         return image
     }()
     
-    private let usernameLabel: UILabel = {
+    private lazy var usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.robotoMedium14
         label.textColor = .black
@@ -32,7 +32,7 @@ class FeedTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let creationTimeLabel: UILabel = {
+    private lazy var creationTimeLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(hexString: "#999999")
         label.font = UIFont.robotoRegular11
@@ -40,14 +40,14 @@ class FeedTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let privacyImage: UIImageView = {
+    private lazy var privacyImage: UIImageView = {
         let image = UIImageView()
         image.backgroundColor = .clear
         image.contentMode = .scaleAspectFill
         return image
     }()
     
-    private let messageTextView: UITextView = {
+    private lazy var messageTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .clear
         textView.textColor = .black
@@ -56,7 +56,7 @@ class FeedTableViewCell: UITableViewCell {
     }()
     
     // Image Slider
-    private let imageSlider: UICollectionView = {
+    private lazy var imageSlider: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -66,14 +66,14 @@ class FeedTableViewCell: UITableViewCell {
         return collectionView
     }()
     
-    private let shareButton: UIButton = {
+    private lazy var shareButton: UIButton = {
         let button = UIButton()
         button.setImage(ImagesNames.share, for: .normal)
         button.backgroundColor = .clear
         return button
     }()
     
-    private let likeButton: UIButton = {
+    private lazy var likeButton: UIButton = {
         let button = UIButton()
         button.setImage(ImagesNames.like, for: .normal)
         button.backgroundColor = .clear
@@ -104,7 +104,7 @@ class FeedTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        profileImage.image = nil
+        profileImageView.image = nil
         usernameLabel.text = nil
         creationTimeLabel.text = nil
         privacyImage.image = nil
@@ -119,24 +119,28 @@ class FeedTableViewCell: UITableViewCell {
         guard let safeMessage = feedModel.post.data.first?.message else { return }
         
         DispatchQueue.main.async {
-            self.profileImage.downloadImage(from: safeProfileImageURL)
+            self.profileImageView.downloadImage(from: safeProfileImageURL)
             self.usernameLabel.text = safeUsername
-            self.creationTimeLabel.text = self.dateFormattingWithISO8601(date: safeCreationTime)
+            self.creationTimeLabel.text = self.dateFormatting(date: safeCreationTime)
             self.privacyImage.downloadImage(from: safePostImageURL)
             self.messageTextView.text = safeMessage
         }
     }
     
-    private func dateFormattingWithISO8601(date: Date) -> String {
+    private func dateFormatting(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        let dateString = dateFormatter.string(from: date)
-        return dateString
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        let outputDateFormatter = DateFormatter()
+        outputDateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        let formattedDate = outputDateFormatter.string(from: date)
+        
+        return formattedDate
     }
     
     private func setupLayout() {
-        contentView.addSubview(profileImage)
+        contentView.addSubview(profileImageView)
         contentView.addSubview(usernameLabel)
         contentView.addSubview(creationTimeLabel)
         contentView.addSubview(privacyImage)
@@ -151,18 +155,18 @@ class FeedTableViewCell: UITableViewCell {
     
     private func setupConstraints() {
         // Constraints
-        profileImage.anchor(top: contentView.topAnchor,
-                            left: contentView.leftAnchor,
-                            paddingTop: 15, paddingLeft: 21,
-                            width: 50, height: 50)
+        profileImageView.anchor(top: contentView.topAnchor,
+                                left: contentView.leftAnchor,
+                                paddingTop: 15, paddingLeft: 21,
+                                width: 50, height: 50)
         
         usernameLabel.anchor(top: contentView.topAnchor,
-                             left: profileImage.rightAnchor,
+                             left: profileImageView.rightAnchor,
                              right: contentView.rightAnchor,
                              paddingTop: 15, paddingLeft: 16, paddingRight: 129)
         
         creationTimeLabel.anchor(top: usernameLabel.bottomAnchor,
-                                 left: profileImage.rightAnchor,
+                                 left: profileImageView.rightAnchor,
                                  right: contentView.rightAnchor,
                                  paddingTop: 2, paddingLeft: 16, paddingRight: 170)
         
@@ -170,7 +174,7 @@ class FeedTableViewCell: UITableViewCell {
                             paddingLeft: 9,
                             width: 9, height: 9)
         
-        messageTextView.anchor(top: profileImage.bottomAnchor,
+        messageTextView.anchor(top: profileImageView.bottomAnchor,
                                left: contentView.leftAnchor,
                                right: contentView.rightAnchor,
                                paddingTop: 17, paddingLeft: 21, paddingRight: 21)
@@ -222,7 +226,7 @@ extension FeedTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
                                                             for: indexPath) as? ImageSliderCollectionViewCell else {
-            fatalError("Unable to dequeue MyImageCollectionViewCell")
+            fatalError("Unable to dequeue CollectionViewCell")
         }
         let image = images[indexPath.item]
         cell.configure(with: image)
