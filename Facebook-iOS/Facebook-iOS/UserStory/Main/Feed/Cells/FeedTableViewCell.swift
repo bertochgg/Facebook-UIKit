@@ -7,6 +7,11 @@
 
 import UIKit
 
+private protocol FeedTableViewCellProtocol {
+    func shareButtonTapped()
+    func likeButtonTapped()
+}
+
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
@@ -79,7 +84,13 @@ class FeedTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .orange
         
+        imageSlider.delegate = self
+        imageSlider.dataSource = self
+        
         setupLayout()
+        setupConstraints()
+        setupActions()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -106,14 +117,23 @@ class FeedTableViewCell: UITableViewCell {
         guard let safeCreationTime = feedModel.post.data.first?.createdTime else { return }
         guard let safeProfileImageURL = URL(string: profileModel.picture.data.url) else { return }
         guard let safeMessage = feedModel.post.data.first?.message else { return }
-        profileImage.downloadImage(from: safeProfileImageURL)
-        usernameLabel.text = safeUsername
+        
+        
+        DispatchQueue.main.async {
+            self.profileImage.downloadImage(from: safeProfileImageURL)
+            self.usernameLabel.text = safeUsername
+            self.creationTimeLabel.text = self.dateFormattingWithISO8601(date: safeCreationTime)
+            self.privacyImage.downloadImage(from: safePostImageURL)
+            self.messageTextView.text = safeMessage
+        }
+    }
+    
+    private func dateFormattingWithISO8601(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        creationTimeLabel.text = dateFormatter.string(from: safeCreationTime)
-        privacyImage.downloadImage(from: safePostImageURL)
-        messageTextView.text = safeMessage
+        let dateString = dateFormatter.string(from: date)
+        return dateString
     }
     
     private func setupLayout() {
@@ -128,6 +148,9 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(shareButton)
         contentView.addSubview(likeButton)
         
+    }
+    
+    private func setupConstraints() {
         // Constraints
         profileImage.anchor(top: contentView.topAnchor,
                             left: contentView.leftAnchor,
@@ -153,8 +176,6 @@ class FeedTableViewCell: UITableViewCell {
                                right: contentView.rightAnchor,
                                paddingTop: 17, paddingLeft: 21, paddingRight: 21)
         
-        imageSlider.delegate = self
-        imageSlider.dataSource = self
         imageSlider.anchor(top: messageTextView.bottomAnchor,
                            left: contentView.leftAnchor,
                            right: contentView.rightAnchor,
@@ -164,24 +185,30 @@ class FeedTableViewCell: UITableViewCell {
         shareButton.anchor(top: imageSlider.bottomAnchor, left: leftAnchor,
                            paddingTop: 10, paddingLeft: 20,
                            width: 24, height: 24)
-        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
         
         likeButton.anchor(top: imageSlider.bottomAnchor, left: shareButton.rightAnchor,
                           paddingTop: 10, paddingLeft: 20,
                           width: 24, height: 24)
+        
+    }
+    
+    private func setupActions() {
+        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     }
     
+}
+
+extension FeedTableViewCell: FeedTableViewCellProtocol {
     @objc
-    func shareButtonTapped() {
+    fileprivate func shareButtonTapped() {
         
     }
     
     @objc
-    func likeButtonTapped() {
+    fileprivate func likeButtonTapped() {
         
     }
-    
 }
 
 extension FeedTableViewCell: UICollectionViewDelegateFlowLayout {
