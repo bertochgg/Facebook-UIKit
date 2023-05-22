@@ -10,6 +10,7 @@ import UIKit
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
+    private let images: [UIImage] = []
     
     private let profileImage: UIImageView = {
         let image = UIImageView()
@@ -49,17 +50,29 @@ class FeedTableViewCell: UITableViewCell {
         return textView
     }()
     
-    private let postImage: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        return image
-    }()
-    
     // Image Slider
-    private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView()
+    private let imageSlider: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = true
+        collectionView.register(ImageSliderCollectionViewCell.self, forCellWithReuseIdentifier: ImageSliderCollectionViewCell.identifier)
         
         return collectionView
+    }()
+    
+    private let shareButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImagesNames.share, for: .normal)
+        button.backgroundColor = .clear
+        return button
+    }()
+    
+    private let likeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImagesNames.like, for: .normal)
+        button.backgroundColor = .clear
+        return button
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -85,18 +98,22 @@ class FeedTableViewCell: UITableViewCell {
         creationTimeLabel.text = nil
         privacyImage.image = nil
         messageTextView.text = nil
-        postImage.image = nil
     }
     
     public func configure(feedModel: FeedTableViewCellViewModel, profileModel: UserProfileData) {
         guard let safePostImageURL = feedModel.post.data.first?.attachments?.data.first?.media?.image?.src else { return }
+        let safeUsername = profileModel.firstName + " " + profileModel.lastName
+        guard let safeCreationTime = feedModel.post.data.first?.createdTime else { return }
         guard let safeProfileImageURL = URL(string: profileModel.picture.data.url) else { return }
+        guard let safeMessage = feedModel.post.data.first?.message else { return }
         profileImage.downloadImage(from: safeProfileImageURL)
-        usernameLabel.text = "nil"
-        creationTimeLabel.text = "nil"
+        usernameLabel.text = safeUsername
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        creationTimeLabel.text = dateFormatter.string(from: safeCreationTime)
         privacyImage.downloadImage(from: safePostImageURL)
-        messageTextView.text = "nil"
-        postImage.downloadImage(from: safePostImageURL)
+        messageTextView.text = safeMessage
     }
     
     private func setupLayout() {
@@ -105,7 +122,11 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(creationTimeLabel)
         contentView.addSubview(privacyImage)
         contentView.addSubview(messageTextView)
-        contentView.addSubview(postImage)
+        // Image Slider -> Collection View
+        contentView.addSubview(imageSlider)
+        // Social Buttons
+        contentView.addSubview(shareButton)
+        contentView.addSubview(likeButton)
         
         // Constraints
         profileImage.anchor(top: contentView.topAnchor,
@@ -132,11 +153,54 @@ class FeedTableViewCell: UITableViewCell {
                                right: contentView.rightAnchor,
                                paddingTop: 17, paddingLeft: 21, paddingRight: 21)
         
-        postImage.anchor(top: messageTextView.bottomAnchor,
-                         left: contentView.leftAnchor,
-                         right: contentView.rightAnchor,
-                         paddingTop: 5,
-                         height: 250)
+        imageSlider.delegate = self
+        imageSlider.dataSource = self
+        imageSlider.anchor(top: messageTextView.bottomAnchor,
+                           left: contentView.leftAnchor,
+                           right: contentView.rightAnchor,
+                           paddingTop: 5,
+                           height: 250)
+        
+        shareButton.anchor(top: imageSlider.bottomAnchor, left: leftAnchor,
+                           paddingTop: 10, paddingLeft: 20,
+                           width: 24, height: 24)
+        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
+        
+        likeButton.anchor(top: imageSlider.bottomAnchor, left: shareButton.rightAnchor,
+                          paddingTop: 10, paddingLeft: 20,
+                          width: 24, height: 24)
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    func shareButtonTapped() {
+        
+    }
+    
+    @objc
+    func likeButtonTapped() {
+        
+    }
+    
+}
+
+extension FeedTableViewCell: UICollectionViewDelegateFlowLayout {
+    
+}
+
+extension FeedTableViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
+                                                            for: indexPath) as? ImageSliderCollectionViewCell else {
+            fatalError("Unable to dequeue MyImageCollectionViewCell")
+        }
+        let image = images[indexPath.item]
+        cell.configure(with: image)
+        return cell
     }
     
 }
