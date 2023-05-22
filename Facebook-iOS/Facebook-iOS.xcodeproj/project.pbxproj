@@ -42,6 +42,9 @@
 		5F8DEB742A0DA500002B8835 /* UIView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */; };
 		5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */; };
 		5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */; };
+		5FC6C84D2A1744D900DC8D84 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6C84C2A1744D900DC8D84 /* FeedTableViewCell.swift */; };
+		5FC6C8502A17457200DC8D84 /* FeedTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6C84F2A17457200DC8D84 /* FeedTableViewCellViewModel.swift */; };
+		5FC6C8522A17537100DC8D84 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FC6C8512A17537100DC8D84 /* Roboto-Medium.ttf */; };
 		5FCAD85A2A16B8B300E2B0E0 /* FeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAD8592A16B8B300E2B0E0 /* FeedData.swift */; };
 		5FCAD8602A16C5C100E2B0E0 /* FeedNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAD85F2A16C5C100E2B0E0 /* FeedNetworkService.swift */; };
 		5FCAD8622A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAD8612A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift */; };
@@ -138,6 +141,9 @@
 		5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Padding.swift"; sourceTree = "<group>"; };
 		5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileButtons.swift; sourceTree = "<group>"; };
 		5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		5FC6C84C2A1744D900DC8D84 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		5FC6C84F2A17457200DC8D84 /* FeedTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCellViewModel.swift; sourceTree = "<group>"; };
+		5FC6C8512A17537100DC8D84 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		5FCAD8592A16B8B300E2B0E0 /* FeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedData.swift; sourceTree = "<group>"; };
 		5FCAD85F2A16C5C100E2B0E0 /* FeedNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNetworkService.swift; sourceTree = "<group>"; };
 		5FCAD8612A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNetworkServiceProtocol.swift; sourceTree = "<group>"; };
@@ -392,6 +398,7 @@
 		04D52D5D2809F45800D4C010 /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
+				5FC6C84E2A17455800DC8D84 /* TableViewCellsData */,
 				5FD175D22A0B6181008C5A4B /* Networking */,
 				04D52D5E2809F48600D4C010 /* DataModels_TODO.txt */,
 			);
@@ -484,6 +491,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		5FC6C84B2A1744B400DC8D84 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5FC6C84C2A1744D900DC8D84 /* FeedTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5FC6C84E2A17455800DC8D84 /* TableViewCellsData */ = {
+			isa = PBXGroup;
+			children = (
+				5FC6C84F2A17457200DC8D84 /* FeedTableViewCellViewModel.swift */,
+			);
+			path = TableViewCellsData;
+			sourceTree = "<group>";
+		};
 		5FCAD85B2A16C56100E2B0E0 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,6 +567,7 @@
 				5FDBDDD62A12C2DC00CA4B8D /* Roboto-Bold.ttf */,
 				5FD923A229F9913500633203 /* Roboto-BoldItalic.ttf */,
 				5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */,
+				5FC6C8512A17537100DC8D84 /* Roboto-Medium.ttf */,
 			);
 			path = Roboto;
 			sourceTree = "<group>";
@@ -584,6 +608,7 @@
 		5FDB341C2A04668F0067A320 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				5FC6C84B2A1744B400DC8D84 /* Cells */,
 				5FDB34202A0466C00067A320 /* FeedViewController.swift */,
 				5F76A2552A09A96C00349063 /* FeedViewModel.swift */,
 			);
@@ -765,6 +790,7 @@
 				04D52D5F2809F48600D4C010 /* DataModels_TODO.txt in Resources */,
 				047DC748281943EA00717EEC /* Raleway-Regular.ttf in Resources */,
 				04D52D672809F52F00D4C010 /* Foundation_Extensions_TODO.txt in Resources */,
+				5FC6C8522A17537100DC8D84 /* Roboto-Medium.ttf in Resources */,
 				047DC73E2819357800717EEC /* Fonts_TODO.txt in Resources */,
 				04D52D2B2809D80B00D4C010 /* LaunchScreen.storyboard in Resources */,
 				04D52D6C2809F5B900D4C010 /* Services_TODO.txt in Resources */,
@@ -971,6 +997,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FDCD6B72A02F28A00AA6E73 /* BaseViewController.swift in Sources */,
+				5FC6C8502A17457200DC8D84 /* FeedTableViewCellViewModel.swift in Sources */,
 				5FD6CE982A0969F200FA785C /* KeychainServiceError.swift in Sources */,
 				5FDD99342A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift in Sources */,
 				04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */,
@@ -1007,6 +1034,7 @@
 				5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */,
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
+				5FC6C84D2A1744D900DC8D84 /* FeedTableViewCell.swift in Sources */,
 				5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */,
 				5FD923A529F99AF000633203 /* UIColor+Hex.swift in Sources */,
 				5FF4DE9A2A159779002F16C3 /* CustomProfileLabel.swift in Sources */,

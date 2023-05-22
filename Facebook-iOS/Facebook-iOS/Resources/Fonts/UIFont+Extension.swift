@@ -15,6 +15,7 @@ private enum FontName: String, CaseIterable {
     case ralewaySemiBold = "Raleway-SemiBold"
     case ralewayBold = "Raleway-Bold"
     
+    case robotoMedium = "Roboto-Medium"
     case robotoMediumItalic = "Roboto-MediumItalic"
     case robotoBold = "Roboto-Bold"
     case robotoBoldItalic = "Roboto-BoldItalic"
@@ -58,10 +59,26 @@ extension UIFont {
         return font
     }
     
+    static var robotoMedium14: UIFont {
+        guard let font = UIFont(name: FontName.robotoMedium.rawValue, size: 14.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight(rawValue: 600) )
+        }
+        return font
+    }
+    
     static var robotoMediumItalic24: UIFont {
         guard let font = UIFont(name: FontName.robotoMediumItalic.rawValue, size: 24.0) else {
             assertionFailure("Font not found")
             return UIFont.systemFont(ofSize: 24.0, weight: UIFont.Weight(rawValue: 600) )
+        }
+        return font
+    }
+    
+    static var robotoMediumItalic14: UIFont {
+        guard let font = UIFont(name: FontName.robotoMediumItalic.rawValue, size: 14.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight(rawValue: 600) )
         }
         return font
     }
@@ -86,6 +103,22 @@ extension UIFont {
         guard let font = UIFont(name: FontName.robotoRegular.rawValue, size: 14.0) else {
             assertionFailure("Font not found")
             return UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight(rawValue: 400) )
+        }
+        return font
+    }
+    
+    static var robotoRegular11: UIFont {
+        guard let font = UIFont(name: FontName.robotoRegular.rawValue, size: 11.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 11.0, weight: UIFont.Weight(rawValue: 400) )
+        }
+        return font
+    }
+    
+    static var robotoRegular12: UIFont {
+        guard let font = UIFont(name: FontName.robotoRegular.rawValue, size: 12.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight(rawValue: 400) )
         }
         return font
     }
