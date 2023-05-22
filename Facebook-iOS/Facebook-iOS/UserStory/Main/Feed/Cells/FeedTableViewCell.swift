@@ -118,7 +118,6 @@ class FeedTableViewCell: UITableViewCell {
         guard let safeProfileImageURL = URL(string: profileModel.picture.data.url) else { return }
         guard let safeMessage = feedModel.post.data.first?.message else { return }
         
-        
         DispatchQueue.main.async {
             self.profileImage.downloadImage(from: safeProfileImageURL)
             self.usernameLabel.text = safeUsername
