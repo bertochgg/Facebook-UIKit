@@ -11,6 +11,11 @@ struct FeedTableViewCellViewModel {
     private let post: FeedData
     private let profile: UserProfileData
     
+    init(post: FeedData, profile: UserProfileData) {
+        self.post = post
+        self.profile = profile
+    }
+    
     var profileImageView: URL? {
         return URL(string: profile.picture.data.url)
     }

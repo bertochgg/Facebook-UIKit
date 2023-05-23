@@ -15,12 +15,13 @@ protocol FeedTableViewCellProtocol {
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
-    private let images: [UIImage] = []
+    private let images: [UIImage?] = [ImagesNames.profile, ImagesNames.profile, ImagesNames.profile]
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 10
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .white
         return image
     }()
     
@@ -52,15 +53,16 @@ class FeedTableViewCell: UITableViewCell {
         textView.backgroundColor = .clear
         textView.textColor = .black
         textView.font = UIFont.robotoRegular12
-        textView.adjustsFontForContentSizeCategory = true
+        textView.isScrollEnabled = false
         return textView
     }()
     
     // Image Slider
     private lazy var imageSlider: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemPurple
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.register(ImageSliderCollectionViewCell.self, forCellWithReuseIdentifier: ImageSliderCollectionViewCell.identifier)
         
@@ -101,6 +103,7 @@ class FeedTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         // myData.post.data.first?.attachments?.data.first?.media?.image?.src
+        // imageSlider.rowHei
     }
     
     override func prepareForReuse() {
@@ -124,7 +127,7 @@ class FeedTableViewCell: UITableViewCell {
             self.profileImageView.downloadImage(from: safeProfileImageURL)
             self.usernameLabel.text = safeUsername
             self.creationTimeLabel.text = self.dateFormatting(date: safeCreationTime)
-            self.privacyImage.downloadImage(from: safePostImageURL)
+            self.privacyImage.image = UIImage(named: "Privacy Icon")
             self.messageTextView.text = safeMessage
         }
     }
@@ -157,6 +160,11 @@ class FeedTableViewCell: UITableViewCell {
     
     private func setupConstraints() {
         // Constraints
+//        self.contentView.translatesAutoresizingMaskIntoConstraints = false
+//        self.contentView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+//        self.contentView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+//        self.contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 380).isActive = true
+        
         profileImageView.anchor(top: contentView.topAnchor,
                                 left: contentView.leftAnchor,
                                 paddingTop: 15, paddingLeft: 21,
@@ -169,11 +177,11 @@ class FeedTableViewCell: UITableViewCell {
         
         creationTimeLabel.anchor(top: usernameLabel.bottomAnchor,
                                  left: profileImageView.rightAnchor,
-                                 right: contentView.rightAnchor,
-                                 paddingTop: 2, paddingLeft: 16, paddingRight: 170)
+                                 paddingTop: 2, paddingLeft: 16)
         
-        privacyImage.anchor(left: creationTimeLabel.rightAnchor,
-                            paddingLeft: 9,
+        privacyImage.anchor(top: usernameLabel.bottomAnchor,
+                            left: creationTimeLabel.rightAnchor,
+                            paddingTop: 4, paddingLeft: 8,
                             width: 9, height: 9)
         
         messageTextView.anchor(top: profileImageView.bottomAnchor,
@@ -184,8 +192,8 @@ class FeedTableViewCell: UITableViewCell {
         imageSlider.anchor(top: messageTextView.bottomAnchor,
                            left: contentView.leftAnchor,
                            right: contentView.rightAnchor,
-                           paddingTop: 5,
-                           height: 250)
+                           paddingTop: 5)
+        imageSlider.heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
         
         shareButton.anchor(top: imageSlider.bottomAnchor, left: leftAnchor,
                            paddingTop: 10, paddingLeft: 20,
@@ -222,7 +230,7 @@ extension FeedTableViewCell: UICollectionViewDelegateFlowLayout {
 
 extension FeedTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -232,8 +240,9 @@ extension FeedTableViewCell: UICollectionViewDataSource {
         }
         
         if indexPath.item < images.count {
-            let image = images[indexPath.row]
-            cell.configure(with: image)
+            if let safeImage = images[indexPath.row] {
+                cell.configure(with: safeImage)
+            }
         } else {
             cell.isHidden = true
         }

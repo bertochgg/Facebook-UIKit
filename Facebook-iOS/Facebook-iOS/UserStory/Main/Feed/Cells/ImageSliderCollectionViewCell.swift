@@ -13,14 +13,13 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupImageView()
     }
     
