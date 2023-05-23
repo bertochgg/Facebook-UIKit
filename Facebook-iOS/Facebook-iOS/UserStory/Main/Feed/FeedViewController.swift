@@ -16,6 +16,7 @@ final class FeedViewController: BaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemPink
+        navigationItem.titleView = UIImageView(image: ImagesNames.fbBarTitle)
         feedViewModel.delegate = self
         feedViewModel.fetchFeedData()
     }

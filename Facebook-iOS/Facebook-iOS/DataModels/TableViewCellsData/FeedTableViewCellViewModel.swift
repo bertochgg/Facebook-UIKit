@@ -5,8 +5,30 @@
 //  Created by Humberto Garcia on 18/05/23.
 //
 
-import Foundation
+import UIKit
 
 struct FeedTableViewCellViewModel {
-    let post: FeedData
+    private let post: FeedData
+    private let profile: UserProfileData
+    
+    var profileImageView: URL? {
+        return URL(string: profile.picture.data.url)
+    }
+    
+    var usernameLabel: String {
+        let username = profile.firstName + " " + profile.lastName
+        return username
+    }
+    
+    var creationTimeLabel: Date? {
+        return post.data.first?.createdTime
+    }
+    
+    var privacyImage: UIImage? {
+        return UIImage(named: "Privacy Icon")
+    }
+    
+    var messageTextView: String? {
+        return post.data.first?.message
+    }
 }

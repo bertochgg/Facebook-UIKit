@@ -15,6 +15,7 @@ enum ImagesNames {
     static let logout = UIImage(named: "Logout Icon")
     static let camera = UIImage(named: "Camera Icon")
     // Feed Screen Icons
+    static let fbBarTitle = UIImage(named: "Facebook Title")
     static let privacy = UIImage(named: "Privacy Icon")
     static let share = UIImage(named: "Share Icon")
     static let like = UIImage(named: "Like Icon")

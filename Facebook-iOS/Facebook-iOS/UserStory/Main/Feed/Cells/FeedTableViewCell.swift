@@ -7,7 +7,7 @@
 
 import UIKit
 
-private protocol FeedTableViewCellProtocol: AnyObject {
+protocol FeedTableViewCellProtocol {
     func shareButtonTapped()
     func likeButtonTapped()
 }
@@ -52,6 +52,7 @@ class FeedTableViewCell: UITableViewCell {
         textView.backgroundColor = .clear
         textView.textColor = .black
         textView.font = UIFont.robotoRegular12
+        textView.adjustsFontForContentSizeCategory = true
         return textView
     }()
     
@@ -111,12 +112,13 @@ class FeedTableViewCell: UITableViewCell {
         messageTextView.text = nil
     }
     
-    public func configure(feedModel: FeedTableViewCellViewModel, profileModel: UserProfileData) {
-        guard let safePostImageURL = feedModel.post.data.first?.attachments?.data.first?.media?.image?.src else { return }
-        let safeUsername = profileModel.firstName + " " + profileModel.lastName
-        guard let safeCreationTime = feedModel.post.data.first?.createdTime else { return }
-        guard let safeProfileImageURL = URL(string: profileModel.picture.data.url) else { return }
-        guard let safeMessage = feedModel.post.data.first?.message else { return }
+    public func configure(feedViewModel: FeedTableViewCellViewModel) {
+        
+        guard let safePostImageURL = feedViewModel.profileImageView else { return }
+        let safeUsername = feedViewModel.usernameLabel
+        guard let safeCreationTime = feedViewModel.creationTimeLabel else { return }
+        guard let safeProfileImageURL = feedViewModel.profileImageView else { return }
+        guard let safeMessage = feedViewModel.messageTextView else { return }
         
         DispatchQueue.main.async {
             self.profileImageView.downloadImage(from: safeProfileImageURL)
@@ -204,12 +206,12 @@ class FeedTableViewCell: UITableViewCell {
 
 extension FeedTableViewCell: FeedTableViewCellProtocol {
     @objc
-    fileprivate func shareButtonTapped() {
+    func shareButtonTapped() {
         
     }
     
     @objc
-    fileprivate func likeButtonTapped() {
+    func likeButtonTapped() {
         
     }
 }
@@ -226,10 +228,16 @@ extension FeedTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
                                                             for: indexPath) as? ImageSliderCollectionViewCell else {
-            fatalError("Unable to dequeue CollectionViewCell")
+            return UICollectionViewCell()
         }
-        let image = images[indexPath.item]
-        cell.configure(with: image)
+        
+        if indexPath.item < images.count {
+            let image = images[indexPath.row]
+            cell.configure(with: image)
+        } else {
+            cell.isHidden = true
+        }
+        
         return cell
     }
     
