@@ -60,10 +60,10 @@ class FeedTableViewCell: UITableViewCell {
     // Image Slider
     private lazy var imageSlider: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemPurple
-        collectionView.showsHorizontalScrollIndicator = true
         collectionView.register(ImageSliderCollectionViewCell.self, forCellWithReuseIdentifier: ImageSliderCollectionViewCell.identifier)
         
         return collectionView
@@ -93,7 +93,6 @@ class FeedTableViewCell: UITableViewCell {
         setupLayout()
         setupConstraints()
         setupActions()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -145,6 +144,7 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
+        // If you are adding elements to a cell we need to use content view to assign constraints to cell, if not we are adding constraints to cell
         contentView.addSubview(profileImageView)
         contentView.addSubview(usernameLabel)
         contentView.addSubview(creationTimeLabel)
@@ -159,50 +159,64 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        // Constraints
-//        self.contentView.translatesAutoresizingMaskIntoConstraints = false
-//        self.contentView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
-//        self.contentView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-//        self.contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 380).isActive = true
         
-        profileImageView.anchor(top: contentView.topAnchor,
-                                left: contentView.leftAnchor,
-                                paddingTop: 15, paddingLeft: 21,
-                                width: 50, height: 50)
+        // Set constraints
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+        creationTimeLabel.translatesAutoresizingMaskIntoConstraints = false
+        privacyImage.translatesAutoresizingMaskIntoConstraints = false
+        messageTextView.translatesAutoresizingMaskIntoConstraints = false
+        imageSlider.translatesAutoresizingMaskIntoConstraints = false
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        likeButton.translatesAutoresizingMaskIntoConstraints = false
         
-        usernameLabel.anchor(top: contentView.topAnchor,
-                             left: profileImageView.rightAnchor,
-                             right: contentView.rightAnchor,
-                             paddingTop: 15, paddingLeft: 16, paddingRight: 129)
-        
-        creationTimeLabel.anchor(top: usernameLabel.bottomAnchor,
-                                 left: profileImageView.rightAnchor,
-                                 paddingTop: 2, paddingLeft: 16)
-        
-        privacyImage.anchor(top: usernameLabel.bottomAnchor,
-                            left: creationTimeLabel.rightAnchor,
-                            paddingTop: 4, paddingLeft: 8,
-                            width: 9, height: 9)
-        
-        messageTextView.anchor(top: profileImageView.bottomAnchor,
-                               left: contentView.leftAnchor,
-                               right: contentView.rightAnchor,
-                               paddingTop: 17, paddingLeft: 21, paddingRight: 21)
-        
-        imageSlider.anchor(top: messageTextView.bottomAnchor,
-                           left: contentView.leftAnchor,
-                           right: contentView.rightAnchor,
-                           paddingTop: 5)
-        imageSlider.heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-        
-        shareButton.anchor(top: imageSlider.bottomAnchor, left: leftAnchor,
-                           paddingTop: 10, paddingLeft: 20,
-                           width: 24, height: 24)
-        
-        likeButton.anchor(top: imageSlider.bottomAnchor, left: shareButton.rightAnchor,
-                          paddingTop: 10, paddingLeft: 20,
-                          width: 24, height: 24)
-        
+        NSLayoutConstraint.activate([
+            // Profile Image View
+            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
+            profileImageView.widthAnchor.constraint(equalToConstant: 50),
+            profileImageView.heightAnchor.constraint(equalToConstant: 50),
+            
+            // Username Label
+            usernameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            usernameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16),
+            usernameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -129),
+            
+            // Creation Time Label
+            creationTimeLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 2),
+            creationTimeLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16),
+            
+            // Privacy Image
+            privacyImage.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4),
+            privacyImage.leadingAnchor.constraint(equalTo: creationTimeLabel.trailingAnchor, constant: 8),
+            privacyImage.widthAnchor.constraint(equalToConstant: 9),
+            privacyImage.heightAnchor.constraint(equalToConstant: 9),
+            
+            // Message Text View
+            messageTextView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 17),
+            messageTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
+            messageTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
+            messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 14),
+            
+            // Image Slider
+            imageSlider.topAnchor.constraint(equalTo: messageTextView.bottomAnchor, constant: 5),
+            imageSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageSlider.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -10),
+            imageSlider.heightAnchor.constraint(equalToConstant: 250),
+            
+            // Share Button
+            shareButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            shareButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            shareButton.widthAnchor.constraint(equalToConstant: 24),
+            shareButton.heightAnchor.constraint(equalToConstant: 24),
+            
+            // Like Button
+            likeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            likeButton.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 20),
+            likeButton.widthAnchor.constraint(equalToConstant: 24),
+            likeButton.heightAnchor.constraint(equalToConstant: 24)
+        ])
     }
     
     private func setupActions() {
@@ -215,12 +229,12 @@ class FeedTableViewCell: UITableViewCell {
 extension FeedTableViewCell: FeedTableViewCellProtocol {
     @objc
     func shareButtonTapped() {
-        
+        imageSlider.isHidden = true
     }
     
     @objc
     func likeButtonTapped() {
-        
+        imageSlider.isHidden = false
     }
 }
 
@@ -230,7 +244,7 @@ extension FeedTableViewCell: UICollectionViewDelegateFlowLayout {
 
 extension FeedTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -240,7 +254,7 @@ extension FeedTableViewCell: UICollectionViewDataSource {
         }
         
         if indexPath.item < images.count {
-            if let safeImage = images[indexPath.row] {
+            if let safeImage = images[indexPath.item] {
                 cell.configure(with: safeImage)
             }
         } else {

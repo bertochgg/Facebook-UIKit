@@ -35,18 +35,20 @@ class FeedView: UIView {
 }
 
 extension FeedView: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 380
+    }
 }
 
 extension FeedView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier,
                                                        for: indexPath) as? FeedTableViewCell else { return UITableViewCell() }
-        let feedDatum = FeedDatum(message: "Sample message", createdTime: Date(), attachments: nil, id: "123")
+        let feedDatum = FeedDatum(message: "Sample message ajdsioajsdij", createdTime: Date(), attachments: nil, id: "123")
         let feedData = FeedData(data: [feedDatum], paging: Paging(previous: "", next: ""))
         let pictureData = PictureData(url: "https://example.com/profile_picture.jpg")
         let picture = Picture(data: pictureData)
