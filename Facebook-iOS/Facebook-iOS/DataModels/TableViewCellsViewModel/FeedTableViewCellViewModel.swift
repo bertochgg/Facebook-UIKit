@@ -45,9 +45,6 @@ struct FeedTableViewCellViewModel {
     }
     
     private func dateFormatting(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        
         let outputDateFormatter = DateFormatter()
         outputDateFormatter.dateFormat = "MMM dd, yyyy"
         
