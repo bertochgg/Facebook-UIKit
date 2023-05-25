@@ -13,18 +13,23 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupImageView()
+        contentView.addSubview(imageView)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.frame = contentView.bounds
     }
     
     override func prepareForReuse() {
@@ -32,12 +37,8 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
         imageView.image = nil
     }
     
-    private func setupImageView() {
-        addSubview(imageView)
-        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
-    }
-    
-    public func configure(with image: UIImage) {
-        imageView.image = image
+    public func configure(with viewModel: FeedCollectionViewCellViewModel) {
+        guard let safeImage = viewModel.image else { return }
+        imageView.downloadImage(from: safeImage)
     }
 }

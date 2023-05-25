@@ -15,7 +15,7 @@ protocol FeedTableViewCellProtocol {
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
-    private let images: [UIImage?] = [ImagesNames.profile, ImagesNames.profile, ImagesNames.profile]
+    private var viewModels: [FeedCollectionViewCellViewModel] = []
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
@@ -61,12 +61,22 @@ class FeedTableViewCell: UITableViewCell {
     private lazy var imageSlider: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemPurple
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(ImageSliderCollectionViewCell.self, forCellWithReuseIdentifier: ImageSliderCollectionViewCell.identifier)
         
         return collectionView
+    }()
+    
+    private lazy var pageControl: UIPageControl = {
+        let page = UIPageControl()
+        page.currentPageIndicatorTintColor = .blue
+        page.pageIndicatorTintColor = .lightGray
+        return page
     }()
     
     private lazy var shareButton: UIButton = {
@@ -114,21 +124,25 @@ class FeedTableViewCell: UITableViewCell {
         messageTextView.text = nil
     }
     
-    public func configure(feedViewModel: FeedTableViewCellViewModel) {
+    public func configure(with viewModel: FeedTableViewCellViewModel) {
         
-        guard let safePostImageURL = feedViewModel.profileImageView else { return }
-        let safeUsername = feedViewModel.usernameLabel
-        guard let safeCreationTime = feedViewModel.creationTimeLabel else { return }
-        guard let safeProfileImageURL = feedViewModel.profileImageView else { return }
-        guard let safeMessage = feedViewModel.messageTextView else { return }
+        let safeUsername = viewModel.usernameLabel
+        guard let safeCreationTime = viewModel.creationTimeLabel else { return }
+        guard let safeProfileImageURL = viewModel.profileImageView else { return }
+        guard let safeMessage = viewModel.messageTextView else { return }
         
         DispatchQueue.main.async {
             self.profileImageView.downloadImage(from: safeProfileImageURL)
             self.usernameLabel.text = safeUsername
             self.creationTimeLabel.text = self.dateFormatting(date: safeCreationTime)
-            self.privacyImage.image = UIImage(named: "Privacy Icon")
+            self.privacyImage.image = ImagesNames.privacy
             self.messageTextView.text = safeMessage
         }
+        
+        self.viewModels = viewModel.collectionViewImages
+        imageSlider.reloadData()
+        pageControl.numberOfPages = viewModels.count // Update the numberOfPages here
+        pageControl.currentPage = 0
     }
     
     private func dateFormatting(date: Date) -> String {
@@ -152,6 +166,7 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(messageTextView)
         // Image Slider -> Collection View
         contentView.addSubview(imageSlider)
+        contentView.addSubview(pageControl)
         // Social Buttons
         contentView.addSubview(shareButton)
         contentView.addSubview(likeButton)
@@ -205,6 +220,10 @@ class FeedTableViewCell: UITableViewCell {
             imageSlider.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -10),
             imageSlider.heightAnchor.constraint(equalToConstant: 250),
             
+            pageControl.centerXAnchor.constraint(equalTo: imageSlider.centerXAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: imageSlider.bottomAnchor, constant: 10),
+            pageControl.heightAnchor.constraint(equalToConstant: 25),
+            
             // Share Button
             shareButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             shareButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -239,6 +258,19 @@ extension FeedTableViewCell: FeedTableViewCellProtocol {
 }
 
 extension FeedTableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = contentView.frame.size.width
+        return CGSize(width: width, height: contentView.frame.size.height)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.bounds.width
+        let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+        pageControl.currentPage = currentPage
+    }
+}
+
+extension FeedTableViewCell: UICollectionViewDelegate {
     
 }
 
@@ -251,14 +283,6 @@ extension FeedTableViewCell: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
                                                             for: indexPath) as? ImageSliderCollectionViewCell else {
             return UICollectionViewCell()
-        }
-        
-        if indexPath.item < images.count {
-            if let safeImage = images[indexPath.item] {
-                cell.configure(with: safeImage)
-            }
-        } else {
-            cell.isHidden = true
         }
         
         return cell

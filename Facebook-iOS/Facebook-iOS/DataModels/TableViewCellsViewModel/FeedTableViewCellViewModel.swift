@@ -10,10 +10,12 @@ import UIKit
 struct FeedTableViewCellViewModel {
     private let post: FeedData
     private let profile: UserProfileData
+    private let viewModels: [FeedCollectionViewCellViewModel]
     
-    init(post: FeedData, profile: UserProfileData) {
+    init(post: FeedData, profile: UserProfileData, viewModels: [FeedCollectionViewCellViewModel]) {
         self.post = post
         self.profile = profile
+        self.viewModels = viewModels
     }
     
     var profileImageView: URL? {
@@ -35,5 +37,9 @@ struct FeedTableViewCellViewModel {
     
     var messageTextView: String? {
         return post.data.first?.message
+    }
+    
+    var collectionViewImages: [FeedCollectionViewCellViewModel] {
+        return viewModels
     }
 }

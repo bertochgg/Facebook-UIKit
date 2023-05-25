@@ -11,6 +11,7 @@ enum ImagesNames {
     // Tab Bar Icons
     static let feed = UIImage(named: "Feed Icon")
     static let profile = UIImage(named: "Profile Icon")
+    static let defaultImage = UIImage(named: "Profile image")
     // Profile Screen Icons
     static let logout = UIImage(named: "Logout Icon")
     static let camera = UIImage(named: "Camera Icon")

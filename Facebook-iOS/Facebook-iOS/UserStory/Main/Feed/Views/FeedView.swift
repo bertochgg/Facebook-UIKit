@@ -36,7 +36,7 @@ class FeedView: UIView {
 
 extension FeedView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 380
+        return UITableView.automaticDimension
     }
 }
 
@@ -48,14 +48,6 @@ extension FeedView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier,
                                                        for: indexPath) as? FeedTableViewCell else { return UITableViewCell() }
-        let feedDatum = FeedDatum(message: "Sample message ajdsioajsdij", createdTime: Date(), attachments: nil, id: "123")
-        let feedData = FeedData(data: [feedDatum], paging: Paging(previous: "", next: ""))
-        let pictureData = PictureData(url: "https://example.com/profile_picture.jpg")
-        let picture = Picture(data: pictureData)
-        let userProfileData = UserProfileData(id: "123", firstName: "John", picture: picture, lastName: "Doe", ageRange: nil)
-
-        let feedCellViewModel = FeedTableViewCellViewModel(post: feedData, profile: userProfileData)
-        cell.configure(feedViewModel: feedCellViewModel)
         
         return cell
     }
