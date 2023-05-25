@@ -27,4 +27,8 @@ extension UIColor {
         return UIColor(hexString: "#000000") ?? .black
     }
     
+    class var creationTimeGrayTextColor: UIColor {
+        return UIColor(hexString: "#999999") ?? .gray
+    }
+    
 }

@@ -27,8 +27,9 @@ struct FeedTableViewCellViewModel {
         return username
     }
     
-    var creationTimeLabel: Date? {
-        return post.data.first?.createdTime
+    var creationTimeLabel: String? {
+        guard let safeDate = post.data.first?.createdTime else { return "" }
+        return dateFormatting(date: safeDate)
     }
     
     var privacyImage: UIImage? {
@@ -41,5 +42,17 @@ struct FeedTableViewCellViewModel {
     
     var collectionViewImages: [FeedCollectionViewCellViewModel] {
         return viewModels
+    }
+    
+    private func dateFormatting(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        let outputDateFormatter = DateFormatter()
+        outputDateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        let formattedDate = outputDateFormatter.string(from: date)
+        
+        return formattedDate
     }
 }

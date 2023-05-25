@@ -27,7 +27,7 @@ class FeedTableViewCell: UITableViewCell {
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.robotoMedium14
+        label.font = UIFont.robotoMediumItalic14
         label.textColor = .black
         label.numberOfLines = 2
         return label
@@ -35,7 +35,7 @@ class FeedTableViewCell: UITableViewCell {
     
     private lazy var creationTimeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(hexString: "#999999")
+        label.textColor = UIColor.creationTimeGrayTextColor
         label.font = UIFont.robotoRegular11
         label.numberOfLines = 1
         return label
@@ -134,7 +134,7 @@ class FeedTableViewCell: UITableViewCell {
         DispatchQueue.main.async {
             self.profileImageView.downloadImage(from: safeProfileImageURL)
             self.usernameLabel.text = safeUsername
-            self.creationTimeLabel.text = self.dateFormatting(date: safeCreationTime)
+            self.creationTimeLabel.text = safeCreationTime
             self.privacyImage.image = ImagesNames.privacy
             self.messageTextView.text = safeMessage
         }
@@ -143,18 +143,6 @@ class FeedTableViewCell: UITableViewCell {
         imageSlider.reloadData()
         pageControl.numberOfPages = viewModels.count // Update the numberOfPages here
         pageControl.currentPage = 0
-    }
-    
-    private func dateFormatting(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        
-        let outputDateFormatter = DateFormatter()
-        outputDateFormatter.dateFormat = "MMM dd, yyyy"
-        
-        let formattedDate = outputDateFormatter.string(from: date)
-        
-        return formattedDate
     }
     
     private func setupLayout() {

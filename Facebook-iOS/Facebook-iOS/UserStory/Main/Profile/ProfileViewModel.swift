@@ -32,7 +32,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 print("ID: \(userData.id)")
                 print("Name: \(userData.firstName)")
                 print("Last: \(userData.lastName)")
-                print(userData.ageRange?.min)
                 print(userData.email)
                 print(userData.birthday)
                 print("Picture: \(userData.picture.data.url)")
