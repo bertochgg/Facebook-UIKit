@@ -10,6 +10,8 @@ import UIKit
 class FeedView: UIView {
     
     private let tableView = UITableView()
+    
+    let post =
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,7 +42,7 @@ extension FeedView: UITableViewDelegate {
     }
 }
 
-extension FeedView: UITableViewDataSource {
+extension FeedView: UITableViewDataSource, UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
@@ -48,6 +50,9 @@ extension FeedView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier,
                                                        for: indexPath) as? FeedTableViewCell else { return UITableViewCell() }
+        // create a view model and pass it to the cell. Inside this viewModel should be the 'post' entity with
+        let viewModel = FeedCollectionViewCellViewModel(post: post)
+        cell.configure(with: viewModel)
         
         return cell
     }

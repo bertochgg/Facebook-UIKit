@@ -15,7 +15,7 @@ protocol FeedTableViewCellProtocol {
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
-    private var viewModels: [FeedCollectionViewCellViewModel] = []
+    private var viewModel: FeedCollectionViewCellViewModel
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
