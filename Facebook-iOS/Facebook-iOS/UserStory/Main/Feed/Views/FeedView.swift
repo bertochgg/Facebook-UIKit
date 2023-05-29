@@ -10,14 +10,13 @@ import UIKit
 class FeedView: UIView {
     
     private let tableView = UITableView()
-    
-    let post =
+    private var dataSource: UITableViewDiffableDataSource<Int, FeedTableViewCellViewModel>?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupTableView()
         tableView.delegate = self
-        tableView.dataSource = self
+        configureDataSource()
     }
     
     required init?(coder: NSCoder) {
@@ -42,21 +41,34 @@ extension FeedView: UITableViewDelegate {
     }
 }
 
-extension FeedView: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+extension FeedView {
+    func configureDataSource() {
+        dataSource = UITableViewDiffableDataSource<Int, FeedTableViewCellViewModel>(tableView: tableView) { tableView, indexPath, viewModel in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier, for: indexPath) as? FeedTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            cell.configure(with: viewModel)
+            
+            return cell
+        }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier,
-                                                       for: indexPath) as? FeedTableViewCell else { return UITableViewCell() }
-        // create a view model and pass it to the cell. Inside this viewModel should be the 'post' entity with
+    func applySnapshot() {
+        guard let dataSource = dataSource else {
+            return
+        }
         
-        return cell
+        var snapshot = NSDiffableDataSourceSnapshot<Int, FeedTableViewCellViewModel>()
+        snapshot.appendSections([0])
+        // Provide an array of view models to populate the table view
+        let viewModels: [FeedTableViewCellViewModel] = [] // Replace with your array of view models
+        snapshot.appendItems(viewModels)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
 }
+

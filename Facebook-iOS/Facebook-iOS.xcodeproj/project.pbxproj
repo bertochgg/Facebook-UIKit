@@ -43,6 +43,7 @@
 		5FB7CC632A1BD61E0052209B /* ImageSliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7CC622A1BD61E0052209B /* ImageSliderCollectionViewCell.swift */; };
 		5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */; };
 		5FC575652A2471470030EEC3 /* FeedTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC575642A2471470030EEC3 /* FeedTableViewCellViewModel.swift */; };
+		5FC575672A24865C0030EEC3 /* Date+ISO8601Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC575662A24865C0030EEC3 /* Date+ISO8601Formatting.swift */; };
 		5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */; };
 		5FC6C84D2A1744D900DC8D84 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6C84C2A1744D900DC8D84 /* FeedTableViewCell.swift */; };
 		5FC6C8522A17537100DC8D84 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FC6C8512A17537100DC8D84 /* Roboto-Medium.ttf */; };
@@ -144,6 +145,7 @@
 		5FB7CC622A1BD61E0052209B /* ImageSliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderCollectionViewCell.swift; sourceTree = "<group>"; };
 		5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileButtons.swift; sourceTree = "<group>"; };
 		5FC575642A2471470030EEC3 /* FeedTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCellViewModel.swift; sourceTree = "<group>"; };
+		5FC575662A24865C0030EEC3 /* Date+ISO8601Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ISO8601Formatting.swift"; sourceTree = "<group>"; };
 		5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5FC6C84C2A1744D900DC8D84 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		5FC6C8512A17537100DC8D84 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 			children = (
 				04D52D662809F52F00D4C010 /* Foundation_Extensions_TODO.txt */,
 				5F30BE402A12EF3E00BF3F0B /* UIImage+DownloadImage.swift */,
+				5FC575662A24865C0030EEC3 /* Date+ISO8601Formatting.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1031,6 +1034,7 @@
 				5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */,
 				5FD5349E2A1D365D0064C950 /* FeedView.swift in Sources */,
 				5F76A2522A09A92400349063 /* FeedCoordinator.swift in Sources */,
+				5FC575672A24865C0030EEC3 /* Date+ISO8601Formatting.swift in Sources */,
 				5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */,
 				5FD7019D29F8F7BB00C81E85 /* SignInViewModel.swift in Sources */,
 				5F8DEB742A0DA500002B8835 /* UIView+Padding.swift in Sources */,

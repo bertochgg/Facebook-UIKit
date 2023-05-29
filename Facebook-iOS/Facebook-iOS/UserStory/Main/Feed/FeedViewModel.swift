@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FeedViewModelDelegate: AnyObject {
-    func didFetchFeedData()
+    func didFetchFeedData(feedData: FeedTableViewCellViewModel)
 }
 
 protocol FeedViewModelProtocol: AnyObject {
@@ -20,17 +20,24 @@ final class FeedViewModel: FeedViewModelProtocol {
     
     weak var delegate: FeedViewModelDelegate?
     private let feedNetworkService: FeedNetworkServiceProtocol = FeedNetworkService()
+    private let userProfileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
     
     func fetchFeedData() {
-        feedNetworkService.fetchFeedData { result in
+        feedNetworkService.fetchFeedData { [weak self] result in
             switch result {
             case .success(let feedData):
-                for idx in 0..<3 {
-                    print(feedData.data[idx])
+                self?.userProfileNetworkService.fetchProfileData { [weak self] result in
+                    switch result {
+                    case .success(let userProfileData):
+                        guard let feedDatum = feedData.data.first else { return }
+                        let viewModel = FeedTableViewCellViewModel(feedDatum: feedDatum, userData: userProfileData)
+                        self?.delegate?.didFetchFeedData(feedData: viewModel)
+                    case .failure(let error):
+                        print("Error fetching user profile data: \(error.localizedDescription)")
+                    }
                 }
             case .failure(let error):
-                print("Error fetching user profile data: \(NetworkServiceErrors.decodingFailed)")
-                print(error.localizedDescription)
+                print("Error fetching feed data: \(error.localizedDescription)")
             }
         }
     }

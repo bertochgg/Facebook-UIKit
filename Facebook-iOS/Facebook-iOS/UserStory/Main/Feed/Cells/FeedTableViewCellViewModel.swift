@@ -7,25 +7,20 @@
 
 import Foundation
 
-struct FeedTableViewCellViewModel {
-    private let post: FeedData
-    private let profileData: UserProfileData
+struct FeedTableViewCellViewModel: Hashable {
+    let profileImageURL: String
+    let username: String
+    let creationTime: String
+    let message: String?
+    let imageURLs: URL?
     
-    init(post: FeedData, profileData: UserProfileData) {
-        self.post = post
-        self.profileData = profileData
+    init(feedDatum: FeedDatum, userData: UserProfileData) {
+        let username = userData.firstName + " " + userData.lastName
+        self.profileImageURL = userData.picture.data.url
+        self.username = username
+        self.creationTime = feedDatum.createdTime.dateFormatting()
+        self.message = feedDatum.message
+        self.imageURLs = feedDatum.attachments?.data.first?.media?.image?.src
     }
     
-    var profileImage: String {
-        return profileData.picture.data.url
-    }
-    
-    var username: String {
-        let username = profileData.firstName + " " + profileData.lastName
-        return username
-    }
-    
-    var creationTime: String {
-        
-    }
 }

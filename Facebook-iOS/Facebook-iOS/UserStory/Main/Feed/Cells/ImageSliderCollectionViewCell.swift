@@ -38,7 +38,5 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: FeedViewModel) {
-        guard let safeImage = viewModel.image else { return }
-        imageView.downloadImage(from: safeImage)
     }
 }

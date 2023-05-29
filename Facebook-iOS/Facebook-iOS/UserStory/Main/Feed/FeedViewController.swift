@@ -30,7 +30,7 @@ final class FeedViewController: BaseViewController {
 
 extension FeedViewController: FeedViewModelDelegate {
     
-    func didFetchFeedData() {
+    func didFetchFeedData(feedData: FeedTableViewCellViewModel) {
         
     }
     

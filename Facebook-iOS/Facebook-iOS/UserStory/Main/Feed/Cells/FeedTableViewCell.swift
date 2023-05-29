@@ -123,24 +123,13 @@ class FeedTableViewCell: UITableViewCell {
         messageTextView.text = nil
     }
     
-    public func configure(with viewModel: FeedViewModel) {
-        
-        let safeUsername = viewModel.usernameLabel
-        guard let safeCreationTime = viewModel.creationTimeLabel else { return }
-        guard let safeProfileImageURL = viewModel.profileImageView else { return }
-        guard let safeMessage = viewModel.messageTextView else { return }
-        
-        DispatchQueue.main.async {
-            self.profileImageView.downloadImage(from: safeProfileImageURL)
-            self.usernameLabel.text = safeUsername
-            self.creationTimeLabel.text = safeCreationTime
-            self.privacyImage.image = ImagesNames.privacy
-            self.messageTextView.text = safeMessage
-        }
-        
-        imageSlider.reloadData()
-        pageControl.numberOfPages = viewModels.count // Update the numberOfPages here
-        pageControl.currentPage = 0
+    public func configure(with viewModel: FeedTableViewCellViewModel) {
+        guard let safeProfileImageURL = URL(string: viewModel.profileImageURL) else { return }
+        self.profileImageView.downloadImage(from: safeProfileImageURL)
+        self.usernameLabel.text = viewModel.username
+        self.creationTimeLabel.text = viewModel.creationTime
+        self.privacyImage.image = ImagesNames.privacy
+        self.messageTextView.text = viewModel.message
     }
     
     private func setupLayout() {
