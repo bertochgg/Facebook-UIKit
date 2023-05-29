@@ -15,6 +15,7 @@ protocol FeedTableViewCellProtocol {
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
+    private var dataSource: UICollectionViewDiffableDataSource<Int, FeedTableViewCellViewModel>?
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
@@ -98,11 +99,12 @@ class FeedTableViewCell: UITableViewCell {
         contentView.backgroundColor = .orange
         
         imageSlider.delegate = self
-        imageSlider.dataSource = self
         
         setupLayout()
         setupConstraints()
         setupActions()
+        
+        configureDataSource()
     }
     
     required init?(coder: NSCoder) {
@@ -112,7 +114,6 @@ class FeedTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         // myData.post.data.first?.attachments?.data.first?.media?.image?.src
-        // imageSlider.rowHei
     }
     
     override func prepareForReuse() {
@@ -131,6 +132,8 @@ class FeedTableViewCell: UITableViewCell {
         self.creationTimeLabel.text = viewModel.creationTime
         self.privacyImage.image = ImagesNames.privacy
         self.messageTextView.text = viewModel.message
+        
+        applySnapshot(with: viewModel.imageURLs.map { FeedTableViewCellViewModel(imageURL: $0) })
     }
     
     private func setupLayout() {
@@ -158,6 +161,7 @@ class FeedTableViewCell: UITableViewCell {
         privacyImage.translatesAutoresizingMaskIntoConstraints = false
         messageTextView.translatesAutoresizingMaskIntoConstraints = false
         imageSlider.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -184,7 +188,7 @@ class FeedTableViewCell: UITableViewCell {
             privacyImage.heightAnchor.constraint(equalToConstant: 9),
             
             // Message Text View
-            messageTextView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 17),
+            messageTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 82),
             messageTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
             messageTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
             messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 14),
@@ -193,11 +197,10 @@ class FeedTableViewCell: UITableViewCell {
             imageSlider.topAnchor.constraint(equalTo: messageTextView.bottomAnchor, constant: 5),
             imageSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageSlider.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -10),
-            imageSlider.heightAnchor.constraint(equalToConstant: 250),
+            imageSlider.heightAnchor.constraint(equalToConstant: 200),
             
-            pageControl.centerXAnchor.constraint(equalTo: imageSlider.centerXAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: imageSlider.bottomAnchor, constant: 10),
+            pageControl.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: imageSlider.bottomAnchor, constant: -10),
             pageControl.heightAnchor.constraint(equalToConstant: 25),
             
             // Share Button
@@ -250,18 +253,28 @@ extension FeedTableViewCell: UICollectionViewDelegate {
     
 }
 
-extension FeedTableViewCell: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+extension FeedTableViewCell {
+    func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Int, FeedTableViewCellViewModel>(collectionView: imageSlider) { collectionView, indexPath, viewModel in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
+                                                                for: indexPath) as? ImageSliderCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configure(with: viewModel)
+            
+            return cell
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
-                                                            for: indexPath) as? ImageSliderCollectionViewCell else {
-            return UICollectionViewCell()
+    func applySnapshot(with viewModels: [FeedTableViewCellViewModel]) {
+        guard let dataSource = dataSource else {
+            return
         }
         
-        return cell
+        var snapshot = NSDiffableDataSourceSnapshot<Int, FeedTableViewCellViewModel>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(viewModels)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
-    
 }

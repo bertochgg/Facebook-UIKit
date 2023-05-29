@@ -37,6 +37,8 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
         imageView.image = nil
     }
     
-    public func configure(with viewModel: FeedViewModel) {
+    public func configure(with viewModel: FeedTableViewCellViewModel) {
+        guard let safePostImageURL = viewModel.imageURLs else { return }
+        self.imageView.downloadImage(from: safePostImageURL)
     }
 }

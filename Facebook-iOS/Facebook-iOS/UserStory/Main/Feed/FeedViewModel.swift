@@ -29,7 +29,6 @@ final class FeedViewModel: FeedViewModelProtocol {
                 self?.userProfileNetworkService.fetchProfileData { [weak self] result in
                     switch result {
                     case .success(let userProfileData):
-                        guard let feedDatum = feedData.data.first else { return }
                         let viewModels = feedData.data.map { FeedTableViewCellViewModel(feedDatum: $0, userData: userProfileData) }
                         self?.delegate?.didFetchFeedData(feedData: viewModels)
                     case .failure(let error):

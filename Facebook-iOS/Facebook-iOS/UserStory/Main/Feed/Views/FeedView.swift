@@ -37,6 +37,10 @@ class FeedView: UIView {
 
 extension FeedView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 380
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
@@ -63,9 +67,5 @@ extension FeedView {
         snapshot.appendSections([0])
         snapshot.appendItems(viewModels)
         dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
     }
 }
