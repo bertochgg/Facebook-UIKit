@@ -133,7 +133,7 @@ class FeedTableViewCell: UITableViewCell {
         self.privacyImage.image = ImagesNames.privacy
         self.messageTextView.text = viewModel.message
         
-        applySnapshot(with: viewModel.imageURLs.map { FeedTableViewCellViewModel(imageURL: $0) })
+        applySnapshot(with: viewModel)
     }
     
     private func setupLayout() {
@@ -267,14 +267,14 @@ extension FeedTableViewCell {
         }
     }
     
-    func applySnapshot(with viewModels: [FeedTableViewCellViewModel]) {
+    func applySnapshot(with viewModel: FeedTableViewCellViewModel) {
         guard let dataSource = dataSource else {
             return
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, FeedTableViewCellViewModel>()
         snapshot.appendSections([0])
-        snapshot.appendItems(viewModels)
+        snapshot.appendItems([viewModel])
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
