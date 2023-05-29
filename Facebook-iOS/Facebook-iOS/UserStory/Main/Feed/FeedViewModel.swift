@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FeedViewModelDelegate: AnyObject {
-    func didFetchFeedData(feedData: FeedTableViewCellViewModel)
+    func didFetchFeedData(feedData: [FeedTableViewCellViewModel])
 }
 
 protocol FeedViewModelProtocol: AnyObject {
@@ -30,8 +30,8 @@ final class FeedViewModel: FeedViewModelProtocol {
                     switch result {
                     case .success(let userProfileData):
                         guard let feedDatum = feedData.data.first else { return }
-                        let viewModel = FeedTableViewCellViewModel(feedDatum: feedDatum, userData: userProfileData)
-                        self?.delegate?.didFetchFeedData(feedData: viewModel)
+                        let viewModels = feedData.data.map { _ in FeedTableViewCellViewModel(feedDatum: feedDatum, userData: userProfileData) }
+                        self?.delegate?.didFetchFeedData(feedData: viewModels)
                     case .failure(let error):
                         print("Error fetching user profile data: \(error.localizedDescription)")
                     }

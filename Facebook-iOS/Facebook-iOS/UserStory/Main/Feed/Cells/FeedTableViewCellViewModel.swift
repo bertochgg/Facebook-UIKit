@@ -8,6 +8,7 @@
 import Foundation
 
 struct FeedTableViewCellViewModel: Hashable {
+    let id: UUID
     let profileImageURL: String
     let username: String
     let creationTime: String
@@ -15,6 +16,7 @@ struct FeedTableViewCellViewModel: Hashable {
     let imageURLs: URL?
     
     init(feedDatum: FeedDatum, userData: UserProfileData) {
+        self.id = UUID() // Generate a unique identifier, otherwise it will crash x.X
         let username = userData.firstName + " " + userData.lastName
         self.profileImageURL = userData.picture.data.url
         self.username = username
@@ -22,5 +24,4 @@ struct FeedTableViewCellViewModel: Hashable {
         self.message = feedDatum.message
         self.imageURLs = feedDatum.attachments?.data.first?.media?.image?.src
     }
-    
 }

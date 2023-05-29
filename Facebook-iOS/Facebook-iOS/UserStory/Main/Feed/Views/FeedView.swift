@@ -54,15 +54,13 @@ extension FeedView {
         }
     }
     
-    func applySnapshot() {
+    func applySnapshot(with viewModels: [FeedTableViewCellViewModel]) {
         guard let dataSource = dataSource else {
             return
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, FeedTableViewCellViewModel>()
         snapshot.appendSections([0])
-        // Provide an array of view models to populate the table view
-        let viewModels: [FeedTableViewCellViewModel] = [] // Replace with your array of view models
         snapshot.appendItems(viewModels)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -71,4 +69,3 @@ extension FeedView {
         return UITableView.automaticDimension
     }
 }
-
