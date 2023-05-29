@@ -21,6 +21,7 @@ class FeedTableViewCell: UITableViewCell {
         image.layer.cornerRadius = 10
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .white
+        image.clipsToBounds = true
         return image
     }()
     

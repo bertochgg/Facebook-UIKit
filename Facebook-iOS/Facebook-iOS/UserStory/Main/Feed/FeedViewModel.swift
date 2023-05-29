@@ -30,7 +30,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                     switch result {
                     case .success(let userProfileData):
                         guard let feedDatum = feedData.data.first else { return }
-                        let viewModels = feedData.data.map { _ in FeedTableViewCellViewModel(feedDatum: feedDatum, userData: userProfileData) }
+                        let viewModels = feedData.data.map { FeedTableViewCellViewModel(feedDatum: $0, userData: userProfileData) }
                         self?.delegate?.didFetchFeedData(feedData: viewModels)
                     case .failure(let error):
                         print("Error fetching user profile data: \(error.localizedDescription)")
