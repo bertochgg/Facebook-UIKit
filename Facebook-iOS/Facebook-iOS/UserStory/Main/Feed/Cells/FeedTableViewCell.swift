@@ -134,6 +134,8 @@ class FeedTableViewCell: UITableViewCell {
         self.messageTextView.text = viewModel.message
         
         applySnapshot(with: viewModel)
+        self.pageControl.currentPage = 0
+        self.pageControl.numberOfPages = viewModel.imageURLs.count
     }
     
     private func setupLayout() {
@@ -153,7 +155,6 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        
         // Set constraints
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -165,7 +166,7 @@ class FeedTableViewCell: UITableViewCell {
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
+        let constraints = [
             // Profile Image View
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
@@ -188,17 +189,20 @@ class FeedTableViewCell: UITableViewCell {
             privacyImage.heightAnchor.constraint(equalToConstant: 9),
             
             // Message Text View
-            messageTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 82),
+            messageTextView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 17),
             messageTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
             messageTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
-            messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 14),
+            messageTextView.bottomAnchor.constraint(greaterThanOrEqualTo: imageSlider.topAnchor, constant: -5), // Allow dynamic height based on content
+//            messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 14),
             
             // Image Slider
-            imageSlider.topAnchor.constraint(equalTo: messageTextView.bottomAnchor, constant: 5),
             imageSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageSlider.heightAnchor.constraint(equalToConstant: 200),
+            imageSlider.topAnchor.constraint(greaterThanOrEqualTo: messageTextView.bottomAnchor, constant: 5),
+            imageSlider.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -10),
+            imageSlider.heightAnchor.constraint(equalToConstant: 250),
             
+            // Page Control
             pageControl.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: imageSlider.bottomAnchor, constant: -10),
             pageControl.heightAnchor.constraint(equalToConstant: 25),
@@ -214,9 +218,11 @@ class FeedTableViewCell: UITableViewCell {
             likeButton.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 20),
             likeButton.widthAnchor.constraint(equalToConstant: 24),
             likeButton.heightAnchor.constraint(equalToConstant: 24)
-        ])
+        ]
+        
+        NSLayoutConstraint.activate(constraints)
     }
-    
+
     private func setupActions() {
         shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)

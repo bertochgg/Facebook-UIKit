@@ -35,11 +35,12 @@ struct Attachments: Codable {
 
 // MARK: - AttachmentsDatum
 struct AttachmentsDatum: Codable {
-    let description: String?
     let media: Media?
+    let subattachments: Subattachments?
     let target: Target?
-    let type: String?
-    let url: URL?
+    let title: String?
+    let url: String?
+    let description: String?
 }
 
 // MARK: - Media
@@ -52,6 +53,17 @@ struct Image: Codable {
     let height: Int?
     let src: URL?
     let width: Int?
+}
+
+// MARK: - Subattachments
+struct Subattachments: Codable {
+    let data: [SubattachmentsDatum]
+}
+
+struct SubattachmentsDatum: Codable {
+    let media: Media
+    let target: Target
+    let url: String
 }
 
 // MARK: - Target
