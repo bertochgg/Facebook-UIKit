@@ -42,7 +42,7 @@ extension FeedView: UITableViewDelegate {
     }
 }
 
-extension FeedView: UITableViewDataSource, UITableViewDataSourcePrefetching {
+extension FeedView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
@@ -51,8 +51,6 @@ extension FeedView: UITableViewDataSource, UITableViewDataSourcePrefetching {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier,
                                                        for: indexPath) as? FeedTableViewCell else { return UITableViewCell() }
         // create a view model and pass it to the cell. Inside this viewModel should be the 'post' entity with
-        let viewModel = FeedCollectionViewCellViewModel(post: post)
-        cell.configure(with: viewModel)
         
         return cell
     }

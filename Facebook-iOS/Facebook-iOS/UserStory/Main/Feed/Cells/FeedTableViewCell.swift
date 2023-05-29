@@ -15,7 +15,6 @@ protocol FeedTableViewCellProtocol {
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
-    private var viewModel: FeedCollectionViewCellViewModel
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
@@ -124,7 +123,7 @@ class FeedTableViewCell: UITableViewCell {
         messageTextView.text = nil
     }
     
-    public func configure(with viewModel: FeedTableViewCellViewModel) {
+    public func configure(with viewModel: FeedViewModel) {
         
         let safeUsername = viewModel.usernameLabel
         guard let safeCreationTime = viewModel.creationTimeLabel else { return }
@@ -139,7 +138,6 @@ class FeedTableViewCell: UITableViewCell {
             self.messageTextView.text = safeMessage
         }
         
-        self.viewModels = viewModel.collectionViewImages
         imageSlider.reloadData()
         pageControl.numberOfPages = viewModels.count // Update the numberOfPages here
         pageControl.currentPage = 0

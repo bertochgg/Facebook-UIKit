@@ -31,8 +31,7 @@ final class FeedCoordinator: FeedCoordinatorProtocol {
     }
     
     func showFeedViewController() {
-        let post = service.getPost()
-        let feedViewController = FeedViewController(post: post)
+        let feedViewController = FeedViewController()
         feedViewController.coordinator = self
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.backgroundColor = .white
