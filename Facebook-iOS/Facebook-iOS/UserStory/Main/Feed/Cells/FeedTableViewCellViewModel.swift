@@ -13,8 +13,8 @@ struct FeedTableViewCellViewModel: Hashable {
     let username: String
     let creationTime: String
     let message: String?
-    let imageURLs: [URL?]
-    let imageURL: URL?
+    var imageURLs: [URL?] = []
+    var imageURL: URL? = nil
     
     init(feedDatum: FeedDatum, userData: UserProfileData) {
         self.id = UUID() // Generate a unique identifier, otherwise it will crash x.X
@@ -23,7 +23,20 @@ struct FeedTableViewCellViewModel: Hashable {
         self.username = username
         self.creationTime = feedDatum.createdTime.dateFormatting()
         self.message = feedDatum.message
-        self.imageURLs = [feedDatum.attachments?.data.first?.subattachments?.data.first?.media.image?.src]
+        if let subattachments = feedDatum.attachments?.data.first?.subattachments?.data {
+            self.imageURLs = getImageURLs(from: subattachments)
+            print(imageURLs)
+        }
         self.imageURL = feedDatum.attachments?.data.first?.media?.image?.src
+    }
+}
+
+private extension FeedTableViewCellViewModel {
+    func getImageURLs(from list: [SubattachmentsDatum]) -> [URL?] {
+        var images: [URL?] = []
+        list.forEach { element in
+            images.append(element.media.image?.src)
+        }
+        return images
     }
 }

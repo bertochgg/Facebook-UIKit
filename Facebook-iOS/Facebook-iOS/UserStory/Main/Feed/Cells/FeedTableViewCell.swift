@@ -15,7 +15,8 @@ protocol FeedTableViewCellProtocol {
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
-    private var dataSource: UICollectionViewDiffableDataSource<Int, FeedTableViewCellViewModel>?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, FeedTableViewCellViewModel>?
+    private lazy var snapshot = dataSource?.snapshot()
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
@@ -99,7 +100,7 @@ class FeedTableViewCell: UITableViewCell {
         contentView.backgroundColor = .orange
         
         imageSlider.delegate = self
-        
+        snapshot?.appendSections([Section.carousel])
         setupLayout()
         setupConstraints()
         setupActions()
@@ -133,9 +134,23 @@ class FeedTableViewCell: UITableViewCell {
         self.privacyImage.image = ImagesNames.privacy
         self.messageTextView.text = viewModel.message
         
-        applySnapshot(with: viewModel)
+        self.snapshot?.appendItems([viewModel])
+        if let snapshot = snapshot {
+            dataSource?.apply(snapshot)
+        }
+        
         self.pageControl.currentPage = 0
         self.pageControl.numberOfPages = viewModel.imageURLs.count
+//        if viewModel.imageURLs.isEmpty || viewModel.imageURL == nil {
+//            self.imageSlider.isHidden = true
+//            self.pageControl.isHidden = true
+//            self.imageSlider.heightAnchor.constraint(equalToConstant: 0).isActive = true
+//        }
+//        
+//        if viewModel.message == nil {
+//            self.messageTextView.isHidden = true
+//            self.messageTextView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+//        }
     }
     
     private func setupLayout() {
@@ -261,7 +276,7 @@ extension FeedTableViewCell: UICollectionViewDelegate {
 
 extension FeedTableViewCell {
     func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, FeedTableViewCellViewModel>(collectionView: imageSlider) { collectionView, indexPath, viewModel in
+        dataSource = UICollectionViewDiffableDataSource<Section, FeedTableViewCellViewModel>(collectionView: imageSlider) { collectionView, indexPath, viewModel in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
                                                                 for: indexPath) as? ImageSliderCollectionViewCell else {
                 return UICollectionViewCell()
@@ -272,15 +287,8 @@ extension FeedTableViewCell {
             return cell
         }
     }
-    
-    func applySnapshot(with viewModel: FeedTableViewCellViewModel) {
-        guard let dataSource = dataSource else {
-            return
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Int, FeedTableViewCellViewModel>()
-        snapshot.appendSections([0])
-        snapshot.appendItems([viewModel])
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
+}
+
+enum Section {
+    case carousel
 }
