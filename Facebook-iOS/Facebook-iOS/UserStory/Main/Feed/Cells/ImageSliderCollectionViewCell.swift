@@ -38,12 +38,6 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with viewModel: CarouselCellViewModel) {
-        if viewModel.imageURLs.count > 1 {
-            for url in viewModel.imageURLs {
-                imageView.downloadImage(from: url)
-            }
-        } else {
-            imageView.downloadImage(from: viewModel.imageURL)
-        }
+        imageView.downloadImage(from: viewModel.imageURL)
     }
 }

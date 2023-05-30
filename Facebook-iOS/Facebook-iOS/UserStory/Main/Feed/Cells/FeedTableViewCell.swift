@@ -135,19 +135,26 @@ class FeedTableViewCell: UITableViewCell {
         applySnapshot(with: viewModel)
         self.pageControl.currentPage = 0
         self.pageControl.numberOfPages = viewModel.imageURLs.count
-        self.imageSlider.reloadData()
         
-//        if viewModel.message == nil {
+//        // Configure message label
+//        if let message = viewModel.message, !message.isEmpty, message.contains("") {
+//            self.messageTextView.isHidden = false
+//            self.messageTextView.text = message
+//        } else {
 //            self.messageTextView.isHidden = true
 //            self.messageTextView.heightAnchor.constraint(equalToConstant: 0).isActive = true
 //        }
-//        
-//        if viewModel.imageURL == nil || viewModel.imageURLs.isEmpty {
+//
+//        // Configure image slider
+//        if viewModel.imageURL == nil && viewModel.imageURLs.isEmpty {
 //            self.imageSlider.isHidden = true
 //            self.pageControl.isHidden = true
 //            self.imageSlider.heightAnchor.constraint(equalToConstant: 0).isActive = true
 //            self.pageControl.heightAnchor.constraint(equalToConstant: 0).isActive = true
+//        } else {
+//            imageSlider.isHidden = false
 //        }
+
     }
     
     private func setupLayout() {
@@ -279,7 +286,7 @@ extension FeedTableViewCell {
                 return UICollectionViewCell()
             }
             
-            let imageURLs = CarouselCellViewModel(imageURLs: [url], imageURL: url)
+            let imageURLs = CarouselCellViewModel(imageURL: url)
             cell.configure(with: imageURLs)
             
             return cell
@@ -292,12 +299,13 @@ extension FeedTableViewCell {
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, URL>()
         snapshot.appendSections([0])
-    
+
         let validURLs = viewModel.imageURLs.compactMap { $0 }
-    
-        snapshot.appendItems(validURLs, toSection: 0)
-        snapshot.appendItems([validURL])
+
+        snapshot.appendItems([validURL]) // Append the validURL first
+        snapshot.appendItems(validURLs) // Then append the validURLs
         dataSource.apply(snapshot, animatingDifferences: true)
     }
+
 
 }
