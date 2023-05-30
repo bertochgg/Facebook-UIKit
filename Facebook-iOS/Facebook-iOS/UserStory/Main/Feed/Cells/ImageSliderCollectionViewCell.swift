@@ -11,16 +11,9 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "imageSliderCell"
     
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageView)
+
     }
     
     required init?(coder: NSCoder) {
@@ -29,16 +22,37 @@ class ImageSliderCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = contentView.bounds
+        
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView.image = nil
+        
     }
     
     public func configure(with viewModel: FeedTableViewCellViewModel) {
-        guard let safeImageURL = viewModel.imageURL else { return }
-        self.imageView.downloadImage(from: safeImageURL)
+        
+        let imageURLs = viewModel.imageURLs.compactMap { $0 }
+        if imageURLs.count > 1 {
+            // Display multiple images in the carousel
+            for imageURL in imageURLs {
+                let imageView = UIImageView()
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+                imageView.downloadImage(from: imageURL)
+                imageView.frame = contentView.bounds
+                contentView.addSubview(imageView)
+            }
+        } else if let safeImageURL = viewModel.imageURL {
+            
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            imageView.downloadImage(from: safeImageURL)
+            imageView.frame = contentView.bounds
+            // Add the image view to the carousel
+            contentView.addSubview(imageView)
+        }
     }
+
 }
