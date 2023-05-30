@@ -15,7 +15,7 @@ protocol FeedTableViewCellProtocol {
 class FeedTableViewCell: UITableViewCell {
     
     static let identifier = "FeedTableViewCell"
-    private var dataSource: UICollectionViewDiffableDataSource<Int, FeedTableViewCellViewModel>?
+    private var dataSource: UICollectionViewDiffableDataSource<Int, URL>?
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
@@ -96,7 +96,6 @@ class FeedTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .orange
         
         imageSlider.delegate = self
         
@@ -137,6 +136,18 @@ class FeedTableViewCell: UITableViewCell {
         self.pageControl.currentPage = 0
         self.pageControl.numberOfPages = viewModel.imageURLs.count
         self.imageSlider.reloadData()
+        
+//        if viewModel.message == nil {
+//            self.messageTextView.isHidden = true
+//            self.messageTextView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+//        }
+//        
+//        if viewModel.imageURL == nil || viewModel.imageURLs.isEmpty {
+//            self.imageSlider.isHidden = true
+//            self.pageControl.isHidden = true
+//            self.imageSlider.heightAnchor.constraint(equalToConstant: 0).isActive = true
+//            self.pageControl.heightAnchor.constraint(equalToConstant: 0).isActive = true
+//        }
     }
     
     private func setupLayout() {
@@ -193,7 +204,7 @@ class FeedTableViewCell: UITableViewCell {
             messageTextView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 17),
             messageTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
             messageTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
-            messageTextView.bottomAnchor.constraint(greaterThanOrEqualTo: imageSlider.topAnchor, constant: -5), // Allow dynamic height based on content
+            messageTextView.bottomAnchor.constraint(greaterThanOrEqualTo: imageSlider.topAnchor, constant: -5), // Allows dynamic height based on content
 //            messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 14),
             
             // Image Slider
@@ -262,26 +273,31 @@ extension FeedTableViewCell: UICollectionViewDelegate {
 
 extension FeedTableViewCell {
     func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, FeedTableViewCellViewModel>(collectionView: imageSlider) { collectionView, indexPath, viewModel in
+        dataSource = UICollectionViewDiffableDataSource<Int, URL>(collectionView: imageSlider) { collectionView, indexPath, url in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
                                                                 for: indexPath) as? ImageSliderCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
-            cell.configure(with: viewModel)
+            let imageURLs = CarouselCellViewModel(imageURLs: [url], imageURL: url)
+            cell.configure(with: imageURLs)
             
             return cell
         }
     }
     
     func applySnapshot(with viewModel: FeedTableViewCellViewModel) {
-        guard let dataSource = dataSource else {
-            return
-        }
+        guard let dataSource = dataSource else { return }
+        guard let validURL = viewModel.imageURL else { return }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Int, FeedTableViewCellViewModel>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, URL>()
         snapshot.appendSections([0])
-        snapshot.appendItems([viewModel])
+    
+        let validURLs = viewModel.imageURLs.compactMap { $0 }
+    
+        snapshot.appendItems(validURLs, toSection: 0)
+        snapshot.appendItems([validURL])
         dataSource.apply(snapshot, animatingDifferences: true)
     }
+
 }

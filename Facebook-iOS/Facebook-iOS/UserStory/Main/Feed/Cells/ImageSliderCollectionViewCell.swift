@@ -8,51 +8,42 @@
 import UIKit
 
 class ImageSliderCollectionViewCell: UICollectionViewCell {
+    static let identifier = "ImageSliderCollectionViewCell"
     
-    static let identifier = "imageSliderCell"
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        contentView.addSubview(imageView)
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.frame = contentView.bounds
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        imageView.image = nil
     }
     
-    public func configure(with viewModel: FeedTableViewCellViewModel) {
-        
-        let imageURLs = viewModel.imageURLs.compactMap { $0 }
-        if imageURLs.count > 1 {
-            // Display multiple images in the carousel
-            for imageURL in imageURLs {
-                let imageView = UIImageView()
-                imageView.contentMode = .scaleAspectFill
-                imageView.clipsToBounds = true
-                imageView.downloadImage(from: imageURL)
-                imageView.frame = contentView.bounds
-                contentView.addSubview(imageView)
+    func configure(with viewModel: CarouselCellViewModel) {
+        if viewModel.imageURLs.count > 1 {
+            for url in viewModel.imageURLs {
+                imageView.downloadImage(from: url)
             }
-        } else if let safeImageURL = viewModel.imageURL {
-            
-            let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.downloadImage(from: safeImageURL)
-            imageView.frame = contentView.bounds
-            // Add the image view to the carousel
-            contentView.addSubview(imageView)
+        } else {
+            imageView.downloadImage(from: viewModel.imageURL)
         }
     }
-
 }
