@@ -29,8 +29,6 @@ final class FeedViewModel: FeedViewModelProtocol {
         var viewModels: [FeedTableViewCellViewModel] = []
         var feedNetworkError: NetworkServiceErrors?
         
-        // guard let safeFeedNetworkError = feedNetworkError else { return }
-        
         group.enter()
         feedNetworkService.fetchFeedData { result in
             switch result {
