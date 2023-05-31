@@ -151,10 +151,7 @@ class FeedTableViewCell: UITableViewCell {
         if viewModel.imageURL != nil || !viewModel.imageURLs.isEmpty {
             self.imageSlider.isHidden = false
             self.pageControl.isHidden = false
-            self.imageSliderHeightConstraint?.isActive = false
-            self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 250)
             self.imageSliderHeightConstraint?.constant = 250
-            self.imageSliderHeightConstraint?.isActive = true
         } else {
             self.imageSlider.isHidden = true
             self.pageControl.isHidden = true
@@ -228,6 +225,8 @@ class FeedTableViewCell: UITableViewCell {
         imageSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         imageSlider.topAnchor.constraint(greaterThanOrEqualTo: messageTextView.bottomAnchor, constant: 5).isActive = true
         imageSlider.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -10).isActive = true
+        self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 250)
+        self.imageSliderHeightConstraint?.isActive = true
         
         // Page Control
         pageControl.centerXAnchor.constraint(equalTo: imageSlider.centerXAnchor).isActive = true
@@ -258,14 +257,18 @@ class FeedTableViewCell: UITableViewCell {
 extension FeedTableViewCell: FeedTableViewCellProtocol {
     @objc
     func shareButtonTapped() {
-        imageSlider.isHidden = true
+        
     }
     
     @objc
     func likeButtonTapped() {
-        imageSlider.isHidden = false
-        
+        highlightLikeButton()
     }
+    
+    private func highlightLikeButton() {
+        likeButton.tintColor = .red
+    }
+
 }
 
 extension FeedTableViewCell: UICollectionViewDelegateFlowLayout {
