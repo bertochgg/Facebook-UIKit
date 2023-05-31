@@ -14,8 +14,10 @@ protocol FeedTableViewCellProtocol {
 
 class FeedTableViewCell: UITableViewCell {
     
-    static let identifier = "FeedTableViewCell"
+    static var identifier: String { return String(describing: self) }
     private var dataSource: UICollectionViewDiffableDataSource<Int, URL>?
+    private var messageTextViewHeightConstraint: NSLayoutConstraint?
+    private var imageSliderHeightConstraint: NSLayoutConstraint?
     
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
@@ -55,6 +57,7 @@ class FeedTableViewCell: UITableViewCell {
         textView.textColor = .black
         textView.font = UIFont.robotoRegular12
         textView.isScrollEnabled = false
+        textView.isEditable = false
         return textView
     }()
     
@@ -125,36 +128,38 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     public func configure(with viewModel: FeedTableViewCellViewModel) {
+//        self.messageTextViewHeightConstraint = messageTextView.heightAnchor.constraint(equalToConstant: 0)
+//        self.messageTextViewHeightConstraint?.isActive = true
+//        self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 0)
+//        self.imageSliderHeightConstraint?.isActive = true
+        
         guard let safeProfileImageURL = URL(string: viewModel.profileImageURL) else { return }
         self.profileImageView.downloadImage(from: safeProfileImageURL)
         self.usernameLabel.text = viewModel.username
         self.creationTimeLabel.text = viewModel.creationTime
         self.privacyImage.image = ImagesNames.privacy
-        self.messageTextView.text = viewModel.message
+        // self.messageTextView.text = viewModel.message
         
         applySnapshot(with: viewModel)
         self.pageControl.currentPage = 0
         self.pageControl.numberOfPages = viewModel.imageURLs.count
         
-//        // Configure message label
-//        if let message = viewModel.message, !message.isEmpty, message.contains("") {
-//            self.messageTextView.isHidden = false
-//            self.messageTextView.text = message
-//        } else {
-//            self.messageTextView.isHidden = true
-//            self.messageTextView.heightAnchor.constraint(equalToConstant: 0).isActive = true
-//        }
-//
-//        // Configure image slider
-//        if viewModel.imageURL == nil && viewModel.imageURLs.isEmpty {
-//            self.imageSlider.isHidden = true
-//            self.pageControl.isHidden = true
-//            self.imageSlider.heightAnchor.constraint(equalToConstant: 0).isActive = true
-//            self.pageControl.heightAnchor.constraint(equalToConstant: 0).isActive = true
-//        } else {
-//            imageSlider.isHidden = false
-//        }
+        // Configure message label
+        if let message = viewModel.message, !message.isEmpty {
+            self.messageTextView.text = message
+        }
 
+        // Configure image slider
+        if viewModel.imageURL != nil && viewModel.imageURLs.count == 1 {
+            self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 250)
+            self.imageSliderHeightConstraint?.isActive = true
+            self.pageControl.isHidden = false
+        } else {
+            self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 0)
+            self.imageSliderHeightConstraint?.isActive = true
+            self.pageControl.isHidden = true
+        }
+        
     }
     
     private func setupLayout() {
@@ -185,61 +190,56 @@ class FeedTableViewCell: UITableViewCell {
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let constraints = [
             // Profile Image View
-            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
-            profileImageView.widthAnchor.constraint(equalToConstant: 50),
-            profileImageView.heightAnchor.constraint(equalToConstant: 50),
-            
-            // Username Label
-            usernameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            usernameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16),
-            usernameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -129),
-            
-            // Creation Time Label
-            creationTimeLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 2),
-            creationTimeLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16),
-            
-            // Privacy Image
-            privacyImage.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4),
-            privacyImage.leadingAnchor.constraint(equalTo: creationTimeLabel.trailingAnchor, constant: 8),
-            privacyImage.widthAnchor.constraint(equalToConstant: 9),
-            privacyImage.heightAnchor.constraint(equalToConstant: 9),
-            
-            // Message Text View
-            messageTextView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 17),
-            messageTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21),
-            messageTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
-            messageTextView.bottomAnchor.constraint(greaterThanOrEqualTo: imageSlider.topAnchor, constant: -5), // Allows dynamic height based on content
-//            messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 14),
-            
-            // Image Slider
-            imageSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageSlider.topAnchor.constraint(greaterThanOrEqualTo: messageTextView.bottomAnchor, constant: 5),
-            imageSlider.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -10),
-            imageSlider.heightAnchor.constraint(equalToConstant: 250),
-            
-            // Page Control
-            pageControl.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: imageSlider.bottomAnchor, constant: -10),
-            pageControl.heightAnchor.constraint(equalToConstant: 25),
-            
-            // Share Button
-            shareButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            shareButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            shareButton.widthAnchor.constraint(equalToConstant: 24),
-            shareButton.heightAnchor.constraint(equalToConstant: 24),
-            
-            // Like Button
-            likeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            likeButton.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 20),
-            likeButton.widthAnchor.constraint(equalToConstant: 24),
-            likeButton.heightAnchor.constraint(equalToConstant: 24)
-        ]
+        profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        NSLayoutConstraint.activate(constraints)
+        // Username Label
+        usernameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        usernameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16).isActive = true
+        usernameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -129).isActive = true
+        
+        // Creation Time Label
+        creationTimeLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 2).isActive = true
+        creationTimeLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16).isActive = true
+        
+        // Privacy Image
+        privacyImage.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4).isActive = true
+        privacyImage.leadingAnchor.constraint(equalTo: creationTimeLabel.trailingAnchor, constant: 8).isActive = true
+        privacyImage.widthAnchor.constraint(equalToConstant: 9).isActive = true
+        privacyImage.heightAnchor.constraint(equalToConstant: 9).isActive = true
+        
+        // Message Text View
+        messageTextView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 17).isActive = true
+        messageTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21).isActive = true
+        messageTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21).isActive = true
+        //            messageTextView.bottomAnchor.constraint(greaterThanOrEqualTo: imageSlider.topAnchor, constant: -5), // Allows dynamic height based on content
+        
+        // Image Slider
+        imageSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        imageSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        imageSlider.topAnchor.constraint(greaterThanOrEqualTo: messageTextView.bottomAnchor, constant: 5).isActive = true
+        imageSlider.bottomAnchor.constraint(equalTo: shareButton.topAnchor, constant: -10).isActive = true
+        
+        // Page Control
+        pageControl.centerXAnchor.constraint(equalTo: imageSlider.centerXAnchor).isActive = true
+        pageControl.bottomAnchor.constraint(equalTo: imageSlider.bottomAnchor, constant: -10).isActive = true
+        pageControl.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        
+        // Share Button
+        shareButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        shareButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        shareButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        shareButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        // Like Button
+        likeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        likeButton.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 20).isActive = true
+        likeButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        likeButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
     }
 
     private func setupActions() {
@@ -306,6 +306,5 @@ extension FeedTableViewCell {
         snapshot.appendItems(validURLs) // Then append the validURLs
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-
 
 }

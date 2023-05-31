@@ -51,7 +51,7 @@ extension FeedView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier, for: indexPath) as? FeedTableViewCell else {
                 return UITableViewCell()
             }
-            
+            cell.selectionStyle = .none
             cell.configure(with: viewModel)
             
             return cell

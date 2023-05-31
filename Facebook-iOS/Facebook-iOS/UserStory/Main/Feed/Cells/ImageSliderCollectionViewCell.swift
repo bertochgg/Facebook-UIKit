@@ -8,7 +8,7 @@
 import UIKit
 
 class ImageSliderCollectionViewCell: UICollectionViewCell {
-    static let identifier = "ImageSliderCollectionViewCell"
+    static var identifier: String { return String(describing: self) }
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
