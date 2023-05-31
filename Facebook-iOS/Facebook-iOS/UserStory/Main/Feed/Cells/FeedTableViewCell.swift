@@ -94,6 +94,7 @@ class FeedTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(ImagesNames.like, for: .normal)
         button.backgroundColor = .clear
+        button.isHighlighted = true
         return button
     }()
     
@@ -128,40 +129,45 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     public func configure(with viewModel: FeedTableViewCellViewModel) {
-//        self.messageTextViewHeightConstraint = messageTextView.heightAnchor.constraint(equalToConstant: 0)
-//        self.messageTextViewHeightConstraint?.isActive = true
-//        self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 0)
-//        self.imageSliderHeightConstraint?.isActive = true
-        
         guard let safeProfileImageURL = URL(string: viewModel.profileImageURL) else { return }
         self.profileImageView.downloadImage(from: safeProfileImageURL)
         self.usernameLabel.text = viewModel.username
         self.creationTimeLabel.text = viewModel.creationTime
         self.privacyImage.image = ImagesNames.privacy
-        // self.messageTextView.text = viewModel.message
-        
-        applySnapshot(with: viewModel)
-        self.pageControl.currentPage = 0
-        self.pageControl.numberOfPages = viewModel.imageURLs.count
-        
+
         // Configure message label
         if let message = viewModel.message, !message.isEmpty {
             self.messageTextView.text = message
+            self.messageTextView.isHidden = false
+            self.messageTextViewHeightConstraint?.isActive = false
+        } else {
+            self.messageTextView.isHidden = true
+            self.messageTextViewHeightConstraint = messageTextView.heightAnchor.constraint(equalToConstant: 0)
+            self.messageTextViewHeightConstraint?.constant = 0
+            self.messageTextViewHeightConstraint?.isActive = true
         }
 
         // Configure image slider
-        if viewModel.imageURL != nil && viewModel.imageURLs.count == 1 {
-            self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 250)
-            self.imageSliderHeightConstraint?.isActive = true
+        if viewModel.imageURL != nil || !viewModel.imageURLs.isEmpty {
+            self.imageSlider.isHidden = false
             self.pageControl.isHidden = false
-        } else {
-            self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 0)
+            self.imageSliderHeightConstraint?.isActive = false
+            self.imageSliderHeightConstraint = imageSlider.heightAnchor.constraint(equalToConstant: 250)
+            self.imageSliderHeightConstraint?.constant = 250
             self.imageSliderHeightConstraint?.isActive = true
+        } else {
+            self.imageSlider.isHidden = true
             self.pageControl.isHidden = true
+            self.imageSliderHeightConstraint?.isActive = false
+            self.imageSliderHeightConstraint?.constant = 0
+            self.imageSliderHeightConstraint?.isActive = true
         }
-        
+
+        applySnapshot(with: viewModel)
+        self.pageControl.currentPage = 0
+        self.pageControl.numberOfPages = viewModel.imageURLs.count
     }
-    
+
     private func setupLayout() {
         // If you are adding elements to a cell we need to use content view to assign constraints to cell, if not we are adding constraints to cell
         contentView.addSubview(profileImageView)
@@ -258,6 +264,7 @@ extension FeedTableViewCell: FeedTableViewCellProtocol {
     @objc
     func likeButtonTapped() {
         imageSlider.isHidden = false
+        
     }
 }
 
