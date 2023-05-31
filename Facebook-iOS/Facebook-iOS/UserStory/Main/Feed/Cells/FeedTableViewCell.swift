@@ -94,7 +94,6 @@ class FeedTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(ImagesNames.like, for: .normal)
         button.backgroundColor = .clear
-        button.isHighlighted = true
         return button
     }()
     
@@ -134,7 +133,7 @@ class FeedTableViewCell: UITableViewCell {
         self.usernameLabel.text = viewModel.username
         self.creationTimeLabel.text = viewModel.creationTime
         self.privacyImage.image = ImagesNames.privacy
-
+        
         // Configure message label
         if let message = viewModel.message, !message.isEmpty {
             self.messageTextView.text = message
@@ -146,7 +145,7 @@ class FeedTableViewCell: UITableViewCell {
             self.messageTextViewHeightConstraint?.constant = 0
             self.messageTextViewHeightConstraint?.isActive = true
         }
-
+        
         // Configure image slider
         if viewModel.imageURL != nil || !viewModel.imageURLs.isEmpty {
             self.imageSlider.isHidden = false
@@ -159,12 +158,12 @@ class FeedTableViewCell: UITableViewCell {
             self.imageSliderHeightConstraint?.constant = 0
             self.imageSliderHeightConstraint?.isActive = true
         }
-
+        
         applySnapshot(with: viewModel)
         self.pageControl.currentPage = 0
         self.pageControl.numberOfPages = viewModel.imageURLs.count
     }
-
+    
     private func setupLayout() {
         // If you are adding elements to a cell we need to use content view to assign constraints to cell, if not we are adding constraints to cell
         contentView.addSubview(profileImageView)
@@ -193,7 +192,7 @@ class FeedTableViewCell: UITableViewCell {
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         
-            // Profile Image View
+        // Profile Image View
         profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 21).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
@@ -246,7 +245,7 @@ class FeedTableViewCell: UITableViewCell {
         likeButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
     }
-
+    
     private func setupActions() {
         shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
@@ -262,13 +261,17 @@ extension FeedTableViewCell: FeedTableViewCellProtocol {
     
     @objc
     func likeButtonTapped() {
-        highlightLikeButton()
+        highlightButton()
     }
     
-    private func highlightLikeButton() {
-        likeButton.tintColor = .red
+    private func highlightButton() {
+        let highlightedImage = likeButton.currentImage?.withTintColor(.gray, renderingMode: .alwaysOriginal)
+        likeButton.setImage(highlightedImage, for: .normal)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.likeButton.setImage(self.likeButton.currentImage?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        }
     }
-
+    
 }
 
 extension FeedTableViewCell: UICollectionViewDelegateFlowLayout {
@@ -309,12 +312,12 @@ extension FeedTableViewCell {
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, URL>()
         snapshot.appendSections([0])
-
+        
         let validURLs = viewModel.imageURLs.compactMap { $0 }
-
+        
         snapshot.appendItems([validURL]) // Append the validURL first
         snapshot.appendItems(validURLs) // Then append the validURLs
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-
+    
 }
