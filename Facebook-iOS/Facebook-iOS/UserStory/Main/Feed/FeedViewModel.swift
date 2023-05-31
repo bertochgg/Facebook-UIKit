@@ -50,7 +50,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             group.leave()
         }
         
-        group.notify(queue: .global()) {
+        group.notify(queue: .main) {
             guard let feedData = feedData, let userProfileData = userProfileData else { return }
             
             viewModels = feedData.data.map { feedDatum -> FeedTableViewCellViewModel in
