@@ -68,7 +68,6 @@ class FeedTableViewCell: UITableViewCell {
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemPurple
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(ImageSliderCollectionViewCell.self, forCellWithReuseIdentifier: ImageSliderCollectionViewCell.identifier)
@@ -292,7 +291,7 @@ extension FeedTableViewCell: UICollectionViewDelegate {
 }
 
 extension FeedTableViewCell {
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, URL>(collectionView: imageSlider) { collectionView, indexPath, url in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageSliderCollectionViewCell.identifier,
                                                                 for: indexPath) as? ImageSliderCollectionViewCell else {

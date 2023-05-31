@@ -46,7 +46,7 @@ extension FeedView: UITableViewDelegate {
 }
 
 extension FeedView {
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = UITableViewDiffableDataSource<Int, FeedTableViewCellViewModel>(tableView: tableView) { tableView, indexPath, viewModel in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier, for: indexPath) as? FeedTableViewCell else {
                 return UITableViewCell()
