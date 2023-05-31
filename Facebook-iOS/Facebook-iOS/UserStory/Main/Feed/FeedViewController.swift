@@ -29,7 +29,12 @@ final class FeedViewController: BaseViewController {
 }
 
 extension FeedViewController: FeedViewModelDelegate {
-    func didFetchFeedData(feedData: [FeedTableViewCellViewModel], feedDataError: NetworkServiceErrors) {
-        feedView.applySnapshot(with: feedData)
+    func didFetchFeedData(feedData: [FeedTableViewCellViewModel], feedDataError: NetworkServiceErrors?) {
+        if let error = feedDataError {
+            // Handle the error here
+            print("Error fetching feed data: \(error.localizedDescription)")
+        } else {
+            feedView.applySnapshot(with: feedData)
+        }
     }
 }

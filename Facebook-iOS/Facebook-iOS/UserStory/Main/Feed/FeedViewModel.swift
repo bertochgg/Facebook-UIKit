@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FeedViewModelDelegate: AnyObject {
-    func didFetchFeedData(feedData: [FeedTableViewCellViewModel], feedDataError: NetworkServiceErrors)
+    func didFetchFeedData(feedData: [FeedTableViewCellViewModel], feedDataError: NetworkServiceErrors?)
 }
 
 protocol FeedViewModelProtocol: AnyObject {
@@ -29,7 +29,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         var viewModels: [FeedTableViewCellViewModel] = []
         var feedNetworkError: NetworkServiceErrors?
         
-        guard let safeFeedNetworkError = feedNetworkError else { return }
+        // guard let safeFeedNetworkError = feedNetworkError else { return }
         
         group.enter()
         feedNetworkService.fetchFeedData { result in
@@ -74,7 +74,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                 )
             }
             
-            self.delegate?.didFetchFeedData(feedData: viewModels, feedDataError: safeFeedNetworkError)
+            self.delegate?.didFetchFeedData(feedData: viewModels, feedDataError: feedNetworkError)
         }
     }
 
