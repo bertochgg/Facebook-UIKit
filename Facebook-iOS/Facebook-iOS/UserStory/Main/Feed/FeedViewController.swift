@@ -32,13 +32,13 @@ final class FeedViewController: BaseViewController {
 extension FeedViewController: FeedViewModelDelegate {
     func didFetchFeedData(feedData: [FeedTableViewCellViewModel]) {
         feedView.applySnapshot(with: feedData)
-        self.hideProgress()
+        self.hideProgress(completion: nil)
     }
     
     func didFailFetchingFeedData(with error: NetworkServiceErrors) {
         let title = "Error"
         let message = error.localizedDescription
-        self.hideProgress()
+        self.hideProgress(completion: nil)
         showErrorAlert(title: title, message: message)
     }
     

@@ -8,8 +8,8 @@
 import Foundation
 
 protocol ProgressShowable {
-
-   func showProgress(_ title: String?)
-   func hideProgress()
-
+    
+    func showProgress(_ title: String?)
+    func hideProgress(completion: (() -> Void)?)
+    
 }

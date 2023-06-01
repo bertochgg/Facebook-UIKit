@@ -28,15 +28,15 @@ final class SignInViewController: BaseViewController {
 extension SignInViewController: SignInViewModelDelegate {
     func didSignIn() {  
         self.coordinator?.finish()
-        self.hideProgress()
+        self.hideProgress(completion: nil)
     }
     
     func didCancelSignIn() {
-        self.hideProgress()
+        self.hideProgress(completion: nil)
     }
     
     func didSignInWithFailure() {
-        self.hideProgress()
+        self.hideProgress(completion: nil)
         let alertController = UIAlertController(title: "Login Failed",
                                                 message: "Something went wrong while trying to login",
                                                 preferredStyle: .alert)

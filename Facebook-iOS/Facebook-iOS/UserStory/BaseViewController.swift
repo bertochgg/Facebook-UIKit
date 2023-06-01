@@ -25,10 +25,11 @@ extension BaseViewController: ProgressShowable {
         progressHUD = hud
     }
     
-    func hideProgress() {
+    func hideProgress(completion: (() -> Void)?) {
         if let hud = progressHUD {
             hud.dismiss(animated: true)
             progressHUD = nil
+            completion?()
         }
     }
     
