@@ -48,6 +48,7 @@ extension FeedViewController: FeedViewModelDelegate {
         
         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
             alertController.dismiss(animated: true)
+            self.hideProgress(completion: nil)
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
