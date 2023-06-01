@@ -32,7 +32,7 @@ final class FeedViewController: BaseViewController {
 extension FeedViewController: FeedViewModelDelegate {
     func didFetchFeedData(feedData: [FeedTableViewCellViewModel]) {
         feedView.applySnapshot(with: feedData)
-        self.hideProgress(completion: nil)
+        self.hideProgress()
     }
     
     func didFailFetchingFeedData(with error: NetworkServiceErrors) {
@@ -48,7 +48,7 @@ extension FeedViewController: FeedViewModelDelegate {
         
         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
             alertController.dismiss(animated: true)
-            self.hideProgress(completion: nil)
+            self.hideProgress()
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
