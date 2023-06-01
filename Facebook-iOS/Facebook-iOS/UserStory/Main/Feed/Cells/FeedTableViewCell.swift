@@ -19,6 +19,18 @@ class FeedTableViewCell: UITableViewCell {
     private var messageTextViewHeightConstraint: NSLayoutConstraint?
     private var imageSliderHeightConstraint: NSLayoutConstraint?
     
+    private lazy var views: [UIView] = [
+        profileImageView,
+        usernameLabel,
+        creationTimeLabel,
+        privacyImage,
+        messageTextView,
+        imageSlider,
+        pageControl,
+        shareButton,
+        likeButton
+    ]
+    
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 10
@@ -165,18 +177,9 @@ class FeedTableViewCell: UITableViewCell {
     
     private func setupLayout() {
         // If you are adding elements to a cell we need to use content view to assign constraints to cell, if not we are adding constraints to cell
-        contentView.addSubview(profileImageView)
-        contentView.addSubview(usernameLabel)
-        contentView.addSubview(creationTimeLabel)
-        contentView.addSubview(privacyImage)
-        contentView.addSubview(messageTextView)
-        // Image Slider -> Collection View
-        contentView.addSubview(imageSlider)
-        contentView.addSubview(pageControl)
-        // Social Buttons
-        contentView.addSubview(shareButton)
-        contentView.addSubview(likeButton)
-        
+        views.forEach { view in
+            contentView.addSubview(view)
+        }
     }
     
     private func setupConstraints() {

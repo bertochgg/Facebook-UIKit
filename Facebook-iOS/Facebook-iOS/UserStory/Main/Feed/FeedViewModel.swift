@@ -1,4 +1,3 @@
-//
 //  FeedViewModel.swift
 //  Facebook-iOS
 //
@@ -8,7 +7,8 @@
 import Foundation
 
 protocol FeedViewModelDelegate: AnyObject {
-    func didFetchFeedData(feedData: [FeedTableViewCellViewModel], feedDataError: NetworkServiceErrors?)
+    func didFetchFeedData(feedData: [FeedTableViewCellViewModel])
+    func didFailFetchingFeedData(with error: NetworkServiceErrors)
 }
 
 protocol FeedViewModelProtocol: AnyObject {
@@ -26,8 +26,6 @@ final class FeedViewModel: FeedViewModelProtocol {
         let group = DispatchGroup()
         var feedData: FeedData?
         var userProfileData: UserProfileData?
-        var viewModels: [FeedTableViewCellViewModel] = []
-        var feedNetworkError: NetworkServiceErrors?
         
         group.enter()
         feedNetworkService.fetchFeedData { result in
@@ -35,7 +33,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             case .success(let data):
                 feedData = data
             case .failure(let error):
-                feedNetworkError = error
+                self.delegate?.didFailFetchingFeedData(with: error)
             }
             group.leave()
         }
@@ -46,7 +44,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             case .success(let data):
                 userProfileData = data
             case .failure(let error):
-                feedNetworkError = error
+                self.delegate?.didFailFetchingFeedData(with: error)
             }
             group.leave()
         }
@@ -54,7 +52,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         group.notify(queue: .main) {
             guard let feedData = feedData, let userProfileData = userProfileData else { return }
             
-            viewModels = feedData.data.map { feedDatum -> FeedTableViewCellViewModel in
+            let viewModels = feedData.data.map { feedDatum -> FeedTableViewCellViewModel in
                 var imageURLs: [URL] = []
                 if let attachments = feedDatum.attachments,
                    let subattachments = attachments.data.first?.subattachments {
@@ -72,8 +70,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                 )
             }
             
-            self.delegate?.didFetchFeedData(feedData: viewModels, feedDataError: feedNetworkError)
+            self.delegate?.didFetchFeedData(feedData: viewModels)
         }
     }
-
 }

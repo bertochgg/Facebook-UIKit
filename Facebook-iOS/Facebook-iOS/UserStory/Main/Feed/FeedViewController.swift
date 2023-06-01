@@ -29,11 +29,25 @@ final class FeedViewController: BaseViewController {
 }
 
 extension FeedViewController: FeedViewModelDelegate {
-    func didFetchFeedData(feedData: [FeedTableViewCellViewModel], feedDataError: NetworkServiceErrors?) {
-        if let error = feedDataError {
-            print("Error fetching feed data: \(error.localizedDescription)")
-        } else {
-            feedView.applySnapshot(with: feedData)
+    func didFetchFeedData(feedData: [FeedTableViewCellViewModel]) {
+        feedView.applySnapshot(with: feedData)
+    }
+    
+    func didFailFetchingFeedData(with error: NetworkServiceErrors) {
+        let title = "Error"
+        let message = error.localizedDescription
+        showErrorAlert(title: title, message: message)
+    }
+    
+    func showErrorAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
+            alertController.dismiss(animated: true)
         }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
