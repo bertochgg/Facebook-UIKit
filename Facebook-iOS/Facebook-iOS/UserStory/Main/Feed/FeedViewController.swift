@@ -39,7 +39,7 @@ extension FeedViewController: FeedViewModelDelegate {
         showErrorAlert(title: title, message: message)
     }
     
-    func showErrorAlert(title: String, message: String) {
+    private func showErrorAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title,
                                                 message: message,
                                                 preferredStyle: .alert)
