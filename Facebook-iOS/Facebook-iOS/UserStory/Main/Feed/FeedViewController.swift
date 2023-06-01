@@ -38,6 +38,7 @@ extension FeedViewController: FeedViewModelDelegate {
     func didFailFetchingFeedData(with error: NetworkServiceErrors) {
         let title = "Error"
         let message = error.localizedDescription
+        self.hideProgress()
         showErrorAlert(title: title, message: message)
     }
     
@@ -48,7 +49,6 @@ extension FeedViewController: FeedViewModelDelegate {
         
         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
             alertController.dismiss(animated: true)
-            self.hideProgress()
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
