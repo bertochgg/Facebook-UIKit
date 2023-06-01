@@ -26,6 +26,8 @@ final class FeedViewModel: FeedViewModelProtocol {
         let group = DispatchGroup()
         var feedData: FeedData?
         var userProfileData: UserProfileData?
+        var feedNetworkError: NetworkServiceErrors?
+        var profileNetworkError: NetworkServiceErrors?
         
         group.enter()
         feedNetworkService.fetchFeedData { result in
@@ -33,7 +35,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             case .success(let data):
                 feedData = data
             case .failure(let error):
-                self.delegate?.didFailFetchingFeedData(with: error)
+                feedNetworkError = error
             }
             group.leave()
         }
@@ -44,12 +46,17 @@ final class FeedViewModel: FeedViewModelProtocol {
             case .success(let data):
                 userProfileData = data
             case .failure(let error):
-                self.delegate?.didFailFetchingFeedData(with: error)
+                profileNetworkError = error
             }
             group.leave()
         }
         
         group.notify(queue: .main) {
+            if let error = feedNetworkError ?? profileNetworkError {
+                self.delegate?.didFailFetchingFeedData(with: error)
+                return
+            }
+            
             guard let feedData = feedData, let userProfileData = userProfileData else { return }
             
             let viewModels = feedData.data.map { feedDatum -> FeedTableViewCellViewModel in

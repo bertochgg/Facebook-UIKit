@@ -184,15 +184,9 @@ class FeedTableViewCell: UITableViewCell {
     
     private func setupConstraints() {
         // Set constraints
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
-        creationTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        privacyImage.translatesAutoresizingMaskIntoConstraints = false
-        messageTextView.translatesAutoresizingMaskIntoConstraints = false
-        imageSlider.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        shareButton.translatesAutoresizingMaskIntoConstraints = false
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
+        views.forEach { view in
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         let constraints = [
             // Profile Image View
