@@ -24,6 +24,7 @@ final class FeedViewController: BaseViewController {
         navigationItem.titleView = UIImageView(image: ImagesNames.fbBarTitle)
         feedViewModel.delegate = self
         feedViewModel.fetchFeedData()
+        self.showProgress("Loading...")
     }
     
 }
@@ -31,6 +32,7 @@ final class FeedViewController: BaseViewController {
 extension FeedViewController: FeedViewModelDelegate {
     func didFetchFeedData(feedData: [FeedTableViewCellViewModel]) {
         feedView.applySnapshot(with: feedData)
+        self.hideProgress(completion: nil)
     }
     
     func didFailFetchingFeedData(with error: NetworkServiceErrors) {
