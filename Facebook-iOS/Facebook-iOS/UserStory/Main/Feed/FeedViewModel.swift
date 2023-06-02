@@ -21,6 +21,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     weak var delegate: FeedViewModelDelegate?
     private let feedNetworkService: FeedNetworkServiceProtocol = FeedNetworkService()
     private let userProfileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
+    var viewModels: [FeedTableViewCellViewModel] = []
     private var currentPageURL: String?
     
     func fetchFeedData() {
@@ -33,7 +34,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         let graphPath = currentPageURL ?? "me/feed"
         
         group.enter()
-        feedNetworkService.fetchFeedData (graphPath: graphPath) { result in
+        feedNetworkService.fetchFeedData(graphPath: graphPath) { result in
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
@@ -63,7 +64,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             
             guard let feedData = feedData, let userProfileData = userProfileData else { return }
             
-            let viewModels = feedData.data.map { feedDatum -> FeedTableViewCellViewModel in
+            self.viewModels = feedData.data.map { feedDatum -> FeedTableViewCellViewModel in
                 var imageURLs: [URL] = []
                 if let attachments = feedDatum.attachments,
                    let subattachments = attachments.data.first?.subattachments {
@@ -81,7 +82,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                 )
             }
             
-            self.delegate?.didFetchFeedData(feedData: viewModels)
+            self.delegate?.didFetchFeedData(feedData: self.viewModels)
         }
     }
 }

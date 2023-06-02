@@ -43,6 +43,18 @@ extension FeedView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Calculate the offset of the content
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let tableViewHeight = scrollView.frame.height
+        
+        // If the user has scrolled to the bottom and data is not being fetched, trigger data fetching
+        if offsetY > contentHeight - tableViewHeight {
+            print("hola")
+        }
+    }
 }
 
 extension FeedView {
