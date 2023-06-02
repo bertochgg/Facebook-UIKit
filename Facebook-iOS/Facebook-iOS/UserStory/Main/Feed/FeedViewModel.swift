@@ -21,6 +21,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     weak var delegate: FeedViewModelDelegate?
     private let feedNetworkService: FeedNetworkServiceProtocol = FeedNetworkService()
     private let userProfileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
+    private var currentPageURL: String?
     
     func fetchFeedData() {
         let group = DispatchGroup()
@@ -29,10 +30,13 @@ final class FeedViewModel: FeedViewModelProtocol {
         var feedNetworkError: NetworkServiceErrors?
         var profileNetworkError: NetworkServiceErrors?
         
+        let graphPath = currentPageURL ?? "me/feed"
+        
         group.enter()
-        feedNetworkService.fetchFeedData { result in
+        feedNetworkService.fetchFeedData (graphPath: graphPath) { result in
             switch result {
             case .success(let data):
+                self.currentPageURL = data.paging.next
                 feedData = data
             case .failure(let error):
                 feedNetworkError = error

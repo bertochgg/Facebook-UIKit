@@ -13,8 +13,9 @@ class FeedNetworkService: FeedNetworkServiceProtocol {
     private let connection: GraphRequestConnection = GraphRequestConnection()
     private let requestParameters: [String: Any] = ["fields": "message, created_time, attachments"]
     
-    func fetchFeedData(completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
-        connection.add(GraphRequest(graphPath: "me/feed", parameters: requestParameters, httpMethod: .get)) { connection, response, error in
+    func fetchFeedData(graphPath: String, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
+        // In graphPath we may add a string and concatenate the limit parameter
+        connection.add(GraphRequest(graphPath: graphPath, parameters: requestParameters, httpMethod: .get)) { connection, response, error in
             guard error == nil else {
                 completion(.failure(NetworkServiceErrors.noConnection))
                 return
