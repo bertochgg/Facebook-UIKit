@@ -10,10 +10,10 @@ import Foundation
 
 class ProfileNetworkService: ProfileNetworkServiceProtocol {
     
-    private let connection: GraphRequestConnection = GraphRequestConnection()
     private let requestParameters: [String: Any] = ["fields": "id, first_name, picture, last_name"]
     
     func fetchProfileData(completion: @escaping (Result<UserProfileData, NetworkServiceErrors>) -> Void) {
+        let connection: GraphRequestConnection = GraphRequestConnection()
         connection.add(GraphRequest(graphPath: "me",
                                     parameters: requestParameters,
                                     httpMethod: .get)) { connection, response, error in

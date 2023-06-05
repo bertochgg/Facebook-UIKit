@@ -12,10 +12,9 @@ class FeedNetworkService: FeedNetworkServiceProtocol {
     
     private let requestParameters: [String: Any] = ["fields": "message, created_time, attachments"]
     
-    func fetchFeedData(graphPath: String, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
-        // In graphPath we may add a string and concatenate the limit parameter
+    func fetchFeedData(graphPath: String, parameters: [String: Any], completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
         let connection = GraphRequestConnection()
-        connection.add(GraphRequest(graphPath: graphPath, parameters: requestParameters, httpMethod: .get)) { connection, response, error in
+        connection.add(GraphRequest(graphPath: graphPath, parameters: parameters, httpMethod: .get)) { connection, response, error in
             print("Path: \(graphPath)")
             guard error == nil else {
                 completion(.failure(NetworkServiceErrors.noConnection))
@@ -62,5 +61,4 @@ class FeedNetworkService: FeedNetworkServiceProtocol {
             print(error.localizedDescription)
         }
     }
-    
 }

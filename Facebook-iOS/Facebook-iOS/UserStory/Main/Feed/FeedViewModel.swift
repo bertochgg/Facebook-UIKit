@@ -37,9 +37,10 @@ final class FeedViewModel: FeedViewModelProtocol {
         var profileNetworkError: NetworkServiceErrors?
         
         let graphPath = currentPageURL ?? "me/feed"
+        let parameters: [String: Any] = currentPageURL == nil ? ["fields": "message, created_time, attachments"] : [:]
         
         group.enter()
-        feedNetworkService.fetchFeedData(graphPath: graphPath) { result in
+        feedNetworkService.fetchFeedData(graphPath: graphPath, parameters: parameters) { result in
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
@@ -104,7 +105,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         var profileNetworkError: NetworkServiceErrors?
         
         group.enter()
-        feedNetworkService.fetchFeedData(graphPath: currentPageURL) { result in
+        feedNetworkService.fetchFeedData(graphPath: currentPageURL, parameters: [:]) { result in
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
@@ -161,5 +162,4 @@ final class FeedViewModel: FeedViewModelProtocol {
             self.isFetching = false
         }
     }
-    
 }
