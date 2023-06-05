@@ -10,12 +10,13 @@ import Foundation
 
 class FeedNetworkService: FeedNetworkServiceProtocol {
     
-    private let connection: GraphRequestConnection = GraphRequestConnection()
     private let requestParameters: [String: Any] = ["fields": "message, created_time, attachments"]
     
     func fetchFeedData(graphPath: String, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
         // In graphPath we may add a string and concatenate the limit parameter
+        let connection = GraphRequestConnection()
         connection.add(GraphRequest(graphPath: graphPath, parameters: requestParameters, httpMethod: .get)) { connection, response, error in
+            print("Path: \(graphPath)")
             guard error == nil else {
                 completion(.failure(NetworkServiceErrors.noConnection))
                 return
@@ -47,7 +48,7 @@ class FeedNetworkService: FeedNetworkServiceProtocol {
         }
         connection.start()
     }
-    
+
     private func parseJSON(json: Any, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: json)

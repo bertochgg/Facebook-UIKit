@@ -23,6 +23,7 @@ final class FeedViewController: BaseViewController {
         view.backgroundColor = .systemPink
         navigationItem.titleView = UIImageView(image: ImagesNames.fbBarTitle)
         feedViewModel.delegate = self
+        feedView.delegate = self
         feedViewModel.fetchFeedData()
         self.showProgress("Loading...")
     }
@@ -32,6 +33,7 @@ final class FeedViewController: BaseViewController {
 extension FeedViewController: FeedViewModelDelegate {
     func didFetchFeedData(feedData: [FeedTableViewCellViewModel]) {
         feedView.applySnapshot(with: feedData)
+        feedView.resetLoadingState()
         self.hideProgress(completion: nil)
     }
     
@@ -40,6 +42,7 @@ extension FeedViewController: FeedViewModelDelegate {
         let message = error.localizedDescription
         self.hideProgress(completion: nil)
         showErrorAlert(title: title, message: message)
+        feedView.resetLoadingState()
     }
     
     private func showErrorAlert(title: String, message: String) {
@@ -52,5 +55,12 @@ extension FeedViewController: FeedViewModelDelegate {
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension FeedViewController: FeedViewDelegate {
+    func didReachEndOfFeed() {
+        feedViewModel.fetchNewFeedData()
+        
     }
 }
