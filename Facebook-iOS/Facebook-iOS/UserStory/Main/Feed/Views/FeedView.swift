@@ -21,7 +21,6 @@ class FeedView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupTableView()
-        tableView.delegate = self
         configureDataSource()
     }
     
@@ -39,6 +38,7 @@ class FeedView: UIView {
     
     private func setupTableView() {
         addSubview(tableView)
+        tableView.delegate = self
         tableView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.identifier)
     }

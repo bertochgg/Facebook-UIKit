@@ -98,6 +98,8 @@ final class FeedViewModel: FeedViewModelProtocol {
         guard let currentPageURL = currentPageURL, !isFetching else { return }
         isFetching = true
         
+        let currentPagePath = URL(string: currentPageURL)?.relativePath ?? ""
+        
         let group = DispatchGroup()
         var newFeedData: FeedData?
         var userProfileData: UserProfileData?
@@ -105,7 +107,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         var profileNetworkError: NetworkServiceErrors?
         
         group.enter()
-        feedNetworkService.fetchFeedData(graphPath: currentPageURL, parameters: [:]) { result in
+        feedNetworkService.fetchFeedData(graphPath: currentPagePath, parameters: [:]) { result in
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
