@@ -86,7 +86,9 @@ final class FeedViewModel: FeedViewModelProtocol {
                     self.currentPageURL = data.paging?.next
                     newFeedData = data
                 } else {
+                    print("no data at end")
                     self.hasMoreDataToLoad = false
+                    self.delegate?.didReachEndOfData()
                 }
             case .failure(let error):
                 feedNetworkError = error
