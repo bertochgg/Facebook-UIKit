@@ -43,6 +43,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
+                print("Next: \(data.paging.next)")
                 feedData = data
             case .failure(let error):
                 feedNetworkError = error
@@ -110,12 +111,16 @@ final class FeedViewModel: FeedViewModelProtocol {
         guard let accessToken = parameters["access_token"] as? String,
               let until = parameters["until"] as? String,
               let fields = parameters["fields"] as? String,
-        let pagingToken = parameters["__paging_token"] else {
-            print("Failed to unwrap parameters")
-            return
-        }
+              let pagingToken = parameters["__paging_token"] as? String else {
+                  print("Failed to unwrap parameters")
+                  return
+              }
         
-        let unwrappedParameters = ["access_token": accessToken, "until": until, "fields": fields, "__paging_token": pagingToken]
+        let cleanedFields = fields.split(separator: "+").joined()
+        let unwrappedParameters = [
+            "access_token": accessToken, "until": until,
+            "fields": cleanedFields, "__paging_token": pagingToken
+        ]
 
         let group = DispatchGroup()
         var newFeedData: FeedData?
@@ -128,6 +133,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
+                print("New Next: \(data.paging.next)")
                 newFeedData = data
             case .failure(let error):
                 feedNetworkError = error
