@@ -24,6 +24,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     private var viewModels: [FeedTableViewCellViewModel] = []
     private var currentPageURL: String?
     private var isFetching = false
+    private var hasMoreDataToLoad = true
     
     func fetchFeedData() {
         guard !isFetching else { return }
@@ -36,7 +37,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     func fetchNewFeedData() {
-        guard let currentPageURL = currentPageURL, !isFetching else { return }
+        guard let currentPageURL = currentPageURL, !isFetching, hasMoreDataToLoad else { return }
         isFetching = true
         // Get path and parameters from currentPageURL
         let urlComponents = URLComponents(string: currentPageURL)
@@ -77,9 +78,12 @@ final class FeedViewModel: FeedViewModelProtocol {
         feedNetworkService.fetchFeedData(graphPath: path, parameters: parameters as [String: Any]) { result in
             switch result {
             case .success(let data):
-                self.currentPageURL = data.paging.next
-                print("New Next: \(data.paging.next)")
-                newFeedData = data
+                if !data.data.isEmpty && data.paging != nil {
+                    self.currentPageURL = data.paging?.next
+                    newFeedData = data
+                } else {
+                    self.hasMoreDataToLoad = false
+                }
             case .failure(let error):
                 feedNetworkError = error
             }

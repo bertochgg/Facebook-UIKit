@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Feed Data
 struct FeedData: Codable {
     let data: [FeedDatum]
-    let paging: Paging
+    let paging: Paging?
 }
 
 // MARK: - Feed Datum
