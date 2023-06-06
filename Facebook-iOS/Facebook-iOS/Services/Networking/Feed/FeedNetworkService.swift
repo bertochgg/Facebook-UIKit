@@ -46,7 +46,7 @@ class FeedNetworkService: FeedNetworkServiceProtocol {
         }
         connection.start()
     }
-
+    
     private func parseJSON(json: Any, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: json)

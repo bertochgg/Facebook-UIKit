@@ -97,7 +97,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     func fetchNewFeedData() {
         guard let currentPageURL = currentPageURL, !isFetching else { return }
         isFetching = true
-        // Get path and parameters from currentPageURL
+        
         let urlComponents = URLComponents(string: currentPageURL)
         let currentPagePath = urlComponents?.path ?? ""
         var parameters: [String: Any] = [:]
@@ -107,7 +107,6 @@ final class FeedViewModel: FeedViewModelProtocol {
             }
         }
         
-        // Here, you unwrap the values
         guard let accessToken = parameters["access_token"] as? String,
               let until = parameters["until"] as? String,
               let fields = parameters["fields"] as? String,
@@ -121,7 +120,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             "access_token": accessToken, "until": until,
             "fields": cleanedFields, "__paging_token": pagingToken
         ]
-
+        
         let group = DispatchGroup()
         var newFeedData: FeedData?
         var userProfileData: UserProfileData?
