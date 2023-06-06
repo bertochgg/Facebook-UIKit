@@ -29,69 +29,10 @@ final class FeedViewModel: FeedViewModelProtocol {
         guard !isFetching else { return }
         isFetching = true
         
-        let group = DispatchGroup()
-        var feedData: FeedData?
-        var userProfileData: UserProfileData?
-        var feedNetworkError: NetworkServiceErrors?
-        var profileNetworkError: NetworkServiceErrors?
-        
         let graphPath = "me/feed"
-        let requestParameters: [String: Any] = ["fields": "message, created_time, attachments"]
+        let requestParameters: [String: Any] = ["fields": "message, created_time, attachments", "limit": "10"]
         
-        group.enter()
-        feedNetworkService.fetchFeedData(graphPath: graphPath, parameters: requestParameters) { result in
-            switch result {
-            case .success(let data):
-                self.currentPageURL = data.paging.next
-                print("Next: \(data.paging.next)")
-                feedData = data
-            case .failure(let error):
-                feedNetworkError = error
-            }
-            group.leave()
-        }
-        
-        group.enter()
-        userProfileNetworkService.fetchProfileData { result in
-            switch result {
-            case .success(let data):
-                userProfileData = data
-            case .failure(let error):
-                profileNetworkError = error
-            }
-            group.leave()
-        }
-        
-        group.notify(queue: .main) {
-            if let error = feedNetworkError ?? profileNetworkError {
-                self.delegate?.didFailFetchingFeedData(with: error)
-                return
-            }
-            
-            guard let feedData = feedData, let userProfileData = userProfileData else { return }
-            
-            let newViewModels = feedData.data.map { feedDatum -> FeedTableViewCellViewModel in
-                var imageURLs: [URL] = []
-                if let attachments = feedDatum.attachments,
-                   let subattachments = attachments.data.first?.subattachments {
-                    imageURLs = subattachments.data.compactMap { $0.media.image?.src }
-                }
-                
-                return FeedTableViewCellViewModel(
-                    id: UUID(),
-                    profileImageURL: userProfileData.picture.data.url,
-                    username: "\(userProfileData.firstName) \(userProfileData.lastName)",
-                    creationTime: feedDatum.createdTime.dateFormatting(),
-                    message: feedDatum.message,
-                    imageURLs: imageURLs,
-                    imageURL: feedDatum.attachments?.data.first?.media?.image?.src
-                )
-            }
-            
-            self.viewModels.append(contentsOf: newViewModels)
-            self.delegate?.didFetchFeedData(feedData: self.viewModels)
-            self.isFetching = false
-        }
+        self.fetchCellData(path: graphPath, parameters: requestParameters)
     }
     
     func fetchNewFeedData() {
@@ -112,16 +53,20 @@ final class FeedViewModel: FeedViewModelProtocol {
               let until = parameters["until"] as? String,
               let fields = parameters["fields"] as? String,
               let pagingToken = parameters["__paging_token"] as? String else {
-                  print("Failed to unwrap parameters")
-                  return
-              }
-        
+            print("Failed to unwrap parameters")
+            return
+        }
+        // Here you take out the + from paramters
         let cleanedFields = fields.split(separator: "+").joined()
         let unwrappedParameters = [
             "access_token": accessToken, "until": until,
-            "fields": cleanedFields, "__paging_token": pagingToken
+            "fields": cleanedFields, "__paging_token": pagingToken, "limit": "10"
         ]
-
+        
+        self.fetchCellData(path: currentPagePath, parameters: unwrappedParameters)
+    }
+    
+    private func fetchCellData(path: String, parameters: [String: Any]) {
         let group = DispatchGroup()
         var newFeedData: FeedData?
         var userProfileData: UserProfileData?
@@ -129,7 +74,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         var profileNetworkError: NetworkServiceErrors?
         
         group.enter()
-        feedNetworkService.fetchFeedData(graphPath: currentPagePath, parameters: unwrappedParameters as [String: Any]) { result in
+        feedNetworkService.fetchFeedData(graphPath: path, parameters: parameters as [String: Any]) { result in
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
