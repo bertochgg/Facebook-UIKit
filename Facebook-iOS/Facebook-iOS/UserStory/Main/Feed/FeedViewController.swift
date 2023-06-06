@@ -45,6 +45,10 @@ extension FeedViewController: FeedViewModelDelegate {
         feedView.resetLoadingState()
     }
     
+    func didReachEndOfData() {
+        feedView.resetLoadingState()
+    }
+    
     private func showErrorAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title,
                                                 message: message,

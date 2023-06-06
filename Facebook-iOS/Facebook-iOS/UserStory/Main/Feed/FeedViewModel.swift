@@ -8,6 +8,7 @@ import Foundation
 protocol FeedViewModelDelegate: AnyObject {
     func didFetchFeedData(feedData: [FeedTableViewCellViewModel])
     func didFailFetchingFeedData(with error: NetworkServiceErrors)
+    func didReachEndOfData()
 }
 
 protocol FeedViewModelProtocol: AnyObject {
@@ -37,7 +38,10 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     func fetchNewFeedData() {
-        guard let currentPageURL = currentPageURL, !isFetching, hasMoreDataToLoad else { return }
+        guard let currentPageURL = currentPageURL, !isFetching, hasMoreDataToLoad else {
+            self.delegate?.didReachEndOfData()
+            return
+        }
         isFetching = true
         // Get path and parameters from currentPageURL
         let urlComponents = URLComponents(string: currentPageURL)
