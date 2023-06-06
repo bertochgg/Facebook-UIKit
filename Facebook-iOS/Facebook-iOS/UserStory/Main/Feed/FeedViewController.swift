@@ -32,6 +32,7 @@ final class FeedViewController: BaseViewController {
 
 extension FeedViewController: FeedViewModelDelegate {
     func didFetchFeedData(feedData: [FeedTableViewCellViewModel]) {
+        feedView.setHasMoreDataToLoad(true)
         feedView.applySnapshot(with: feedData)
         feedView.resetLoadingState()
         self.hideProgress(completion: nil)
@@ -46,6 +47,8 @@ extension FeedViewController: FeedViewModelDelegate {
     }
     
     func didReachEndOfData() {
+        print("chi toy :3")
+        feedView.setHasMoreDataToLoad(false)
         feedView.resetLoadingState()
     }
     

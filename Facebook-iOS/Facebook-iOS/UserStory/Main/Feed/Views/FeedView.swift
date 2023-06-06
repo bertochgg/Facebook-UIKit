@@ -16,6 +16,7 @@ class FeedView: UIView {
     private let tableView = UITableView()
     private var dataSource: UITableViewDiffableDataSource<Int, FeedTableViewCellViewModel>?
     private var isLoadingData = false
+    private var hasMoreDataToLoad: Bool = true
     weak var delegate: FeedViewDelegate?
 
     override init(frame: CGRect) {
@@ -44,6 +45,13 @@ class FeedView: UIView {
     
     func resetLoadingState() {
         self.isLoadingData = false
+        DispatchQueue.main.async {
+            self.tableView.tableFooterView = nil
+        }
+    }
+    
+    func setHasMoreDataToLoad(_ hasMore: Bool) {
+        self.hasMoreDataToLoad = hasMore
     }
     
     private func setupTableView() {
@@ -68,14 +76,13 @@ extension FeedView: UITableViewDelegate {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let tableViewHeight = scrollView.frame.height
-        
-        // If the user has scrolled to the bottom and data is not being fetched, trigger data fetching
-        if offsetY > contentHeight - tableViewHeight && !isLoadingData {
+
+        // If the user has scrolled to the bottom, data is not being fetched, and there is more data to fetch
+        if offsetY > contentHeight - tableViewHeight && !isLoadingData && self.hasMoreDataToLoad {
             isLoadingData = true
             self.tableView.tableFooterView = createLoadingSpinner()
             self.delegate?.didReachEndOfFeed()
         }
-        
     }
 
 }
