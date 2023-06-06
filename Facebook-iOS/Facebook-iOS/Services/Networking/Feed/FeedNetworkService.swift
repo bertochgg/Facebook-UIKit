@@ -10,12 +10,11 @@ import Foundation
 
 class FeedNetworkService: FeedNetworkServiceProtocol {
     
-    private let requestParameters: [String: Any] = ["fields": "message, created_time, attachments"]
-    
     func fetchFeedData(graphPath: String, parameters: [String: Any], completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
         let connection = GraphRequestConnection()
         connection.add(GraphRequest(graphPath: graphPath, parameters: parameters, httpMethod: .get)) { connection, response, error in
             print("Path: \(graphPath)")
+            print("Parameters: \(parameters)")
             guard error == nil else {
                 completion(.failure(NetworkServiceErrors.noConnection))
                 return

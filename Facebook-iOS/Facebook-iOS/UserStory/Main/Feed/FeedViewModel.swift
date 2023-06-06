@@ -3,7 +3,6 @@
 //
 //  Created by Humberto Garcia on 08/05/23.
 //
-
 import Foundation
 
 protocol FeedViewModelDelegate: AnyObject {
@@ -22,7 +21,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     weak var delegate: FeedViewModelDelegate?
     private let feedNetworkService: FeedNetworkServiceProtocol = FeedNetworkService()
     private let userProfileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
-    var viewModels: [FeedTableViewCellViewModel] = []
+    private var viewModels: [FeedTableViewCellViewModel] = []
     private var currentPageURL: String?
     private var isFetching = false
     
@@ -36,11 +35,11 @@ final class FeedViewModel: FeedViewModelProtocol {
         var feedNetworkError: NetworkServiceErrors?
         var profileNetworkError: NetworkServiceErrors?
         
-        let graphPath = currentPageURL ?? "me/feed"
-        let parameters: [String: Any] = currentPageURL == nil ? ["fields": "message, created_time, attachments"] : [:]
+        let graphPath = "me/feed"
+        let requestParameters: [String: Any] = ["fields": "message, created_time, attachments"]
         
         group.enter()
-        feedNetworkService.fetchFeedData(graphPath: graphPath, parameters: parameters) { result in
+        feedNetworkService.fetchFeedData(graphPath: graphPath, parameters: requestParameters) { result in
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
@@ -97,9 +96,27 @@ final class FeedViewModel: FeedViewModelProtocol {
     func fetchNewFeedData() {
         guard let currentPageURL = currentPageURL, !isFetching else { return }
         isFetching = true
+        // Get path and parameters from currentPageURL
+        let urlComponents = URLComponents(string: currentPageURL)
+        let currentPagePath = urlComponents?.path ?? ""
+        var parameters: [String: Any] = [:]
+        for queryItem in urlComponents?.queryItems ?? [] {
+            if let value = queryItem.value {
+                parameters[queryItem.name] = value
+            }
+        }
         
-        let currentPagePath = URL(string: currentPageURL)?.relativePath ?? ""
+        // Here, you unwrap the values
+        guard let accessToken = parameters["access_token"] as? String,
+              let until = parameters["until"] as? String,
+              let fields = parameters["fields"] as? String,
+        let pagingToken = parameters["__paging_token"] else {
+            print("Failed to unwrap parameters")
+            return
+        }
         
+        let unwrappedParameters = ["access_token": accessToken, "until": until, "fields": fields, "__paging_token": pagingToken]
+
         let group = DispatchGroup()
         var newFeedData: FeedData?
         var userProfileData: UserProfileData?
@@ -107,7 +124,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         var profileNetworkError: NetworkServiceErrors?
         
         group.enter()
-        feedNetworkService.fetchFeedData(graphPath: currentPagePath, parameters: [:]) { result in
+        feedNetworkService.fetchFeedData(graphPath: currentPagePath, parameters: unwrappedParameters as [String: Any]) { result in
             switch result {
             case .success(let data):
                 self.currentPageURL = data.paging.next
