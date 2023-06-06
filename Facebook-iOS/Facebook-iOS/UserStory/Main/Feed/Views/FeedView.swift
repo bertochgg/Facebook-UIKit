@@ -103,6 +103,6 @@ extension FeedView {
         snapshot.appendItems(viewModels)
         dataSource.apply(snapshot, animatingDifferences: true)
         
-        self.hasMoreDataToLoad = !viewModels.isEmpty
+        self.hasMoreDataToLoad = false
     }
 }
