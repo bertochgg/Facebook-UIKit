@@ -8,15 +8,16 @@
 import FacebookCore
 import Foundation
 
-class FeedNetworkService: FeedNetworkServiceProtocol {
+class FeedNetworkService: FeedNetworkServiceProtocol, GenericNetworkService {
+    typealias DataModel = FeedData
     
-    func fetchInitialFeedData(completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
+    func fetchInitialFeedData(completion: @escaping (Result<DataModel, NetworkServiceErrors>) -> Void) {
         let graphPath = "me/feed"
         let parameters: [String: Any] = ["fields": "message, created_time, attachments", "limit": "10"]
         fetchData(graphPath: graphPath, parameters: parameters, completion: completion)
     }
     
-    func fetchNewFeedData(currentPageURL: String, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
+    func fetchNewFeedData(currentPageURL: String, completion: @escaping (Result<DataModel, NetworkServiceErrors>) -> Void) {
         // Get path and parameters from currentPageURL
         let urlComponents = URLComponents(string: currentPageURL)
         let currentPagePath = urlComponents?.path ?? ""
@@ -45,7 +46,7 @@ class FeedNetworkService: FeedNetworkServiceProtocol {
         fetchData(graphPath: currentPagePath, parameters: unwrappedParameters, completion: completion)
     }
     
-    private func fetchData(graphPath: String, parameters: [String: Any], completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
+    private func fetchData(graphPath: String, parameters: [String: Any], completion: @escaping (Result<DataModel, NetworkServiceErrors>) -> Void) {
         let connection = GraphRequestConnection()
         connection.add(GraphRequest(graphPath: graphPath, parameters: parameters, httpMethod: .get)) { connection, response, error in
             print("Path: \(graphPath)")
@@ -82,17 +83,4 @@ class FeedNetworkService: FeedNetworkServiceProtocol {
         connection.start()
     }
     
-    private func parseJSON(json: Any, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: json)
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .useDefaultKeys
-            decoder.dateDecodingStrategy = .iso8601
-            let feedData = try decoder.decode(FeedData.self, from: jsonData)
-            completion(.success(feedData))
-        } catch let error {
-            completion(.failure(NetworkServiceErrors.decodingFailed))
-            print(error.localizedDescription)
-        }
-    }
 }
