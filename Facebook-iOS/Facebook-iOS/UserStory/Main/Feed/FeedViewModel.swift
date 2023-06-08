@@ -22,10 +22,15 @@ final class FeedViewModel: FeedViewModelProtocol {
     weak var delegate: FeedViewModelDelegate?
     private let feedNetworkService: FeedNetworkServiceProtocol = FeedNetworkService()
     private let userProfileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
+    private var userProfileData: UserProfileData?
     private var viewModels: [FeedTableViewCellViewModel] = []
     private var currentPageURL: String?
     private var isFetching = false
     private var hasMoreDataToLoad = true
+    
+    init() {
+        fetchUserProfileData()
+    }
     
     func fetchFeedData() {
         guard !isFetching else { return }
@@ -71,12 +76,33 @@ final class FeedViewModel: FeedViewModelProtocol {
         self.fetchCellData(path: currentPagePath, parameters: unwrappedParameters)
     }
     
+    private func fetchUserProfileData() {
+        var profileNetworkError: NetworkServiceErrors?
+        userProfileNetworkService.fetchProfileData { result in
+            switch result {
+            case .success(let data):
+                self.userProfileData = data
+            case .failure(let error):
+                profileNetworkError = error
+            }
+        }
+        
+        if let error = profileNetworkError {
+            self.delegate?.didFailFetchingFeedData(with: error)
+            self.isFetching = false
+            return
+        }
+    }
+    
+    private func extractImageURLs(from subattachments: Subattachments?) -> [URL] {
+        guard let subattachmentsData = subattachments?.data else { return [] }
+        return subattachmentsData.compactMap { $0.media.image?.src }
+    }
+    
     private func fetchCellData(path: String, parameters: [String: Any]) {
         let group = DispatchGroup()
         var newFeedData: FeedData?
-        var userProfileData: UserProfileData?
         var feedNetworkError: NetworkServiceErrors?
-        var profileNetworkError: NetworkServiceErrors?
         
         group.enter()
         feedNetworkService.fetchFeedData(graphPath: path, parameters: parameters as [String: Any]) { result in
@@ -96,35 +122,21 @@ final class FeedViewModel: FeedViewModelProtocol {
             group.leave()
         }
         
-        group.enter()
-        userProfileNetworkService.fetchProfileData { result in
-            switch result {
-            case .success(let data):
-                userProfileData = data
-            case .failure(let error):
-                profileNetworkError = error
-            }
-            group.leave()
-        }
-        
         group.notify(queue: .main) {
-            if let error = feedNetworkError ?? profileNetworkError {
+            if let error = feedNetworkError {
                 self.delegate?.didFailFetchingFeedData(with: error)
                 self.isFetching = false
                 return
             }
             
-            guard let newFeedData = newFeedData, let userProfileData = userProfileData else {
+            guard let newFeedData = newFeedData,
+                  let userProfileData = self.userProfileData else {
                 self.isFetching = false
                 return
             }
             
-            let newViewModels = newFeedData.data.map { feedDatum -> FeedTableViewCellViewModel in
-                var imageURLs: [URL] = []
-                if let attachments = feedDatum.attachments,
-                   let subattachments = attachments.data.first?.subattachments {
-                    imageURLs = subattachments.data.compactMap { $0.media.image?.src }
-                }
+            let newViewModels: [FeedTableViewCellViewModel] = newFeedData.data.map { feedDatum in
+                let imageURLs = self.extractImageURLs(from: feedDatum.attachments?.data.first?.subattachments)
                 
                 return FeedTableViewCellViewModel(
                     id: UUID(),
