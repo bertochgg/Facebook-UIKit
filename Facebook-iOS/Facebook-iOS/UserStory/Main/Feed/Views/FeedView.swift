@@ -9,6 +9,7 @@ import UIKit
 
 protocol FeedViewDelegate: AnyObject {
     func didReachEndOfFeed ()
+    func didRefreshTriggered()
 }
 
 class FeedView: UIView {
@@ -19,10 +20,13 @@ class FeedView: UIView {
     private var hasMoreDataToLoad: Bool = true
     weak var delegate: FeedViewDelegate?
     
+    private let refreshControl = UIRefreshControl()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupTableView()
         configureDataSource()
+        setupRefreshControl()
     }
     
     required init?(coder: NSCoder) {
@@ -44,6 +48,11 @@ class FeedView: UIView {
         self.hasMoreDataToLoad = hasMore
     }
     
+    private func setupRefreshControl() {
+        refreshControl.attributedTitle = NSAttributedString(string: "Loading Feed Posts...")
+        refreshControl.addTarget(self, action: #selector(resetFeedData), for: .valueChanged)
+    }
+    
     private func createLoadingSpinner() -> UIView {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: 100))
         let spinner = UIActivityIndicatorView()
@@ -57,8 +66,15 @@ class FeedView: UIView {
     private func setupTableView() {
         addSubview(tableView)
         tableView.delegate = self
+        tableView.refreshControl = self.refreshControl
         tableView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.identifier)
+        
+    }
+    
+    @objc
+    func resetFeedData() {
+        self.delegate?.didRefreshTriggered()
     }
     
 }
@@ -96,6 +112,7 @@ extension FeedView {
         snapshot.appendItems(viewModels)
         dataSource.apply(snapshot, animatingDifferences: true)
         
+        self.tableView.refreshControl?.endRefreshing()
     }
     
     private func configureDataSource() {

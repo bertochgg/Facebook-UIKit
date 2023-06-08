@@ -29,6 +29,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     private var hasMoreDataToLoad = true
     
     func fetchFeedData() {
+        self.viewModels.removeAll()
         fetchCellData(fetchMethod: feedNetworkService.fetchInitialFeedData)
     }
     

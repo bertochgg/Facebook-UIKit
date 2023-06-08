@@ -70,4 +70,8 @@ extension FeedViewController: FeedViewDelegate {
         feedViewModel.fetchNewFeedData()
         
     }
+    
+    func didRefreshTriggered() {
+        feedViewModel.fetchFeedData()
+    }
 }
