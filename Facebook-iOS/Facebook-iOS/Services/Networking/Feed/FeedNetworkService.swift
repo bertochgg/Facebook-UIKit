@@ -8,7 +8,7 @@
 import FacebookCore
 import Foundation
 
-class FeedNetworkService: FeedNetworkServiceProtocol, GenericNetworkService {
+class FeedNetworkService: FeedNetworkServiceProtocol, GenericNetworkServiceProtocol {
     typealias DataModel = FeedData
     
     func fetchInitialFeedData(completion: @escaping (Result<DataModel, NetworkServiceErrors>) -> Void) {
