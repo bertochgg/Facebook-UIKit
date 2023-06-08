@@ -31,28 +31,16 @@ final class FeedViewModel: FeedViewModelProtocol {
     func fetchFeedData() {
         fetchCellData(fetchMethod: feedNetworkService.fetchInitialFeedData)
     }
-
+    
     func fetchNewFeedData() {
         guard let currentPageURL = currentPageURL, hasMoreDataToLoad else {
             self.delegate?.didReachEndOfData()
             return
         }
-
+        
         fetchCellData(fetchMethod: { completion in
             self.feedNetworkService.fetchNewFeedData(currentPageURL: currentPageURL, completion: completion)
         })
-    }
-    
-    private func fetchUserProfileData() {
-        userProfileNetworkService.fetchProfileData { result in
-            switch result {
-            case .success(let data):
-                self.userProfileData = data
-            case .failure(let error):
-                self.delegate?.didFailFetchingFeedData(with: error)
-                self.isFetching = false
-            }
-        }
     }
     
     private func extractImageURLs(from subattachments: Subattachments?) -> [URL] {
@@ -63,17 +51,25 @@ final class FeedViewModel: FeedViewModelProtocol {
     private func fetchCellData(fetchMethod: @escaping (@escaping (Result<FeedData, NetworkServiceErrors>) -> Void) -> Void) {
         guard !isFetching else { return }
         isFetching = true
-
+        
         let group = DispatchGroup()
         var newFeedData: FeedData?
         var networkError: NetworkServiceErrors?
         
         if userProfileData == nil {
             group.enter()
-            fetchUserProfileData()
-            group.leave()
+            userProfileNetworkService.fetchProfileData { result in
+                switch result {
+                case .success(let data):
+                    self.userProfileData = data
+                case .failure(let error):
+                    self.delegate?.didFailFetchingFeedData(with: error)
+                    self.isFetching = false
+                }
+                group.leave()
+            }
         }
-
+        
         group.enter()
         fetchMethod { result in
             switch result {
@@ -91,23 +87,23 @@ final class FeedViewModel: FeedViewModelProtocol {
             }
             group.leave()
         }
-
+        
         group.notify(queue: .main) {
             if let error = networkError {
                 self.delegate?.didFailFetchingFeedData(with: error)
                 self.isFetching = false
                 return
             }
-
+            
             guard let newFeedData = newFeedData,
                   let userProfileData = self.userProfileData else {
                 self.isFetching = false
                 return
             }
-
+            
             let newViewModels: [FeedTableViewCellViewModel] = newFeedData.data.map { feedDatum in
                 let imageURLs = self.extractImageURLs(from: feedDatum.attachments?.data.first?.subattachments)
-
+                
                 return FeedTableViewCellViewModel(
                     id: UUID(),
                     profileImageURL: userProfileData.picture.data.url,
@@ -118,7 +114,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                     imageURL: feedDatum.attachments?.data.first?.media?.image?.src
                 )
             }
-
+            
             self.viewModels.append(contentsOf: newViewModels)
             self.delegate?.didFetchFeedData(feedData: self.viewModels)
             self.isFetching = false
