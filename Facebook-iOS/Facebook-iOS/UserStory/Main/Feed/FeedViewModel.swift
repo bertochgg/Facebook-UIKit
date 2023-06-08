@@ -28,10 +28,6 @@ final class FeedViewModel: FeedViewModelProtocol {
     private var isFetching = false
     private var hasMoreDataToLoad = true
     
-    init() {
-        fetchUserProfileData()
-    }
-    
     func fetchFeedData() {
         fetchCellData(fetchMethod: feedNetworkService.fetchInitialFeedData)
     }
@@ -71,6 +67,12 @@ final class FeedViewModel: FeedViewModelProtocol {
         let group = DispatchGroup()
         var newFeedData: FeedData?
         var networkError: NetworkServiceErrors?
+        
+        if userProfileData == nil {
+            group.enter()
+            fetchUserProfileData()
+            group.leave()
+        }
 
         group.enter()
         fetchMethod { result in
