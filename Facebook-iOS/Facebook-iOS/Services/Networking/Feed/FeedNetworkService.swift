@@ -10,7 +10,42 @@ import Foundation
 
 class FeedNetworkService: FeedNetworkServiceProtocol {
     
-    func fetchFeedData(graphPath: String, parameters: [String: Any], completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
+    func fetchInitialFeedData(completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
+        let graphPath = "me/feed"
+        let parameters: [String: Any] = ["fields": "message, created_time, attachments", "limit": "10"]
+        fetchData(graphPath: graphPath, parameters: parameters, completion: completion)
+    }
+    
+    func fetchNewFeedData(currentPageURL: String, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
+        // Get path and parameters from currentPageURL
+        let urlComponents = URLComponents(string: currentPageURL)
+        let currentPagePath = urlComponents?.path ?? ""
+        var parameters: [String: Any] = [:]
+        for queryItem in urlComponents?.queryItems ?? [] {
+            if let value = queryItem.value {
+                parameters[queryItem.name] = value
+            }
+        }
+        
+        // Here, you unwrap the values
+        guard let accessToken = parameters["access_token"] as? String,
+              let until = parameters["until"] as? String,
+              let fields = parameters["fields"] as? String,
+              let pagingToken = parameters["__paging_token"] as? String else {
+            print("Failed to unwrap parameters")
+            return
+        }
+        // Here you take out the + from fields
+        let cleanedFields = fields.split(separator: "+").joined()
+        let unwrappedParameters = [
+            "access_token": accessToken, "until": until,
+            "fields": cleanedFields, "__paging_token": pagingToken, "limit": "10"
+        ]
+        
+        fetchData(graphPath: currentPagePath, parameters: unwrappedParameters, completion: completion)
+    }
+    
+    private func fetchData(graphPath: String, parameters: [String: Any], completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void) {
         let connection = GraphRequestConnection()
         connection.add(GraphRequest(graphPath: graphPath, parameters: parameters, httpMethod: .get)) { connection, response, error in
             print("Path: \(graphPath)")

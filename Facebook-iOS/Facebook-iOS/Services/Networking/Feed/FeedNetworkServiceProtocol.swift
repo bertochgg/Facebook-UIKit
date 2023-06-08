@@ -8,5 +8,6 @@
 import Foundation
 
 protocol FeedNetworkServiceProtocol {
-    func fetchFeedData(graphPath: String, parameters: [String: Any], completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void)
+    func fetchInitialFeedData(completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void)
+    func fetchNewFeedData(currentPageURL: String, completion: @escaping (Result<FeedData, NetworkServiceErrors>) -> Void)
 }

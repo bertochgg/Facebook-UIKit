@@ -33,64 +33,29 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     func fetchFeedData() {
-        guard !isFetching else { return }
-        isFetching = true
-        
-        let graphPath = "me/feed"
-        let requestParameters: [String: Any] = ["fields": "message, created_time, attachments", "limit": "10"]
-        
-        self.fetchCellData(path: graphPath, parameters: requestParameters)
+        fetchCellData(fetchMethod: feedNetworkService.fetchInitialFeedData)
     }
-    
+
     func fetchNewFeedData() {
-        guard let currentPageURL = currentPageURL, !isFetching, hasMoreDataToLoad else {
+        guard let currentPageURL = currentPageURL, hasMoreDataToLoad else {
             self.delegate?.didReachEndOfData()
             return
         }
-        isFetching = true
-        // Get path and parameters from currentPageURL
-        let urlComponents = URLComponents(string: currentPageURL)
-        let currentPagePath = urlComponents?.path ?? ""
-        var parameters: [String: Any] = [:]
-        for queryItem in urlComponents?.queryItems ?? [] {
-            if let value = queryItem.value {
-                parameters[queryItem.name] = value
-            }
-        }
-        
-        // Here, you unwrap the values
-        guard let accessToken = parameters["access_token"] as? String,
-              let until = parameters["until"] as? String,
-              let fields = parameters["fields"] as? String,
-              let pagingToken = parameters["__paging_token"] as? String else {
-            print("Failed to unwrap parameters")
-            return
-        }
-        // Here you take out the + from paramters
-        let cleanedFields = fields.split(separator: "+").joined()
-        let unwrappedParameters = [
-            "access_token": accessToken, "until": until,
-            "fields": cleanedFields, "__paging_token": pagingToken, "limit": "10"
-        ]
-        
-        self.fetchCellData(path: currentPagePath, parameters: unwrappedParameters)
+
+        fetchCellData(fetchMethod: { completion in
+            self.feedNetworkService.fetchNewFeedData(currentPageURL: currentPageURL, completion: completion)
+        })
     }
     
     private func fetchUserProfileData() {
-        var profileNetworkError: NetworkServiceErrors?
         userProfileNetworkService.fetchProfileData { result in
             switch result {
             case .success(let data):
                 self.userProfileData = data
             case .failure(let error):
-                profileNetworkError = error
+                self.delegate?.didFailFetchingFeedData(with: error)
+                self.isFetching = false
             }
-        }
-        
-        if let error = profileNetworkError {
-            self.delegate?.didFailFetchingFeedData(with: error)
-            self.isFetching = false
-            return
         }
     }
     
@@ -99,45 +64,48 @@ final class FeedViewModel: FeedViewModelProtocol {
         return subattachmentsData.compactMap { $0.media.image?.src }
     }
     
-    private func fetchCellData(path: String, parameters: [String: Any]) {
+    private func fetchCellData(fetchMethod: @escaping (@escaping (Result<FeedData, NetworkServiceErrors>) -> Void) -> Void) {
+        guard !isFetching else { return }
+        isFetching = true
+
         let group = DispatchGroup()
         var newFeedData: FeedData?
-        var feedNetworkError: NetworkServiceErrors?
-        
+        var networkError: NetworkServiceErrors?
+
         group.enter()
-        feedNetworkService.fetchFeedData(graphPath: path, parameters: parameters as [String: Any]) { result in
+        fetchMethod { result in
             switch result {
             case .success(let data):
                 if !data.data.isEmpty && data.paging != nil {
                     self.currentPageURL = data.paging?.next
                     newFeedData = data
                 } else {
-                    print("no data at end")
+                    print("No data at end")
                     self.hasMoreDataToLoad = false
                     self.delegate?.didReachEndOfData()
                 }
             case .failure(let error):
-                feedNetworkError = error
+                networkError = error
             }
             group.leave()
         }
-        
+
         group.notify(queue: .main) {
-            if let error = feedNetworkError {
+            if let error = networkError {
                 self.delegate?.didFailFetchingFeedData(with: error)
                 self.isFetching = false
                 return
             }
-            
+
             guard let newFeedData = newFeedData,
                   let userProfileData = self.userProfileData else {
                 self.isFetching = false
                 return
             }
-            
+
             let newViewModels: [FeedTableViewCellViewModel] = newFeedData.data.map { feedDatum in
                 let imageURLs = self.extractImageURLs(from: feedDatum.attachments?.data.first?.subattachments)
-                
+
                 return FeedTableViewCellViewModel(
                     id: UUID(),
                     profileImageURL: userProfileData.picture.data.url,
@@ -148,7 +116,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                     imageURL: feedDatum.attachments?.data.first?.media?.image?.src
                 )
             }
-            
+
             self.viewModels.append(contentsOf: newViewModels)
             self.delegate?.didFetchFeedData(feedData: self.viewModels)
             self.isFetching = false
