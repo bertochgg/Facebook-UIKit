@@ -110,7 +110,7 @@ extension FeedView {
         var snapshot = NSDiffableDataSourceSnapshot<Int, FeedTableViewCellViewModel>()
         snapshot.appendSections([0])
         snapshot.appendItems(viewModels)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: false)
         
         self.tableView.refreshControl?.endRefreshing()
     }
