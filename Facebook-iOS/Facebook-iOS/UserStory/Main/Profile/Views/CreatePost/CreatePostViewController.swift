@@ -15,6 +15,7 @@ class CreatePostViewController: UIViewController {
     
     override func loadView() {
         self.view = createPostView
+        navigationItem.title
     }
     
     override func viewDidLoad() {
