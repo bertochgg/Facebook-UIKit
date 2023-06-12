@@ -79,9 +79,13 @@ class FeedView: UIView {
     func resetFeedData() {
         if let lastRefreshTime = lastRefreshTime, Date().timeIntervalSince(lastRefreshTime) < minimumRefreshInterval {
             self.tableView.refreshControl?.endRefreshing()
+            resetLoadingState()
+            setHasMoreDataToLoad(true)
         } else {
             self.lastRefreshTime = Date()
             self.delegate?.didRefreshTriggered()
+            resetLoadingState()
+            setHasMoreDataToLoad(true)
         }
         
     }
@@ -103,10 +107,11 @@ extension FeedView: UITableViewDelegate {
         let tableViewHeight = scrollView.frame.height
         
         // If the user has scrolled to the bottom, data is not being fetched, and there is more data to fetch
-        if offsetY > contentHeight - tableViewHeight && !isLoadingData && self.hasMoreDataToLoad {
+        if offsetY > contentHeight - tableViewHeight && !isLoadingData && hasMoreDataToLoad {
             isLoadingData = true
             self.tableView.tableFooterView = createLoadingSpinner()
             self.delegate?.didReachEndOfFeed()
+            print("chi paso para fetchear mas data")
         }
     }
     

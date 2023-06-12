@@ -50,6 +50,7 @@ extension FeedViewController: FeedViewModelDelegate {
         print("chi toy :3")
         feedView.setHasMoreDataToLoad(false)
         feedView.resetLoadingState()
+        feedViewModel.resetLoadStateWhenHasNoMoreData()
     }
     
     private func showErrorAlert(title: String, message: String) {
