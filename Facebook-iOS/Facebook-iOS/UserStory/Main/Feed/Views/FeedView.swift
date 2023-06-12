@@ -22,6 +22,9 @@ class FeedView: UIView {
     
     private let refreshControl = UIRefreshControl()
     
+    private var lastRefreshTime: Date?
+    private let  minimumRefreshInterval: TimeInterval = 20
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupTableView()
@@ -74,7 +77,13 @@ class FeedView: UIView {
     
     @objc
     func resetFeedData() {
-        self.delegate?.didRefreshTriggered()
+        if let lastRefreshTime = lastRefreshTime, Date().timeIntervalSince(lastRefreshTime) < minimumRefreshInterval {
+            self.tableView.refreshControl?.endRefreshing()
+        } else {
+            self.lastRefreshTime = Date()
+            self.delegate?.didRefreshTriggered()
+        }
+        
     }
     
 }
