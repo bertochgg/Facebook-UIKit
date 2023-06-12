@@ -87,7 +87,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                 } else {
                     print("No data at end")
                     self.hasMoreDataToLoad = false
-                    self.delegate?.didReachEndOfData() // ?
+                    self.delegate?.didReachEndOfData()
                 }
             case .failure(let error):
                 networkError = error
