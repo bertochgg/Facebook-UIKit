@@ -15,7 +15,8 @@ class CreatePostViewController: UIViewController {
     
     override func loadView() {
         self.view = createPostView
-        navigationItem.title
+        navigationItem.title = "Create Post"
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     override func viewDidLoad() {

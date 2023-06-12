@@ -102,10 +102,10 @@ class CreatePostView: UIView {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        self.profileImageView.anchor(top: topAnchor, left: leftAnchor,
+        self.profileImageView.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor,
                                      paddingTop: 17, paddingLeft: 16,
                                      width: 50, height: 50)
-        self.usernameLabel.anchor(top: topAnchor,
+        self.usernameLabel.anchor(top: safeAreaLayoutGuide.topAnchor,
                                   left: profileImageView.rightAnchor,
                                   right: rightAnchor,
                                   paddingTop: 34, paddingLeft: 10, paddingRight: 160)

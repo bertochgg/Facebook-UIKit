@@ -43,6 +43,7 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol, CreatePostCoordinato
     func showCreatePostViewController() {
         let createPostViewController = CreatePostViewController()
         createPostViewController.coordinator = self
+        navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.pushViewController(createPostViewController, animated: true)
     }
 }
