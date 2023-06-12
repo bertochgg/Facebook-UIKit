@@ -34,13 +34,14 @@
 		5F14F1A229FB9BAD0079C0A4 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 5F14F1A129FB9BAD0079C0A4 /* FacebookLogin */; };
 		5F14F1A429FB9BAD0079C0A4 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = 5F14F1A329FB9BAD0079C0A4 /* FacebookShare */; };
 		5F30BE412A12EF3E00BF3F0B /* UIImage+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F30BE402A12EF3E00BF3F0B /* UIImage+DownloadImage.swift */; };
+		5F690DB82A37BA8A00B72C2C /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F690DB72A37BA8A00B72C2C /* FeedView.swift */; };
+		5F690DBA2A37BACD00B72C2C /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F690DB92A37BACD00B72C2C /* FeedViewModel.swift */; };
+		5F690DBE2A37BB4A00B72C2C /* GenericNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F690DBD2A37BB4A00B72C2C /* GenericNetworkServiceProtocol.swift */; };
 		5F76A2522A09A92400349063 /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2512A09A92400349063 /* FeedCoordinator.swift */; };
 		5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2532A09A93200349063 /* ProfileCoordinator.swift */; };
-		5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2552A09A96C00349063 /* FeedViewModel.swift */; };
 		5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2572A09A98700349063 /* ProfileViewModel.swift */; };
 		5F8DEB722A0D8DBF002B8835 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */; };
 		5F8DEB742A0DA500002B8835 /* UIView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */; };
-		5FB654602A3254AE00C4E716 /* GenericNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB6545F2A3254AE00C4E716 /* GenericNetworkServiceProtocol.swift */; };
 		5FB7CC632A1BD61E0052209B /* ImageSliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7CC622A1BD61E0052209B /* ImageSliderCollectionViewCell.swift */; };
 		5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */; };
 		5FC575652A2471470030EEC3 /* FeedTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC575642A2471470030EEC3 /* FeedTableViewCellViewModel.swift */; };
@@ -55,7 +56,6 @@
 		5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217729FC222D003AC04E /* FacebookAuthService.swift */; };
 		5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */; };
 		5FD175D52A0B6323008C5A4B /* UserProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD175D42A0B6323008C5A4B /* UserProfileData.swift */; };
-		5FD5349E2A1D365D0064C950 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD5349D2A1D365D0064C950 /* FeedView.swift */; };
 		5FD6CE962A09693800FA785C /* KeyChainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6CE952A09693800FA785C /* KeyChainServiceProtocol.swift */; };
 		5FD6CE982A0969F200FA785C /* KeychainServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6CE972A0969F200FA785C /* KeychainServiceError.swift */; };
 		5FD7019B29F8D89600C81E85 /* Reference.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FD7019A29F8D89600C81E85 /* Reference.storyboard */; };
@@ -138,13 +138,14 @@
 		30D6BA4859E3C0D7A3A15332 /* Pods-App-Facebook-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSTests.release.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSTests/Pods-App-Facebook-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5F14F1A529FB9EEA0079C0A4 /* Facebook-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Facebook-iOS.entitlements"; sourceTree = "<group>"; };
 		5F30BE402A12EF3E00BF3F0B /* UIImage+DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+DownloadImage.swift"; sourceTree = "<group>"; };
+		5F690DB72A37BA8A00B72C2C /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		5F690DB92A37BACD00B72C2C /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		5F690DBD2A37BB4A00B72C2C /* GenericNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericNetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		5F76A2512A09A92400349063 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		5F76A2532A09A93200349063 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
-		5F76A2552A09A96C00349063 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5F76A2572A09A98700349063 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Padding.swift"; sourceTree = "<group>"; };
-		5FB6545F2A3254AE00C4E716 /* GenericNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GenericNetworkServiceProtocol.swift; path = ../../../../../Documents/GenericNetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		5FB7CC622A1BD61E0052209B /* ImageSliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderCollectionViewCell.swift; sourceTree = "<group>"; };
 		5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileButtons.swift; sourceTree = "<group>"; };
 		5FC575642A2471470030EEC3 /* FeedTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCellViewModel.swift; sourceTree = "<group>"; };
@@ -159,7 +160,6 @@
 		5FD0217729FC222D003AC04E /* FacebookAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthService.swift; sourceTree = "<group>"; };
 		5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthServiceProtocol.swift; sourceTree = "<group>"; };
 		5FD175D42A0B6323008C5A4B /* UserProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileData.swift; sourceTree = "<group>"; };
-		5FD5349D2A1D365D0064C950 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		5FD6CE952A09693800FA785C /* KeyChainServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainServiceProtocol.swift; sourceTree = "<group>"; };
 		5FD6CE972A0969F200FA785C /* KeychainServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainServiceError.swift; sourceTree = "<group>"; };
 		5FD7019A29F8D89600C81E85 /* Reference.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reference.storyboard; sourceTree = "<group>"; };
@@ -468,7 +468,7 @@
 				04D52D6E2809F62900D4C010 /* Protocols_TODO.txt */,
 				5FDB34142A0419D30067A320 /* Coordinator */,
 				5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */,
-				5FB6545F2A3254AE00C4E716 /* GenericNetworkServiceProtocol.swift */,
+				5F690DBD2A37BB4A00B72C2C /* GenericNetworkServiceProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -569,7 +569,7 @@
 		5FD5349C2A1D36440064C950 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5FD5349D2A1D365D0064C950 /* FeedView.swift */,
+				5F690DB72A37BA8A00B72C2C /* FeedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -625,7 +625,7 @@
 				5FD5349C2A1D36440064C950 /* Views */,
 				5FC6C84B2A1744B400DC8D84 /* Cells */,
 				5FDB34202A0466C00067A320 /* FeedViewController.swift */,
-				5F76A2552A09A96C00349063 /* FeedViewModel.swift */,
+				5F690DB92A37BACD00B72C2C /* FeedViewModel.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -1018,9 +1018,10 @@
 				5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */,
 				5FCAD8652A16C6A800E2B0E0 /* NetworkServiceErrors.swift in Sources */,
 				5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */,
-				5FB654602A3254AE00C4E716 /* GenericNetworkServiceProtocol.swift in Sources */,
+				5F690DBE2A37BB4A00B72C2C /* GenericNetworkServiceProtocol.swift in Sources */,
 				5FCAD85A2A16B8B300E2B0E0 /* FeedData.swift in Sources */,
 				5FCAD8622A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift in Sources */,
+				5F690DBA2A37BACD00B72C2C /* FeedViewModel.swift in Sources */,
 				5FDD99322A0BFE8E0091285C /* ProfileNetworkService.swift in Sources */,
 				5FDCD6B92A02F2DF00AA6E73 /* ProgressHUDProtocol.swift in Sources */,
 				04D52D1F2809D7FC00D4C010 /* AppDelegate.swift in Sources */,
@@ -1033,14 +1034,12 @@
 				5FCAD8602A16C5C100E2B0E0 /* FeedNetworkService.swift in Sources */,
 				5FDB341F2A0466AE0067A320 /* ProfileViewController.swift in Sources */,
 				5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */,
-				5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */,
 				5FD939572A05766300AD2823 /* KeychainService.swift in Sources */,
 				5FDB34192A04350D0067A320 /* TabBarOptions.swift in Sources */,
 				5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */,
 				04D52D212809D7FC00D4C010 /* SceneDelegate.swift in Sources */,
 				5FD923A729F9A44600633203 /* SignInView.swift in Sources */,
 				5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */,
-				5FD5349E2A1D365D0064C950 /* FeedView.swift in Sources */,
 				5F76A2522A09A92400349063 /* FeedCoordinator.swift in Sources */,
 				5FC575672A24865C0030EEC3 /* Date+ISO8601Formatting.swift in Sources */,
 				5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */,
@@ -1050,6 +1049,7 @@
 				5F30BE412A12EF3E00BF3F0B /* UIImage+DownloadImage.swift in Sources */,
 				5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */,
 				5FB7CC632A1BD61E0052209B /* ImageSliderCollectionViewCell.swift in Sources */,
+				5F690DB82A37BA8A00B72C2C /* FeedView.swift in Sources */,
 				5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */,
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,
