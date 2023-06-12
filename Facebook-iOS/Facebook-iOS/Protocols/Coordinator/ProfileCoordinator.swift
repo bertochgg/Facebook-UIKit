@@ -25,9 +25,6 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol, CreatePostCoordinato
     
     func start() {
         showProfileViewController()
-        guard let navController = navigationController else { return }
-        let createPostCoordinator = CreatePostCoordinator(navigationController: navController)
-        self.childCoordinators.append(createPostCoordinator)
     }
 
     deinit {
@@ -41,15 +38,34 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol, CreatePostCoordinato
     }
     
     func showCreatePostViewController() {
-        let createPostViewController = CreatePostViewController()
-        createPostViewController.coordinator = self
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationController?.pushViewController(createPostViewController, animated: true)
+        guard let navigationController = navigationController else { return }
+        let createPostCoordinator = CreatePostCoordinator(navigationController: navigationController)
+        createPostCoordinator.finishDelegate = self
+        self.childCoordinators.append(createPostCoordinator)
+        createPostCoordinator.start()
     }
 }
 
 extension ProfileCoordinator: CoordinatorFinishDelegate {
     func coordinatorDidFinish(childCoordinator: any Coordinator) {
-        self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+//        self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+        guard let navigationController = navigationController else {
+            return
+        }
+        
+        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
+        
+        switch childCoordinator.type {
+        case .createPost:
+            navigationController.viewControllers.removeAll()
+            let transition = CATransition()
+            transition.type = CATransitionType.push
+            transition.subtype = CATransitionSubtype.fromLeft
+            navigationController.view.layer.add(transition, forKey: nil)
+            showProfileViewController()
+            navigationController.setNavigationBarHidden(true, animated: true)
+        default:
+            break
+        }
     }
 }

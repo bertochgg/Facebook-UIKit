@@ -15,6 +15,7 @@ protocol FeedViewModelProtocol: AnyObject {
     var delegate: FeedViewModelDelegate? { get set }
     func fetchFeedData()
     func fetchNewFeedData()
+    func resetLoadStateWhenHasNoMoreData()
 }
 
 final class FeedViewModel: FeedViewModelProtocol {
@@ -36,12 +37,17 @@ final class FeedViewModel: FeedViewModelProtocol {
     func fetchNewFeedData() {
         guard let currentPageURL = currentPageURL, hasMoreDataToLoad else {
             self.delegate?.didReachEndOfData()
+            // self.hasMoreDataToLoad = true
             return
         }
         
         fetchCellData(fetchMethod: { completion in
             self.feedNetworkService.fetchNewFeedData(currentPageURL: currentPageURL, completion: completion)
         })
+    }
+    
+    func resetLoadStateWhenHasNoMoreData() {
+        self.hasMoreDataToLoad = true
     }
     
     private func extractImageURLs(from subattachments: Subattachments?) -> [URL] {

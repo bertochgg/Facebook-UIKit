@@ -23,4 +23,5 @@ enum ImagesNames {
     // Create post images
     static let placeholderImage = UIImage(named: "placeholder image")
     static let addPhotoIcon = UIImage(named: "Add_square")
+    static let closeCreatePostButtonImage = UIImage(named: "Close_NavBar_Btn")
 }
