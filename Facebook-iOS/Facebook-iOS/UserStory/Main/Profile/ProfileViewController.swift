@@ -17,7 +17,7 @@ final class ProfileViewController: UIViewController {
         view = profileView
         profileViewModel.delegate = self
         profileView.delegate = self
-        
+        profileView.postDelegate = self
     }
     
     override func viewDidLoad() {
@@ -58,4 +58,10 @@ extension ProfileViewController: ProfileLogoutDelegate {
         }
     }
     
+}
+
+extension ProfileViewController: CreatePostDelegate {
+    func didTapAddPost() {
+        self.coordinator?.showCreatePostViewController()
+    }
 }

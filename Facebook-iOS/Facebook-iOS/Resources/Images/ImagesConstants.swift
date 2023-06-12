@@ -20,5 +20,7 @@ enum ImagesNames {
     static let privacy = UIImage(named: "Privacy Icon")
     static let share = UIImage(named: "Share Icon")
     static let like = UIImage(named: "Like Icon")
-    
+    // Create post images
+    static let placeholderImage = UIImage(named: "placeholder image")
+    static let addPhotoIcon = UIImage(named: "Add_square")
 }

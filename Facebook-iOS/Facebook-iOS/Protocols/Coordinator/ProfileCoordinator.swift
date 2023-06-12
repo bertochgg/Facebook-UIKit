@@ -9,9 +9,10 @@ import UIKit
 
 protocol ProfileCoordinatorProtocol: Coordinator {
     func showProfileViewController()
+    func showCreatePostViewController()
 }
 
-final class ProfileCoordinator: ProfileCoordinatorProtocol {
+final class ProfileCoordinator: ProfileCoordinatorProtocol, CreatePostCoordinatorProtocol {
     
     weak var finishDelegate: CoordinatorFinishDelegate?
     var navigationController: UINavigationController?
@@ -24,8 +25,11 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol {
     
     func start() {
         showProfileViewController()
+        guard let navController = navigationController else { return }
+        let createPostCoordinator = CreatePostCoordinator(navigationController: navController)
+        self.childCoordinators.append(createPostCoordinator)
     }
-    
+
     deinit {
         print("Bye: from ProfileCoordinator - ProfileViewController")
     }
@@ -34,6 +38,12 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol {
         let profileViewController = ProfileViewController()
         profileViewController.coordinator = self
         navigationController?.pushViewController(profileViewController, animated: true)
+    }
+    
+    func showCreatePostViewController() {
+        let createPostViewController = CreatePostViewController()
+        createPostViewController.coordinator = self
+        navigationController?.pushViewController(createPostViewController, animated: true)
     }
 }
 

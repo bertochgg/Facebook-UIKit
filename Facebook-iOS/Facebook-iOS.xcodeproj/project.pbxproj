@@ -81,6 +81,10 @@
 		5FDCD6BC2A02F51300AA6E73 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 5FDCD6BB2A02F51300AA6E73 /* JGProgressHUD */; };
 		5FDD99322A0BFE8E0091285C /* ProfileNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD99312A0BFE8E0091285C /* ProfileNetworkService.swift */; };
 		5FDD99342A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD99332A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift */; };
+		5FDE133E2A33915800B0AF91 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE133D2A33915800B0AF91 /* CreatePostView.swift */; };
+		5FDE13402A33A36700B0AF91 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE133F2A33A36700B0AF91 /* CreatePostViewController.swift */; };
+		5FDE13422A33A67600B0AF91 /* CreatePostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE13412A33A67600B0AF91 /* CreatePostCoordinator.swift */; };
+		5FDE13442A33CDFB00B0AF91 /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE13432A33CDFB00B0AF91 /* CreatePostViewModel.swift */; };
 		5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */; };
 		5FF4DE9A2A159779002F16C3 /* CustomProfileLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4DE992A159779002F16C3 /* CustomProfileLabel.swift */; };
 		61C181CCF1F7735CEDAB988D /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B0769E5513789A098B1E06 /* Pods_App_Facebook_iOS.framework */; };
@@ -186,6 +190,10 @@
 		5FDCD6B82A02F2DF00AA6E73 /* ProgressHUDProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUDProtocol.swift; sourceTree = "<group>"; };
 		5FDD99312A0BFE8E0091285C /* ProfileNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkService.swift; sourceTree = "<group>"; };
 		5FDD99332A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkServiceProtocol.swift; sourceTree = "<group>"; };
+		5FDE133D2A33915800B0AF91 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		5FDE133F2A33A36700B0AF91 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
+		5FDE13412A33A67600B0AF91 /* CreatePostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostCoordinator.swift; sourceTree = "<group>"; };
+		5FDE13432A33CDFB00B0AF91 /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		5FF4DE992A159779002F16C3 /* CustomProfileLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileLabel.swift; sourceTree = "<group>"; };
 		7E05FEFB5EC52FFA0886D0B1 /* Pods-App-Facebook-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -496,6 +504,7 @@
 		5FC6BFB22A0CC2B900C157DA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5FDE133C2A33910400B0AF91 /* CreatePost */,
 				5FC6BFB12A0CC2A400C157DA /* Subviews */,
 				5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */,
 			);
@@ -605,6 +614,7 @@
 				5FDB341A2A0436700067A320 /* TabBarCoordinator.swift */,
 				5F76A2512A09A92400349063 /* FeedCoordinator.swift */,
 				5F76A2532A09A93200349063 /* ProfileCoordinator.swift */,
+				5FDE13412A33A67600B0AF91 /* CreatePostCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -657,6 +667,16 @@
 				5FDD99332A0BFEB70091285C /* ProfileNetworkServiceProtocol.swift */,
 			);
 			path = "User Profile";
+			sourceTree = "<group>";
+		};
+		5FDE133C2A33910400B0AF91 /* CreatePost */ = {
+			isa = PBXGroup;
+			children = (
+				5FDE133D2A33915800B0AF91 /* CreatePostView.swift */,
+				5FDE133F2A33A36700B0AF91 /* CreatePostViewController.swift */,
+				5FDE13432A33CDFB00B0AF91 /* CreatePostViewModel.swift */,
+			);
+			path = CreatePost;
 			sourceTree = "<group>";
 		};
 		DD8C5EFA294DB0B0AEC22A02 /* Pods */ = {
@@ -1017,7 +1037,9 @@
 				04D52D232809D7FC00D4C010 /* SignInViewController.swift in Sources */,
 				5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */,
 				5FCAD8652A16C6A800E2B0E0 /* NetworkServiceErrors.swift in Sources */,
+				5FDE13422A33A67600B0AF91 /* CreatePostCoordinator.swift in Sources */,
 				5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */,
+				5FDE13442A33CDFB00B0AF91 /* CreatePostViewModel.swift in Sources */,
 				5FB654602A3254AE00C4E716 /* GenericNetworkServiceProtocol.swift in Sources */,
 				5FCAD85A2A16B8B300E2B0E0 /* FeedData.swift in Sources */,
 				5FCAD8622A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift in Sources */,
@@ -1031,7 +1053,9 @@
 				5FDB341B2A0436700067A320 /* TabBarCoordinator.swift in Sources */,
 				5FD6CE962A09693800FA785C /* KeyChainServiceProtocol.swift in Sources */,
 				5FCAD8602A16C5C100E2B0E0 /* FeedNetworkService.swift in Sources */,
+				5FDE133E2A33915800B0AF91 /* CreatePostView.swift in Sources */,
 				5FDB341F2A0466AE0067A320 /* ProfileViewController.swift in Sources */,
+				5FDE13402A33A36700B0AF91 /* CreatePostViewController.swift in Sources */,
 				5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */,
 				5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */,
 				5FD939572A05766300AD2823 /* KeychainService.swift in Sources */,

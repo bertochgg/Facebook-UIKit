@@ -122,4 +122,12 @@ extension UIFont {
         }
         return font
     }
+    
+    static var robotoRegular16: UIFont {
+        guard let font = UIFont(name: FontName.robotoRegular.rawValue, size: 16.0) else {
+            assertionFailure("Font not found")
+            return UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight(rawValue: 400) )
+        }
+        return font
+    }
 }

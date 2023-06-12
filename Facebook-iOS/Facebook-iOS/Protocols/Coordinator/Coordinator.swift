@@ -14,6 +14,7 @@ enum CoordinatorType {
     case tabBar
     case feed
     case myProfile
+    case createPost
 }
 
 // Delegate protocol helping parent Coordinator know when its child is ready to be finished.

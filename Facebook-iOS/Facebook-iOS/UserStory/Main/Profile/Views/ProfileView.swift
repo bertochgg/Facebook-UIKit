@@ -20,13 +20,17 @@ protocol ProfileLogoutDelegate: AnyObject {
     func didLogoutTapped()
 }
 
-protocol ProfileViewProtocolDelegates {
+protocol CreatePostDelegate: AnyObject {
     func didTapAddPost()
+}
+
+protocol ProfileViewProtocolDelegates {
     func didTakePhotoButtonTapped()
 }
 
 private protocol ProfileViewProtocol {
     var delegate: ProfileLogoutDelegate? { get set }
+    var postDelegate: CreatePostDelegate? { get set }
     
     var customProfileImage: CustomImageView { get }
     var customCameraImageButton: CustomProfileButtons { get }
@@ -49,6 +53,7 @@ protocol ProfileViewActionsProtocol {
 class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
     
     weak var delegate: ProfileLogoutDelegate?
+    weak var postDelegate: CreatePostDelegate?
     
     var profileImageURL: URL? {
         didSet {
@@ -211,7 +216,8 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
     
     @objc
     func addPostsButtonTapped() {
-        print("posts")
+        print("post")
+        self.postDelegate?.didTapAddPost()
     }
     
     @objc

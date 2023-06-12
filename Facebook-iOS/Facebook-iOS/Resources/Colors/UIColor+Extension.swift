@@ -31,4 +31,12 @@ extension UIColor {
         return UIColor(hexString: "#999999") ?? .gray
     }
     
+    class var createPostMessageTextViewColor: UIColor {
+        return UIColor(hexString: "#EEEEEE") ?? .gray
+    }
+    
+    class var createPostMessageTextViewPlaceholderColor: UIColor {
+        return UIColor(hexString: "#C4C4C4") ?? .gray
+    }
+    
 }
