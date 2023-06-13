@@ -43,6 +43,7 @@
 		5FAFC6B02A37D10A00097F02 /* GenericNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFC6AF2A37D10A00097F02 /* GenericNetworkServiceProtocol.swift */; };
 		5FB7CC632A1BD61E0052209B /* ImageSliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7CC622A1BD61E0052209B /* ImageSliderCollectionViewCell.swift */; };
 		5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */; };
+		5FC291832A38D4B5003DDB58 /* UITextView+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC291822A38D4B5003DDB58 /* UITextView+DoneButton.swift */; };
 		5FC575652A2471470030EEC3 /* FeedTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC575642A2471470030EEC3 /* FeedTableViewCellViewModel.swift */; };
 		5FC575672A24865C0030EEC3 /* Date+ISO8601Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC575662A24865C0030EEC3 /* Date+ISO8601Formatting.swift */; };
 		5FC6BFB42A0CC2EF00C157DA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */; };
@@ -151,6 +152,7 @@
 		5FAFC6AF2A37D10A00097F02 /* GenericNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericNetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		5FB7CC622A1BD61E0052209B /* ImageSliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderCollectionViewCell.swift; sourceTree = "<group>"; };
 		5FB901B42A1583CA00F184EA /* CustomProfileButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileButtons.swift; sourceTree = "<group>"; };
+		5FC291822A38D4B5003DDB58 /* UITextView+DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+DoneButton.swift"; sourceTree = "<group>"; };
 		5FC575642A2471470030EEC3 /* FeedTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		5FC575662A24865C0030EEC3 /* Date+ISO8601Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ISO8601Formatting.swift"; sourceTree = "<group>"; };
 		5FC6BFB32A0CC2EF00C157DA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 				04D52D682809F55800D4C010 /* UIKit_Extensions_TODO.txt */,
 				5FD923A429F99AF000633203 /* UIColor+Hex.swift */,
 				5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */,
+				5FC291822A38D4B5003DDB58 /* UITextView+DoneButton.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -1074,6 +1077,7 @@
 				5F30BE412A12EF3E00BF3F0B /* UIImage+DownloadImage.swift in Sources */,
 				5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */,
 				5FB7CC632A1BD61E0052209B /* ImageSliderCollectionViewCell.swift in Sources */,
+				5FC291832A38D4B5003DDB58 /* UITextView+DoneButton.swift in Sources */,
 				5FB901B52A1583CA00F184EA /* CustomProfileButtons.swift in Sources */,
 				047DC7422819438C00717EEC /* UIFont+Extension.swift in Sources */,
 				047DC740281935E500717EEC /* UIColor+Extension.swift in Sources */,

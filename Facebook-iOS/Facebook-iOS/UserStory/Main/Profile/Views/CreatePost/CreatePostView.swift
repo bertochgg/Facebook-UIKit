@@ -49,6 +49,7 @@ class CreatePostView: UIView {
                                                    left: 13,
                                                    bottom: 12,
                                                    right: 10)
+        textView.doneAccessory = true
         textView.delegate = self
         return textView
     }()
