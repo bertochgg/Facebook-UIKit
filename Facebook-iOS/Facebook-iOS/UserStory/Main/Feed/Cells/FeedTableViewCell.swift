@@ -101,9 +101,10 @@ class FeedTableViewCell: UITableViewCell {
     }()
     
     private lazy var likeButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setImage(ImagesNames.like, for: .normal)
         button.backgroundColor = .clear
+        button.tintColor = .black
         return button
     }()
     
@@ -260,15 +261,7 @@ extension FeedTableViewCell: FeedTableViewCellProtocol {
     
     @objc
     func likeButtonTapped() {
-        highlightButton()
-    }
-    
-    private func highlightButton() {
-        let highlightedImage = likeButton.currentImage?.withTintColor(.gray, renderingMode: .alwaysOriginal)
-        likeButton.setImage(highlightedImage, for: .normal)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.likeButton.setImage(self.likeButton.currentImage?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
-        }
+        
     }
     
 }

@@ -20,22 +20,6 @@ final class ProfileViewController: UIViewController {
         profileView.postDelegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if let tabBarController = tabBarController {
-            let whiteBar = UIView(frame: tabBarController.tabBar.frame)
-            whiteBar.backgroundColor = .white
-            self.view.addSubview(whiteBar)
-            self.view.bringSubviewToFront(whiteBar)
-            tabBarController.tabBar.isHidden = true
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemOrange

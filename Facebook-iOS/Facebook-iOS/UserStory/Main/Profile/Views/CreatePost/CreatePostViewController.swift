@@ -17,6 +17,7 @@ class CreatePostViewController: UIViewController {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
         button.setImage(ImagesNames.closeCreatePostButtonImage, for: .normal)
         button.backgroundColor = .clear
+        button.highlightWithColorChange(to: .gray, revertAfter: 0.2, revertColor: .black)
         button.addTarget(self, action: #selector(closeAddPostButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -47,17 +48,6 @@ class CreatePostViewController: UIViewController {
         navigationItem.setHidesBackButton(true, animated: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let tabBarController = tabBarController {
-            let whiteBar = UIView(frame: tabBarController.tabBar.frame)
-            whiteBar.backgroundColor = .white
-            self.view.addSubview(whiteBar)
-            self.view.bringSubviewToFront(whiteBar)
-            tabBarController.tabBar.isHidden = true
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -70,17 +60,8 @@ class CreatePostViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addPostButton)
     }
     
-    private func highlightButton() {
-        let highlightedImage = closeAddPostButton.currentImage?.withTintColor(.gray, renderingMode: .alwaysOriginal)
-        closeAddPostButton.setImage(highlightedImage, for: .normal)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.closeAddPostButton.setImage(self.closeAddPostButton.currentImage?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
-        }
-    }
-    
     @objc
     private func closeAddPostButtonTapped() {
-        highlightButton()
         self.coordinator?.finish()
     }
     

@@ -107,7 +107,8 @@ class CreatePostView: UIView {
                                     paddingTop: 11, paddingLeft: 13, paddingRight: 13,
                                     height: 232)
         
-        self.photoCarousel.anchor(top: messageTextView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+        self.photoCarousel.anchor(top: messageTextView.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor,
+                                  paddingTop: 24)
     }
     
     private func addPlaceholderElement() {
@@ -133,7 +134,7 @@ extension CreatePostView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 24, left: 29, bottom: 0, right: 24)
+        return UIEdgeInsets(top: 0, left: 29, bottom: 0, right: 24)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

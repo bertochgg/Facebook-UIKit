@@ -148,6 +148,7 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
                                        paddingRight: 16,
                                        width: 25,
                                        height: 25)
+        customCameraImageButton.highlightWithColorChange(to: .gray, revertAfter: 0.2, revertColor: .black)
         customCameraImageButton.addTarget(self, action: #selector(takePhotoButtonTapped), for: .touchUpInside)
         
         mainView.addSubview(usernameLabel)
