@@ -10,13 +10,13 @@ import UITextView_Placeholder
 
 class CreatePostView: UIView {
     
+    private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
+    var viewModels: [PhotoCollectionViewCellViewModel] = []
     private lazy var views = [
         profileImageView,
         usernameLabel,
         messageTextView,
-        postImageView,
-        placeholderImageView,
-        addPhotoButton
+        photoCarousel
     ]
     
     private lazy var profileImageView: UIImageView = {
@@ -54,35 +54,25 @@ class CreatePostView: UIView {
         return textView
     }()
     
-    private lazy var postImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
-        imageView.backgroundColor = UIColor.createPostMessageTextViewPlaceholderColor
-        return imageView
-    }()
-    
-    private lazy var placeholderImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .clear
-        imageView.image = ImagesNames.placeholderImage
-        return imageView
-    }()
-    
-    private lazy var addPhotoButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImagesNames.addPhotoIcon, for: .normal)
-        button.backgroundColor = .clear
-        return button
+    private lazy var photoCarousel: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = -5 // Vertical spacing
+        layout.minimumInteritemSpacing = 33 // Horizontal spacing
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
+        return collectionView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        photoCarousel.delegate = self
         self.backgroundColor = .white
         setupViews()
         setupConstraints()
+        configureDataSource()
+        addPlaceholderElement()
+        applySnapshot()
     }
     
     required init?(coder: NSCoder) {
@@ -116,17 +106,13 @@ class CreatePostView: UIView {
                                     right: rightAnchor,
                                     paddingTop: 11, paddingLeft: 13, paddingRight: 13,
                                     height: 232)
-        self.postImageView.anchor(top: messageTextView.bottomAnchor, left: leftAnchor,
-                                  paddingTop: 23, paddingLeft: 16,
-                                  width: 90, height: 90)
-        self.placeholderImageView.anchor(top: postImageView.topAnchor,
-                                         left: postImageView.leftAnchor,
-                                         bottom: postImageView.bottomAnchor,
-                                         right: postImageView.rightAnchor,
-                                         paddingTop: 25, paddingLeft: 25, paddingBottom: 25, paddingRight: 25)
-        self.addPhotoButton.anchor(bottom: postImageView.bottomAnchor, right: postImageView.rightAnchor,
-                                   paddingBottom: 6, paddingRight: 6,
-                                   width: 24, height: 24)
+        
+        self.photoCarousel.anchor(top: messageTextView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+    }
+    
+    private func addPlaceholderElement() {
+        guard let placeHolderImage = ImagesNames.placeholderImage else { return }
+        viewModels.append(PhotoCollectionViewCellViewModel(image: placeHolderImage))
     }
 }
 
@@ -135,5 +121,56 @@ extension CreatePostView: UITextViewDelegate {
         if messageTextView.isFirstResponder {
             messageTextView.resignFirstResponder()
         }
+    }
+}
+
+extension CreatePostView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(
+            width: (photoCarousel.frame.size.width / 4) - 8,
+            height: (photoCarousel.frame.size.width / 3) - 3
+        )
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 24, left: 29, bottom: 0, right: 24)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        // do something when a cell is tapped
+    }
+}
+
+extension CreatePostView {
+    private func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>(collectionView: photoCarousel) { collectionView, indexPath, viewModel in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier,
+                                                                for: indexPath) as? PhotoCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
+            cell.configure(with: viewModel)
+            return cell
+        }
+    }
+    
+    func applySnapshot() {
+        guard let dataSource = dataSource else { return }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Int, PhotoCollectionViewCellViewModel>()
+        snapshot.appendSections([0])
+
+        snapshot.appendItems(viewModels) // Append the imageView
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+}
+
+extension CreatePostView: PhotoCollectionViewCellDelegate {
+    func didTapAddPhotoButton() {
+        self.addPlaceholderElement()
+        self.applySnapshot()
+        self.photoCarousel.reloadData()
     }
 }
