@@ -46,9 +46,10 @@ class CreatePostView: UIView {
         textView.placeholderColor = UIColor.createPostMessageTextViewPlaceholderColor
         textView.font = UIFont.robotoRegular16
         textView.textContainerInset = UIEdgeInsets(top: 12,
-                                                   left: 10,
-                                                   bottom: 0,
+                                                   left: 13,
+                                                   bottom: 12,
                                                    right: 10)
+        textView.delegate = self
         return textView
     }()
     
@@ -125,5 +126,13 @@ class CreatePostView: UIView {
         self.addPhotoButton.anchor(bottom: postImageView.bottomAnchor, right: postImageView.rightAnchor,
                                    paddingBottom: 6, paddingRight: 6,
                                    width: 24, height: 24)
+    }
+}
+
+extension CreatePostView: UITextViewDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if messageTextView.isFirstResponder {
+            messageTextView.resignFirstResponder()
+        }
     }
 }

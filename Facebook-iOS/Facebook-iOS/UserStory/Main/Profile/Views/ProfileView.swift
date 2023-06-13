@@ -194,6 +194,8 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
                                   textColor: .white,
                                   backgroundColor: .clear,
                                   radius: 0)
+        addPostButton.setTitleColor(.white, for: .normal)
+        addPostButton.setTitleColor(.gray, for: .highlighted)
         addPostButton.addTarget(self, action: #selector(addPostsButtonTapped), for: .touchUpInside)
         addPostButton.anchor(top: subView.topAnchor, left: subView.leftAnchor, paddingTop: 35, paddingLeft: 22)
         

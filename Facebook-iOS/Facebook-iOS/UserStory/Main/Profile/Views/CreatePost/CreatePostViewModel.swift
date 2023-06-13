@@ -7,6 +7,10 @@
 
 import Foundation
 
-final class CreatePostViewModel {
+protocol CreatePostViewModelProtocol: AnyObject {
+    
+}
+
+final class CreatePostViewModel: CreatePostViewModelProtocol {
     
 }
