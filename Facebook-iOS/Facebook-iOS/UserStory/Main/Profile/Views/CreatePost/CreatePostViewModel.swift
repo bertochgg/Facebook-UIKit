@@ -7,20 +7,25 @@
 
 import Foundation
 
+private enum Constants {
+    static let defaultProfileImage = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"
+}
+
 protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
+    func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel)
 }
 
 protocol CreatePostViewModelProtocol: AnyObject {
     var delegate: CreatePostViewModelDelegate? { get set }
     func fetchProfileData()
+    func addPlaceholderElement()
 }
 
 final class CreatePostViewModel {
-    var delegate: CreatePostViewModelDelegate?
+    weak var delegate: CreatePostViewModelDelegate?
     private let profileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
     
-    var userProfileData: UserProfileData?
 }
 
 extension CreatePostViewModel: CreatePostViewModelProtocol {
@@ -29,21 +34,26 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         profileNetworkService.fetchProfileData { [weak self] result in
             switch result {
             case .success(let userData):
-                print("user data fetching successful")
-                self?.userProfileData = userData
-                guard let profileImageURL = self?.userProfileData?.picture.data.url else { return }
-                guard let safeProfileImageData = URL(string: profileImageURL) else { return }
-                guard let firstName = self?.userProfileData?.firstName else { return }
-                guard let lastName = self?.userProfileData?.lastName else { return }
-                let fullName = firstName + " " + lastName
+                print("User data fetching successful")
+                
+                let profileImageURLString = userData.picture.data.url ?? Constants.defaultProfileImage
+                guard let safeProfileImageData = URL(string: profileImageURLString) else { return }
+                
+                let fullName = "\(userData.firstName) \(userData.lastName)"
                 
                 let displayData = CreatePostDataViewModel(profileImageURL: safeProfileImageData, username: fullName)
                 self?.delegate?.didDisplayProfileData(viewModel: displayData)
             case .failure(let error):
-                print("Error fetching user profile data: \(NetworkServiceErrors.decodingFailed)")
-                print(error.localizedDescription)
+                print("Error fetching user profile data: \(error)")
             }
         }
+        
+    }
+    
+    func addPlaceholderElement() {
+        guard let placeHolderImage = ImagesNames.placeholderImage else { return }
+        let viewModel = PhotoCollectionViewCellViewModel(image: placeHolderImage)
+        delegate?.didAddPlaceholder(viewModel: viewModel)
     }
     
 }

@@ -7,6 +7,10 @@
 
 import UIKit
 
+private enum Constants {
+    static let defaultProfileImage = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"
+}
+
 final class ProfileViewController: UIViewController {
     
     weak var coordinator: (any ProfileCoordinatorProtocol)?
@@ -33,7 +37,7 @@ extension ProfileViewController: ProfileViewModelDelegate {
     func didFetchProfileData(profileData: UserProfileData) {
         DispatchQueue.main.async { [weak self] in
             // Update UI elements with the profile data
-            guard let safeProfileImageData = URL(string: profileData.picture.data.url) else {
+            guard let safeProfileImageData = URL(string: profileData.picture.data.url ?? Constants.defaultProfileImage) else {
                 return
             }
             self?.profileView.profileImageURL = safeProfileImageData

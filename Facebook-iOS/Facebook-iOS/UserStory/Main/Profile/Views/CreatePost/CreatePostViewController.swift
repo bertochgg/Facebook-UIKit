@@ -56,6 +56,7 @@ class CreatePostViewController: UIViewController {
         
         createPostViewModel.delegate = self
         createPostViewModel.fetchProfileData()
+        createPostViewModel.addPlaceholderElement()
     }
     
     private func configureBarButtonItems() {
@@ -75,7 +76,20 @@ class CreatePostViewController: UIViewController {
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
+    func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel) {
+        createPostView.viewModels.append(viewModel)
+        createPostView.applySnapshot()
+    }
+    
     func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
         createPostView.configure(with: viewModel)
+    }
+}
+
+extension CreatePostViewController: PhotoCollectionViewCellDelegate {
+    func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {
+        cell.delegate = self
+        createPostViewModel.addPlaceholderElement()
+        createPostView.applySnapshot()
     }
 }

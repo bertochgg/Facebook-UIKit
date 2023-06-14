@@ -72,7 +72,6 @@ class CreatePostView: UIView {
         setupViews()
         setupConstraints()
         configureDataSource()
-        addPlaceholderElement()
         applySnapshot()
     }
     
@@ -120,10 +119,10 @@ class CreatePostView: UIView {
                                   paddingTop: 24)
     }
     
-    private func addPlaceholderElement() {
-        guard let placeHolderImage = ImagesNames.placeholderImage else { return }
-        viewModels.append(PhotoCollectionViewCellViewModel(image: placeHolderImage))
-    }
+//    private func addPlaceholderElement() {
+//        guard let placeHolderImage = ImagesNames.placeholderImage else { return }
+//        viewModels.append(PhotoCollectionViewCellViewModel(image: placeHolderImage))
+//    }
     
     private func dismissKeyboardForTextView() {
         if messageTextView.isFirstResponder {
@@ -168,7 +167,6 @@ extension CreatePostView {
                                                                 for: indexPath) as? PhotoCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.delegate = self
             cell.configure(with: viewModel)
             return cell
         }
@@ -184,12 +182,4 @@ extension CreatePostView {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-}
-
-extension CreatePostView: PhotoCollectionViewCellDelegate {
-    func didTapAddPhotoButton() {
-        self.addPlaceholderElement()
-        self.applySnapshot()
-        self.photoCarousel.reloadData()
-    }
 }

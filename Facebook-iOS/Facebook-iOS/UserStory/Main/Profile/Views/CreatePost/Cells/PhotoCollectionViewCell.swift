@@ -8,12 +8,16 @@
 import UIKit
 
 protocol PhotoCollectionViewCellDelegate: AnyObject {
-    func didTapAddPhotoButton()
+    func didTapAddPhotoButton(cell: PhotoCollectionViewCell)
 }
 
 struct PhotoCollectionViewCellViewModel: Hashable {
-    let id = UUID()
-    let image: UIImage
+    let id: UUID = UUID()
+    let image: UIImage?
+    
+    init(image: UIImage?) {
+        self.image = image ?? ImagesNames.placeholderImage
+    }
 }
 
 class PhotoCollectionViewCell: UICollectionViewCell {
@@ -41,7 +45,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .clear
-        imageView.image = ImagesNames.placeholderImage
         return imageView
     }()
     
@@ -81,12 +84,16 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         if viewModel.image == ImagesNames.placeholderImage {
             postImageView.isHidden = false
             placeholderImageView.isHidden = false
+            placeholderImageView.image = viewModel.image
             addPhotoButton.isHidden = false
+            print("si entro aqui jijijiji")
         } else {
+            print("no entro por aqui")
             postImageView.isHidden = false
             placeholderImageView.isHidden = true
             addPhotoButton.isHidden = true
             postImageView.image = viewModel.image
+            postImageView.isUserInteractionEnabled = false
         }
     }
     
@@ -108,7 +115,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @objc
     private func addPhotoButtonTapped() {
         print("Adding new photo")
-        self.delegate?.didTapAddPhotoButton()
+        self.delegate?.didTapAddPhotoButton(cell: self)
     }
 
 }

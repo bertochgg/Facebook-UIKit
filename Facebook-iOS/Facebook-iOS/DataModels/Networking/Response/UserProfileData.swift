@@ -50,7 +50,7 @@ struct Picture: Codable {
 
 // MARK: - Picture Data
 struct PictureData: Codable {
-    let url: String
+    let url: String?
     
     enum CodingKeys: String, CodingKey {
         case url

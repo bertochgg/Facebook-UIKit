@@ -5,6 +5,10 @@
 //
 import Foundation
 
+private enum Constants {
+    static let defaultProfileImage = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"
+}
+
 protocol FeedViewModelDelegate: AnyObject {
     func didFetchFeedData(feedData: [FeedTableViewCellViewModel])
     func didFailFetchingFeedData(with error: NetworkServiceErrors)
@@ -113,7 +117,7 @@ final class FeedViewModel: FeedViewModelProtocol {
                 
                 return FeedTableViewCellViewModel(
                     id: UUID(),
-                    profileImageURL: userProfileData.picture.data.url,
+                    profileImageURL: userProfileData.picture.data.url ?? Constants.defaultProfileImage,
                     username: "\(userProfileData.firstName) \(userProfileData.lastName)",
                     creationTime: feedDatum.createdTime.dateFormatting(),
                     message: feedDatum.message,

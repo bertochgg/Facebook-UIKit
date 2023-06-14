@@ -34,7 +34,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 print("Last: \(userData.lastName)")
                 print(userData.email)
                 print(userData.birthday)
-                print("Picture: \(userData.picture.data.url)")
+                print("Picture: \(String(describing: userData.picture.data.url))")
                 print("user data fetching successful")
                 
                 self.userProfileData = userData
