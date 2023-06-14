@@ -35,13 +35,7 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
             switch result {
             case .success(let userData):
                 print("User data fetching successful")
-                
-                let profileImageURLString = userData.picture.data.url ?? ""
-                let profileImageURL = URL(string: profileImageURLString)
-                
-                let fullName = "\(userData.firstName) \(userData.lastName)"
-                
-                let displayData = CreatePostDataViewModel(profileImageURL: profileImageURL, username: fullName)
+                let displayData = CreatePostDataViewModel.transform(from: userData)
                 self?.delegate?.didDisplayProfileData(viewModel: displayData)
             case .failure(let error):
                 print("Error fetching user profile data: \(error)")

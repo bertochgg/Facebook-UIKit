@@ -14,9 +14,16 @@ protocol PhotoCollectionViewCellDelegate: AnyObject {
 struct PhotoCollectionViewCellViewModel: Hashable {
     let id: UUID = UUID()
     let image: UIImage?
+    let isPlaceholder: Bool
     
     init(image: UIImage?) {
-        self.image = image ?? ImagesNames.placeholderImage
+        if image == ImagesNames.placeholderImage {
+            self.isPlaceholder = true
+            self.image = ImagesNames.placeholderImage
+        } else {
+            self.isPlaceholder = false
+            self.image = image
+        }
     }
 }
 
@@ -81,14 +88,12 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with viewModel: PhotoCollectionViewCellViewModel) {
-        if viewModel.image == ImagesNames.placeholderImage {
+        if viewModel.isPlaceholder {
             postImageView.isHidden = false
             placeholderImageView.isHidden = false
             placeholderImageView.image = viewModel.image
             addPhotoButton.isHidden = false
-            print("si entro aqui jijijiji")
         } else {
-            print("no entro por aqui")
             postImageView.isHidden = false
             placeholderImageView.isHidden = true
             addPhotoButton.isHidden = true
