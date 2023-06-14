@@ -10,6 +10,7 @@ import UITextView_Placeholder
 
 class CreatePostView: UIView {
     
+    weak var delegate: PhotoCollectionViewCellDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
     var viewModels: [PhotoCollectionViewCellViewModel] = []
     private lazy var views = [
@@ -119,11 +120,6 @@ class CreatePostView: UIView {
                                   paddingTop: 24)
     }
     
-//    private func addPlaceholderElement() {
-//        guard let placeHolderImage = ImagesNames.placeholderImage else { return }
-//        viewModels.append(PhotoCollectionViewCellViewModel(image: placeHolderImage))
-//    }
-    
     private func dismissKeyboardForTextView() {
         if messageTextView.isFirstResponder {
             messageTextView.resignFirstResponder()
@@ -167,6 +163,7 @@ extension CreatePostView {
                                                                 for: indexPath) as? PhotoCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            cell.delegate = self.delegate
             cell.configure(with: viewModel)
             return cell
         }
@@ -179,7 +176,7 @@ extension CreatePostView {
         snapshot.appendSections([0])
         
         snapshot.appendItems(viewModels) // Append the imageView
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
 }

@@ -44,6 +44,7 @@ class CreatePostViewController: UIViewController {
     
     override func loadView() {
         self.view = createPostView
+        createPostView.delegate = self
         navigationItem.titleView = titleLabel
         navigationItem.setHidesBackButton(true, animated: true)
     }
@@ -88,7 +89,7 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {
-        cell.delegate = self
+        // cell.delegate = self
         createPostViewModel.addPlaceholderElement()
         createPostView.applySnapshot()
     }
