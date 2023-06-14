@@ -74,12 +74,8 @@ class CreatePostViewController: UIViewController {
     }
 }
 
-extension CreatePostViewController: ProfileViewModelDelegate {
-    func didFetchProfileData(profileData: UserProfileData) {
-        DispatchQueue.main.async { [weak self] in
-            guard let safeProfileImageData = URL(string: profileData.picture.data.url) else { return }
-            self?.createPostView.profileImageURL = safeProfileImageData
-            self?.createPostView.username = profileData.firstName + " " + profileData.lastName
-        }
+extension CreatePostViewController: CreatePostViewModelDelegate {
+    func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
+        createPostView.configure(with: viewModel)
     }
 }

@@ -10,20 +10,6 @@ import UITextView_Placeholder
 
 class CreatePostView: UIView {
     
-    var profileImageURL: URL? {
-        didSet {
-            if let imageURL = profileImageURL {
-                profileImageView.downloadImage(from: imageURL)
-            }
-        }
-    }
-    
-    var username: String? {
-        didSet {
-            usernameLabel.text = username
-        }
-    }
-    
     private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
     var viewModels: [PhotoCollectionViewCellViewModel] = []
     private lazy var views = [
@@ -38,7 +24,6 @@ class CreatePostView: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
-        imageView.backgroundColor = .gray
         return imageView
     }()
     
@@ -46,7 +31,6 @@ class CreatePostView: UIView {
         let label = UILabel()
         label.font = .robotoMedium14
         label.textColor = .black
-        label.text = "Brum Brum"
         return label
     }()
     
@@ -75,6 +59,9 @@ class CreatePostView: UIView {
         layout.minimumInteritemSpacing = 33 // Horizontal spacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        collectionView.addGestureRecognizer(tapGesture)
         return collectionView
     }()
     
@@ -95,6 +82,14 @@ class CreatePostView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+    }
+    
+    func configure(with viewModel: CreatePostDataViewModel) {
+        if let safeImageURL = viewModel.profileImageURL,
+           let safeUsername = viewModel.username {
+            self.profileImageView.downloadImage(from: safeImageURL)
+            self.usernameLabel.text = safeUsername
+        }
     }
     
     private func setupViews() {
@@ -129,13 +124,22 @@ class CreatePostView: UIView {
         guard let placeHolderImage = ImagesNames.placeholderImage else { return }
         viewModels.append(PhotoCollectionViewCellViewModel(image: placeHolderImage))
     }
+    
+    private func dismissKeyboardForTextView() {
+        if messageTextView.isFirstResponder {
+            messageTextView.resignFirstResponder()
+        }
+    }
+    
+    @objc
+    private func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+        self.dismissKeyboardForTextView()
+    }
 }
 
 extension CreatePostView: UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if messageTextView.isFirstResponder {
-            messageTextView.resignFirstResponder()
-        }
+        self.dismissKeyboardForTextView()
     }
 }
 
@@ -175,7 +179,7 @@ extension CreatePostView {
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, PhotoCollectionViewCellViewModel>()
         snapshot.appendSections([0])
-
+        
         snapshot.appendItems(viewModels) // Append the imageView
         dataSource.apply(snapshot, animatingDifferences: true)
     }

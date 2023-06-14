@@ -56,11 +56,7 @@ extension ProfileCoordinator: CoordinatorFinishDelegate {
         
         switch childCoordinator.type {
         case .createPost:
-            navigationController.viewControllers.removeLast()
-            let transition = CATransition()
-            transition.type = CATransitionType.push
-            transition.subtype = CATransitionSubtype.fromLeft
-            navigationController.view.layer.add(transition, forKey: nil)
+            navigationController.popViewController(animated: true)
             navigationController.setNavigationBarHidden(true, animated: true)
         default:
             break
