@@ -30,7 +30,10 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
-        imageView.backgroundColor = UIColor.createPostMessageTextViewPlaceholderColor
+        imageView.backgroundColor = .createPostMessageTextViewPlaceholderColor
+        imageView.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addPhotoButtonTapped))
+        imageView.addGestureRecognizer(tapGesture)
         return imageView
     }()
     
@@ -47,7 +50,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         button.setImage(ImagesNames.addPhotoIcon, for: .normal)
         button.tintColor = .white
         button.backgroundColor = .clear
-        // button.highlightWithColorChange(to: .gray, revertAfter: 0.2, revertColor: .white)
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(addPhotoButtonTapped), for: .touchUpInside)
         return button

@@ -14,10 +14,10 @@ class CreatePostViewController: UIViewController {
     private let createPostViewModel: CreatePostViewModelProtocol = CreatePostViewModel()
     
     private lazy var closeAddPostButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        let button = UIButton(type: .system)
         button.setImage(ImagesNames.closeCreatePostButtonImage, for: .normal)
         button.backgroundColor = .clear
-        button.highlightWithColorChange(to: .gray, revertAfter: 0.2, revertColor: .black)
+        button.tintColor = .black
         button.addTarget(self, action: #selector(closeAddPostButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -25,7 +25,7 @@ class CreatePostViewController: UIViewController {
     private lazy var addPostButton: UIButton = {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
-        button.titleLabel?.font = UIFont.robotoBold14
+        button.titleLabel?.font = .robotoBold14
         button.setTitleColor(.black, for: .normal)
         button.setTitleColor(.gray, for: .highlighted)
         button.backgroundColor = .clear
@@ -35,7 +35,7 @@ class CreatePostViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.robotoBold14
+        label.font = .robotoBold14
         label.textColor = .black
         label.backgroundColor = .clear
         label.text = "Create Post"
@@ -53,6 +53,9 @@ class CreatePostViewController: UIViewController {
         self.view.backgroundColor = .white
         configureBarButtonItems()
         print("Current count: \(String(describing: navigationController?.viewControllers.count))")
+        
+        createPostViewModel.delegate = self
+        createPostViewModel.fetchProfileData()
     }
     
     private func configureBarButtonItems() {
@@ -68,5 +71,15 @@ class CreatePostViewController: UIViewController {
     @objc
     private func addPostButtonTapped() {
         print("Adding Post")
+    }
+}
+
+extension CreatePostViewController: ProfileViewModelDelegate {
+    func didFetchProfileData(profileData: UserProfileData) {
+        DispatchQueue.main.async { [weak self] in
+            guard let safeProfileImageData = URL(string: profileData.picture.data.url) else { return }
+            self?.createPostView.profileImageURL = safeProfileImageData
+            self?.createPostView.username = profileData.firstName + " " + profileData.lastName
+        }
     }
 }

@@ -10,6 +10,20 @@ import UITextView_Placeholder
 
 class CreatePostView: UIView {
     
+    var profileImageURL: URL? {
+        didSet {
+            if let imageURL = profileImageURL {
+                profileImageView.downloadImage(from: imageURL)
+            }
+        }
+    }
+    
+    var username: String? {
+        didSet {
+            usernameLabel.text = username
+        }
+    }
+    
     private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
     var viewModels: [PhotoCollectionViewCellViewModel] = []
     private lazy var views = [
@@ -30,7 +44,7 @@ class CreatePostView: UIView {
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.robotoMedium14
+        label.font = .robotoMedium14
         label.textColor = .black
         label.text = "Brum Brum"
         return label
@@ -39,12 +53,12 @@ class CreatePostView: UIView {
     private lazy var messageTextView: UITextView = {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
-        textView.backgroundColor = UIColor.createPostMessageTextViewColor.withAlphaComponent(0.5)
+        textView.backgroundColor = .createPostMessageTextViewColor.withAlphaComponent(0.5)
         textView.alpha = 1
         textView.textColor = .black
         textView.placeholder = "What's on your mind?"
-        textView.placeholderColor = UIColor.createPostMessageTextViewPlaceholderColor
-        textView.font = UIFont.robotoRegular16
+        textView.placeholderColor = .createPostMessageTextViewPlaceholderColor
+        textView.font = .robotoRegular16
         textView.textContainerInset = UIEdgeInsets(top: 12,
                                                    left: 13,
                                                    bottom: 12,

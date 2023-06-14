@@ -34,12 +34,12 @@ class AppCoordinator: AppCoordinatorProtocol {
     func start() {
         keychainService.loadData(forKey: KeychainKeys.userAccessTokenKey, completion: { result in
             switch result {
-            case .success(_):
+            case .success:
                 // If access token is present, then show main scree. Question: how do I read access token, string, data, do I need to decode?
                 print("sign in successful, i go to main screen")
                 self.showMainScreen()
                 
-            case .failure(_):
+            case .failure:
                 // If access token is NOT present, then go again to SignIn until it is successful
                 self.showSignIn()
             }

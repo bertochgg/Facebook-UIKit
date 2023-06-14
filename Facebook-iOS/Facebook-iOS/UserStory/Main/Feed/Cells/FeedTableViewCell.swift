@@ -41,7 +41,7 @@ class FeedTableViewCell: UITableViewCell {
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.robotoMediumItalic14
+        label.font = .robotoMediumItalic14
         label.textColor = .black
         label.numberOfLines = 2
         return label
@@ -49,8 +49,8 @@ class FeedTableViewCell: UITableViewCell {
     
     private lazy var creationTimeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.creationTimeGrayTextColor
-        label.font = UIFont.robotoRegular11
+        label.textColor = .creationTimeGrayTextColor
+        label.font = .robotoRegular11
         label.numberOfLines = 1
         return label
     }()
@@ -66,7 +66,7 @@ class FeedTableViewCell: UITableViewCell {
         let textView = UITextView()
         textView.backgroundColor = .clear
         textView.textColor = .black
-        textView.font = UIFont.robotoRegular12
+        textView.font = .robotoRegular12
         textView.isScrollEnabled = false
         textView.isEditable = false
         return textView

@@ -12,7 +12,7 @@ protocol ProfileCoordinatorProtocol: Coordinator {
     func showCreatePostViewController()
 }
 
-final class ProfileCoordinator: ProfileCoordinatorProtocol, CreatePostCoordinatorProtocol {
+final class ProfileCoordinator: ProfileCoordinatorProtocol {
     
     weak var finishDelegate: CoordinatorFinishDelegate?
     var navigationController: UINavigationController?
@@ -48,7 +48,6 @@ final class ProfileCoordinator: ProfileCoordinatorProtocol, CreatePostCoordinato
 
 extension ProfileCoordinator: CoordinatorFinishDelegate {
     func coordinatorDidFinish(childCoordinator: any Coordinator) {
-//        self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
         guard let navigationController = navigationController else {
             return
         }
@@ -57,12 +56,11 @@ extension ProfileCoordinator: CoordinatorFinishDelegate {
         
         switch childCoordinator.type {
         case .createPost:
-            navigationController.viewControllers.removeAll()
+            navigationController.viewControllers.removeLast()
             let transition = CATransition()
             transition.type = CATransitionType.push
             transition.subtype = CATransitionSubtype.fromLeft
             navigationController.view.layer.add(transition, forKey: nil)
-            showProfileViewController()
             navigationController.setNavigationBarHidden(true, animated: true)
         default:
             break

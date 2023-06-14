@@ -83,7 +83,7 @@ class SignInView: UIView {
         let button = UIButton()
         button.setImage(Constants.fbLoginButtonIcon, for: .normal)
         button.setTitle(Constants.fbLoginButtonTitle, for: .normal)
-        button.titleLabel?.font = UIFont.robotoBoldItalic24
+        button.titleLabel?.font = .robotoBoldItalic24
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 31, bottom: 0, right: 18)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
         button.contentHorizontalAlignment = .center

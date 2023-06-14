@@ -90,7 +90,7 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
     }
     
     fileprivate let customProfileImage = CustomImageView(frame: .zero)
-    fileprivate let customCameraImageButton = CustomProfileButtons(frame: .zero)
+    fileprivate let customCameraImageButton = CustomProfileButtons(type: .system)
     fileprivate let backgroundImageView = CustomImageView(frame: .zero)
     
     fileprivate let addPostButton = CustomProfileButtons(frame: .zero)
@@ -152,7 +152,7 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
         customCameraImageButton.addTarget(self, action: #selector(takePhotoButtonTapped), for: .touchUpInside)
         
         mainView.addSubview(usernameLabel)
-        usernameLabel.setupLabel(font: UIFont.robotoRegular24,
+        usernameLabel.setupLabel(font: .robotoRegular24,
                                  textColor: .black,
                                  backgroundColor: .clear)
         usernameLabel.numberOfLines = 1
@@ -162,7 +162,7 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
                              paddingTop: 15, paddingLeft: 27, paddingRight: 75)
         
         mainView.addSubview(userBioTextView)
-        userBioTextView.font = UIFont.robotoRegular14
+        userBioTextView.font = .robotoRegular14
         userBioTextView.textColor = .black
         userBioTextView.backgroundColor = .clear
         userBioTextView.placeholder = "Share who you are"
@@ -191,7 +191,7 @@ class ProfileView: UIView, ProfileViewProtocol, ProfileViewActionsProtocol {
         
         subView.addSubview(addPostButton)
         addPostButton.setupButton(title: "Add Post",
-                                  font: UIFont.robotoBold14,
+                                  font: .robotoBold14,
                                   textColor: .white,
                                   backgroundColor: .clear,
                                   radius: 0)
