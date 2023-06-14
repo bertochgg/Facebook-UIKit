@@ -36,12 +36,12 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
             case .success(let userData):
                 print("User data fetching successful")
                 
-                let profileImageURLString = userData.picture.data.url ?? Constants.defaultProfileImage
-                guard let safeProfileImageData = URL(string: profileImageURLString) else { return }
+                let profileImageURLString = userData.picture.data.url ?? ""
+                let profileImageURL = URL(string: profileImageURLString)
                 
                 let fullName = "\(userData.firstName) \(userData.lastName)"
                 
-                let displayData = CreatePostDataViewModel(profileImageURL: safeProfileImageData, username: fullName)
+                let displayData = CreatePostDataViewModel(profileImageURL: profileImageURL, username: fullName)
                 self?.delegate?.didDisplayProfileData(viewModel: displayData)
             case .failure(let error):
                 print("Error fetching user profile data: \(error)")

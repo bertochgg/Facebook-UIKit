@@ -85,10 +85,16 @@ class CreatePostView: UIView {
     }
     
     func configure(with viewModel: CreatePostDataViewModel) {
-        if let safeImageURL = viewModel.profileImageURL,
-           let safeUsername = viewModel.username {
+        if let safeImageURL = viewModel.profileImageURL {
             self.profileImageView.downloadImage(from: safeImageURL)
+        } else {
+            self.profileImageView.image = ImagesNames.defaultProfileImage
+        }
+        
+        if let safeUsername = viewModel.username {
             self.usernameLabel.text = safeUsername
+        } else {
+            self.usernameLabel.text = "Username"
         }
     }
     
