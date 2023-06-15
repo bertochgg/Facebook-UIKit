@@ -56,6 +56,7 @@
 		5FCAD8602A16C5C100E2B0E0 /* FeedNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAD85F2A16C5C100E2B0E0 /* FeedNetworkService.swift */; };
 		5FCAD8622A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAD8612A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift */; };
 		5FCAD8652A16C6A800E2B0E0 /* NetworkServiceErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCAD8642A16C6A800E2B0E0 /* NetworkServiceErrors.swift */; };
+		5FCF14DE2A3B50CE00E5CDDD /* PhotoPickerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCF14DD2A3B50CE00E5CDDD /* PhotoPickerService.swift */; };
 		5FD0217829FC222D003AC04E /* FacebookAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217729FC222D003AC04E /* FacebookAuthService.swift */; };
 		5FD0217A29FC224A003AC04E /* FacebookAuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */; };
 		5FD175D52A0B6323008C5A4B /* UserProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD175D42A0B6323008C5A4B /* UserProfileData.swift */; };
@@ -168,6 +169,7 @@
 		5FCAD85F2A16C5C100E2B0E0 /* FeedNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNetworkService.swift; sourceTree = "<group>"; };
 		5FCAD8612A16C61F00E2B0E0 /* FeedNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		5FCAD8642A16C6A800E2B0E0 /* NetworkServiceErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceErrors.swift; sourceTree = "<group>"; };
+		5FCF14DD2A3B50CE00E5CDDD /* PhotoPickerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerService.swift; sourceTree = "<group>"; };
 		5FD0217729FC222D003AC04E /* FacebookAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthService.swift; sourceTree = "<group>"; };
 		5FD0217929FC224A003AC04E /* FacebookAuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthServiceProtocol.swift; sourceTree = "<group>"; };
 		5FD175D42A0B6323008C5A4B /* UserProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileData.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 		04D52D6A2809F5A100D4C010 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5FCF14DC2A3B50A000E5CDDD /* Camera */,
 				5FCAD85B2A16C56100E2B0E0 /* Networking */,
 				5FD939552A05764800AD2823 /* Keychain */,
 				04D52D6B2809F5B900D4C010 /* Services_TODO.txt */,
@@ -574,6 +577,14 @@
 				5FCAD8642A16C6A800E2B0E0 /* NetworkServiceErrors.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		5FCF14DC2A3B50A000E5CDDD /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				5FCF14DD2A3B50CE00E5CDDD /* PhotoPickerService.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		5FD175D22A0B6181008C5A4B /* Networking */ = {
@@ -1071,6 +1082,7 @@
 				5FC291862A38E0BB003DDB58 /* PhotoCollectionViewCell.swift in Sources */,
 				5F8DEB722A0D8DBF002B8835 /* CustomImageView.swift in Sources */,
 				5FDB34212A0466C00067A320 /* FeedViewController.swift in Sources */,
+				5FCF14DE2A3B50CE00E5CDDD /* PhotoPickerService.swift in Sources */,
 				5FDB34162A041A020067A320 /* SignInCoordinator.swift in Sources */,
 				5FDB341B2A0436700067A320 /* TabBarCoordinator.swift in Sources */,
 				5FD6CE962A09693800FA785C /* KeyChainServiceProtocol.swift in Sources */,
@@ -1214,7 +1226,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1269,7 +1281,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1292,6 +1304,7 @@
 				DEVELOPMENT_TEAM = Q5TA2MK66R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Facebook-iOS/BundleFiles/Plist/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera to capture photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1324,6 +1337,7 @@
 				DEVELOPMENT_TEAM = Q5TA2MK66R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Facebook-iOS/BundleFiles/Plist/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera to capture photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

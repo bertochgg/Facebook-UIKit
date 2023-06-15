@@ -13,6 +13,8 @@
 	</array>
 	<key>FacebookAppID</key>
 	<string>1244537116174317</string>
+	<key>FacebookClientToken</key>
+	<string>774e4621959d33a66a5b1b59c488f0df</string>
 	<key>FacebookDisplayName</key>
 	<string>Ultimate Social App</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -22,8 +24,6 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
-	<key>FacebookClientToken</key>
-	<string>774e4621959d33a66a5b1b59c488f0df</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Raleway-Medium.ttf</string>
