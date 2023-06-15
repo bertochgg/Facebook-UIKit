@@ -80,6 +80,13 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel) {
         createPostView.viewModels.append(viewModel)
         createPostView.applySnapshot()
+        
+        if let originalPlaceholderIndex = createPostView.viewModels.firstIndex(where: { $0.isPlaceholder }) {
+            let originalPlaceholder = createPostView.viewModels.remove(at: originalPlaceholderIndex)
+            
+            createPostView.viewModels.append(originalPlaceholder)
+            createPostView.applySnapshot()
+        }
     }
     
     func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
@@ -89,8 +96,6 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {
-        // cell.delegate = self
         createPostViewModel.addPlaceholderElement()
-        createPostView.applySnapshot()
     }
 }
