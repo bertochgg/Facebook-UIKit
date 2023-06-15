@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 private enum Constants {
     static let defaultProfileImage = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"
@@ -18,14 +19,21 @@ protocol CreatePostViewModelDelegate: AnyObject {
 
 protocol CreatePostViewModelProtocol: AnyObject {
     var delegate: CreatePostViewModelDelegate? { get set }
+    var photoPickerDelegate: PhotoPickerServiceDelegate? { get set }
     func fetchProfileData()
     func addPlaceholderElement()
+    func addNewImageElement(at viewController: UIViewController, imagesSource: UIImagePickerController.SourceType)
 }
 
 final class CreatePostViewModel {
     weak var delegate: CreatePostViewModelDelegate?
+    weak var photoPickerDelegate: PhotoPickerServiceDelegate?
     private let profileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
+    private let photoPickerService: PhotoPickerServiceProtocol?
     
+    init() {
+        photoPickerService = PhotoPickerService(delegate: photoPickerDelegate)
+    }
 }
 
 extension CreatePostViewModel: CreatePostViewModelProtocol {
@@ -48,6 +56,10 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         guard let placeHolderImage = ImagesNames.placeholderImage else { return }
         let viewModel = PhotoCollectionViewCellViewModel(image: placeHolderImage)
         delegate?.didAddPlaceholder(viewModel: viewModel)
+    }
+    
+    func addNewImageElement(at viewController: UIViewController, imagesSource: UIImagePickerController.SourceType) {
+        photoPickerService?.presentImagePicker(at: viewController, imagesSource: imagesSource)
     }
     
 }

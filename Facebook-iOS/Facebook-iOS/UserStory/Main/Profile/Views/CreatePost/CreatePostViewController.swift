@@ -56,6 +56,8 @@ class CreatePostViewController: UIViewController {
         print("Current count: \(String(describing: navigationController?.viewControllers.count))")
         
         createPostViewModel.delegate = self
+        createPostViewModel.photoPickerDelegate = self
+        
         createPostViewModel.fetchProfileData()
         createPostViewModel.addPlaceholderElement()
     }
@@ -96,6 +98,21 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {
-        createPostViewModel.addPlaceholderElement()
+        createPostViewModel.addNewImageElement(at: self, imagesSource: .photoLibrary)
     }
+}
+
+extension CreatePostViewController: PhotoPickerServiceDelegate {
+    func imagePickerServiceDidPick(service: PhotoPickerServiceProtocol, didPickImage image: UIImage?) {
+        
+    }
+    
+    func imagePickerServiceDidError(service: PhotoPickerServiceProtocol, didFailWithError error: Error) {
+        
+    }
+    
+    func imagePickerServiceDidCancel(service: PhotoPickerServiceProtocol) {
+        
+    }
+    
 }
