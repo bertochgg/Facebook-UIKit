@@ -7,35 +7,61 @@
 import PhotosUI
 import UIKit
 
-enum ImagePickerServiceError: Error {
-    case cameraNotAvailable
-    case cameraAccessDenied
-    case photoLibraryAccessDenied
+final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
+    weak var photoPickerDelegate: PhotoPickerServiceDelegate?
     
-    var localizedString: String {
-        switch self {
-        case .cameraNotAvailable:
-            return "No camera was found, please check if your device has this capability."
-        case .cameraAccessDenied:
-            return "Camera access denied, if you want to access the camera please change access settings."
-        case .photoLibraryAccessDenied:
-            return "Photo library access denied, if you want to access the photo library please change access settings."
+    private let imagePickerController = UIImagePickerController()
+    
+    init(delegate: PhotoPickerServiceDelegate?) {
+        super.init()
+        self.photoPickerDelegate = delegate
+        self.imagePickerController.delegate = self
+    }
+    
+    // Checks if there is a camera on device / Also check camera status
+    func isCameraAvailable(completion: @escaping (Bool) -> Void) {
+        completion(UIImagePickerController.isSourceTypeAvailable(.camera))
+    }
+    
+    // Shows Camera Access Alert
+    func requestCameraAccess(completion: @escaping (Bool, PhotoPickerServiceError?) -> Void) {
+        AVCaptureDevice.requestAccess(for: .video) { accessGranted in
+            if accessGranted {
+                completion(true, nil)
+            } else {
+                completion(false, PhotoPickerServiceError.cameraAccessDenied)
+            }
         }
     }
+    
+    // Checks authorization status to access Library
+    func checkPhotoLibraryAuthorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus {
+        return AVCaptureDevice.authorizationStatus(for: mediaType)
+    }
+    
+    // Shows Photo Library Access Alert
+    func requestPhotoLibraryAuthorization(for accessLevel: PHAccessLevel, completion: @escaping (PHAuthorizationStatus) -> Void) {
+        PHPhotoLibrary.requestAuthorization(for: accessLevel, handler: completion)
+    }
+    
+    // This is to present camera UI
+    func presentImagePicker(at viewController: UIViewController, imagesSource: UIImagePickerController.SourceType) {
+        imagePickerController.sourceType = imagesSource
+        viewController.present(imagePickerController, animated: true)
+    }
+    
 }
 
-protocol ImagePickerServiceDelegate: AnyObject {
-    func imagePickerService(service: ImagePickerServiceProtocol, didPickImage image: UIImage?)
-    func imagePickerService(service: ImagePickerServiceProtocol, didFailWithError error: Error)
-    func imagePickerServiceDidCancel(service: ImagePickerServiceProtocol)
-}
-
-protocol ImagePickerServiceProtocol: AnyObject {
-    var delegate: ImagePickerServiceDelegate? { get set }
-
-    func isCameraAvailable(completion: @escaping (Bool) -> Void)
-    func requestCameraAccess(completion: @escaping (Bool, Error?) -> Void)
-    func checkPhotoLibraryAuthorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
-    func requestPhotoLibraryAuthorization(for accessLevel: PHAccessLevel, completion: @escaping (PHAuthorizationStatus) -> Void)
-    func presentImagePicker(at viewController: UIViewController, imagesSource: UIImagePickerController.SourceType)
+extension PhotoPickerService: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            photoPickerDelegate?.imagePickerServiceDidPick(service: self, didPickImage: image)
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        photoPickerDelegate?.imagePickerServiceDidCancel(service: self)
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
