@@ -21,4 +21,5 @@ protocol PhotoPickerServiceProtocol: AnyObject {
     func checkPhotoLibraryAuthorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
     func requestPhotoLibraryAuthorization(for accessLevel: PHAccessLevel, completion: @escaping (PHAuthorizationStatus) -> Void)
     func presentImagePicker(at viewController: UIViewController)
+    func presentCamera(at viewController: UIViewController)
 }

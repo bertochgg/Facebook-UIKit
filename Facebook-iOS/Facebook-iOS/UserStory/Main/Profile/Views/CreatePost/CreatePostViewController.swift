@@ -102,9 +102,17 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     
     // Errors
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError) {
-        let title = "Error"
+        let title = "Camera not available"
         let message = error.localizedString
         presentAccessErrorAlerts(title: title, message: message)
+    }
+    
+    func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError) {
+        let title = "Camera access denied"
+        let message = error.localizedString
+        DispatchQueue.main.async {
+            self.presentAccessErrorAlerts(title: title, message: message)
+        }
     }
     
     private func presentAccessErrorAlerts(title: String, message: String) {
@@ -129,8 +137,7 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         let actionSheet = UIAlertController(title: "Select photo", message: nil, preferredStyle: .actionSheet)
         
         let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default) { _ in
-            self.createPostViewModel.addNewImageElementFromCamera()
-            actionSheet.dismiss(animated: true)
+            self.createPostViewModel.addNewImageElementFromCamera(at: self)
         }
         
         let galleryAction = UIAlertAction(title: "Select from Gallery", style: .default) { _ in

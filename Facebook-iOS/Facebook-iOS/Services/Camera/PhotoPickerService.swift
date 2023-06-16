@@ -50,4 +50,12 @@ final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
         photoPickerViewController.delegate = viewController as? PHPickerViewControllerDelegate
         viewController.present(photoPickerViewController, animated: true)
     }
+    
+    // This is to present camera UI
+    func presentCamera(at viewController: UIViewController) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.delegate = viewController as? (UIImagePickerControllerDelegate & UINavigationControllerDelegate)
+        viewController.present(imagePicker, animated: true)
+    }
 }

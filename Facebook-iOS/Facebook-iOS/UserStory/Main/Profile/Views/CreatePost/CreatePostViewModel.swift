@@ -18,6 +18,7 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel)
     
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError)
+    func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError)
 }
 
 protocol CreatePostViewModelProtocol: AnyObject {
@@ -27,7 +28,7 @@ protocol CreatePostViewModelProtocol: AnyObject {
     
     func addPlaceholderElement()
     func addNewImageElement(at viewController: UIViewController)
-    func addNewImageElementFromCamera()
+    func addNewImageElementFromCamera(at viewController: UIViewController)
 }
 
 final class CreatePostViewModel {
@@ -65,21 +66,23 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     }
     
     func addNewImageElement(at viewController: UIViewController) {
-        photoPickerService?.isCameraAvailable(completion: { available, error in
-            if available {
-                self.photoPickerService?.presentImagePicker(at: viewController)
-            } else if let error = error {
-                print("No entre")
-                self.delegate?.didCheckCameraAvailabilityWithError(error: error)
-            }
-        })
-        
+        self.photoPickerService?.presentImagePicker(at: viewController)
     }
     
-    func addNewImageElementFromCamera() {
+    func addNewImageElementFromCamera(at viewController: UIViewController) {
         photoPickerService?.isCameraAvailable(completion: { available, error in
             if available {
                 print("si entre a la camara :3")
+                self.photoPickerService?.requestCameraAccess(completion: { permission, error in
+                    if permission {
+                        // show camera ui
+                        DispatchQueue.main.async {
+                            self.photoPickerService?.presentCamera(at: viewController)
+                        }
+                    } else if let error = error {
+                        self.delegate?.didReceiveDeniedAccessToCamera(error: error)
+                    }
+                })
             } else if let error = error {
                 print("No entre")
                 self.delegate?.didCheckCameraAvailabilityWithError(error: error)
