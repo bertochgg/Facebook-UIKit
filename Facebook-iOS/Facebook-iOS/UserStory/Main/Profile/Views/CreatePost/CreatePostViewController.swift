@@ -4,7 +4,8 @@
 //
 //  Created by Humberto Garcia on 09/06/23.
 //
-
+import Photos
+import PhotosUI
 import UIKit
 
 class CreatePostViewController: UIViewController {
@@ -56,7 +57,6 @@ class CreatePostViewController: UIViewController {
         print("Current count: \(String(describing: navigationController?.viewControllers.count))")
         
         createPostViewModel.delegate = self
-        createPostViewModel.photoPickerDelegate = self
         
         createPostViewModel.fetchProfileData()
         createPostViewModel.addPlaceholderElement()
@@ -79,6 +79,11 @@ class CreatePostViewController: UIViewController {
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
+    
+    func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel) {
+        
+    }
+    
     func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel) {
         createPostView.viewModels.append(viewModel)
         createPostView.applySnapshot()
@@ -94,25 +99,66 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
         createPostView.configure(with: viewModel)
     }
+    
+    // Errors
+    func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError) {
+        let title = "Error"
+        let message = error.localizedString
+        presentAccessErrorAlerts(title: title, message: message)
+    }
+    
+    private func presentAccessErrorAlerts(title: String, message: String) {
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
+            alertController.dismiss(animated: true)
+        }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {
-        createPostViewModel.addNewImageElement(at: self, imagesSource: .photoLibrary)
+        imagePickerOptionsActionSheet()
+    }
+    
+    private func imagePickerOptionsActionSheet() {
+        let actionSheet = UIAlertController(title: "Select photo", message: nil, preferredStyle: .actionSheet)
+        
+        let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default) { _ in
+            self.createPostViewModel.addNewImageElementFromCamera()
+            actionSheet.dismiss(animated: true)
+        }
+        
+        let galleryAction = UIAlertAction(title: "Select from Gallery", style: .default) { _ in
+            self.createPostViewModel.addNewImageElement(at: self)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        actionSheet.addAction(takePhotoAction)
+        actionSheet.addAction(galleryAction)
+        actionSheet.addAction(cancelAction)
+        self.present(actionSheet, animated: true, completion: nil)
     }
 }
 
-extension CreatePostViewController: PhotoPickerServiceDelegate {
-    func imagePickerServiceDidPick(service: PhotoPickerServiceProtocol, didPickImage image: UIImage?) {
+extension CreatePostViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil) // Maybe when disappears we should add image to datasource?
+        guard !results.isEmpty else { return }
         
+        results.first?.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] object, error in
+            if let error = error {
+                print("PHPickerResult loading failed with error: \(error)")
+            } else if let image = object as? UIImage {
+                DispatchQueue.main.async {
+                    // Maybe here we should call a function to add image ?
+                }
+            }
+        })
     }
-    
-    func imagePickerServiceDidError(service: PhotoPickerServiceProtocol, didFailWithError error: Error) {
-        
-    }
-    
-    func imagePickerServiceDidCancel(service: PhotoPickerServiceProtocol) {
-        
-    }
-    
 }

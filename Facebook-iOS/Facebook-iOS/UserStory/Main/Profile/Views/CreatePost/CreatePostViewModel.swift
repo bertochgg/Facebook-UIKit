@@ -15,14 +15,19 @@ private enum Constants {
 protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
     func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel)
+    func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel)
+    
+    func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError)
 }
 
 protocol CreatePostViewModelProtocol: AnyObject {
     var delegate: CreatePostViewModelDelegate? { get set }
     var photoPickerDelegate: PhotoPickerServiceDelegate? { get set }
     func fetchProfileData()
+    
     func addPlaceholderElement()
-    func addNewImageElement(at viewController: UIViewController, imagesSource: UIImagePickerController.SourceType)
+    func addNewImageElement(at viewController: UIViewController)
+    func addNewImageElementFromCamera()
 }
 
 final class CreatePostViewModel {
@@ -33,6 +38,7 @@ final class CreatePostViewModel {
     
     init() {
         photoPickerService = PhotoPickerService(delegate: photoPickerDelegate)
+        photoPickerService?.photoPickerDelegate = self
     }
 }
 
@@ -58,8 +64,41 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         delegate?.didAddPlaceholder(viewModel: viewModel)
     }
     
-    func addNewImageElement(at viewController: UIViewController, imagesSource: UIImagePickerController.SourceType) {
-        photoPickerService?.presentImagePicker(at: viewController, imagesSource: imagesSource)
+    func addNewImageElement(at viewController: UIViewController) {
+        photoPickerService?.isCameraAvailable(completion: { available, error in
+            if available {
+                self.photoPickerService?.presentImagePicker(at: viewController)
+            } else if let error = error {
+                print("No entre")
+                self.delegate?.didCheckCameraAvailabilityWithError(error: error)
+            }
+        })
+        
     }
     
+    func addNewImageElementFromCamera() {
+        photoPickerService?.isCameraAvailable(completion: { available, error in
+            if available {
+                print("si entre a la camara :3")
+            } else if let error = error {
+                print("No entre")
+                self.delegate?.didCheckCameraAvailabilityWithError(error: error)
+            }
+        })
+    }
+    
+}
+
+extension CreatePostViewModel: PhotoPickerServiceDelegate {
+    func imagePickerServiceDidPick(didPickImage image: UIImage?) {
+        
+    }
+    
+    func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError) {
+        
+    }
+    
+    func imagePickerServiceDidCancel() {
+        
+    }
 }

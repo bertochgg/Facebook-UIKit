@@ -1,4 +1,3 @@
-//
 //  PhotoPickerService.swift
 //  Facebook-iOS
 //
@@ -10,17 +9,14 @@ import UIKit
 final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
     weak var photoPickerDelegate: PhotoPickerServiceDelegate?
     
-    private let imagePickerController = UIImagePickerController()
-    
     init(delegate: PhotoPickerServiceDelegate?) {
         super.init()
         self.photoPickerDelegate = delegate
-        self.imagePickerController.delegate = self
     }
     
     // Checks if there is a camera on device / Also check camera status
-    func isCameraAvailable(completion: @escaping (Bool) -> Void) {
-        completion(UIImagePickerController.isSourceTypeAvailable(.camera))
+    func isCameraAvailable(completion: @escaping (Bool, PhotoPickerServiceError?) -> Void) {
+        completion(UIImagePickerController.isSourceTypeAvailable(.camera), PhotoPickerServiceError.cameraNotAvailable)
     }
     
     // Shows Camera Access Alert
@@ -44,24 +40,14 @@ final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
         PHPhotoLibrary.requestAuthorization(for: accessLevel, handler: completion)
     }
     
-    // This is to present camera UI
-    func presentImagePicker(at viewController: UIViewController, imagesSource: UIImagePickerController.SourceType) {
-        imagePickerController.sourceType = imagesSource
-        viewController.present(imagePickerController, animated: true)
-    }
-    
-}
-
-extension PhotoPickerService: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[.originalImage] as? UIImage {
-            photoPickerDelegate?.imagePickerServiceDidPick(service: self, didPickImage: image)
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        photoPickerDelegate?.imagePickerServiceDidCancel(service: self)
-        picker.dismiss(animated: true, completion: nil)
+    // This is to present picker UI
+    func presentImagePicker(at viewController: UIViewController) {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 2
+        config.filter = .images
+        
+        let photoPickerViewController = PHPickerViewController(configuration: config)
+        photoPickerViewController.delegate = viewController as? PHPickerViewControllerDelegate
+        viewController.present(photoPickerViewController, animated: true)
     }
 }
