@@ -43,12 +43,14 @@ final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
     // This is to present picker UI
     func presentImagePicker(at viewController: UIViewController) {
         var config = PHPickerConfiguration()
-        config.selectionLimit = 2
+        config.selectionLimit = 1
         config.filter = .images
         
-        let photoPickerViewController = PHPickerViewController(configuration: config)
-        photoPickerViewController.delegate = viewController as? PHPickerViewControllerDelegate
-        viewController.present(photoPickerViewController, animated: true)
+        DispatchQueue.main.async {
+            let photoPickerViewController = PHPickerViewController(configuration: config)
+            photoPickerViewController.delegate = self
+            viewController.present(photoPickerViewController, animated: true)
+        }
     }
     
     // This is to present camera UI
@@ -57,5 +59,23 @@ final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
         imagePicker.sourceType = .camera
         imagePicker.delegate = viewController as? (UIImagePickerControllerDelegate & UINavigationControllerDelegate)
         viewController.present(imagePicker, animated: true)
+    }
+}
+
+extension PhotoPickerService: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard !results.isEmpty else { return }
+
+        results.first?.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] object, error in
+            if let error = error {
+                print("PHPickerResult loading failed with error: \(error)")
+                self?.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoLibraryAccessDenied)
+            } else if let image = object as? UIImage {
+                DispatchQueue.main.async {
+                    self?.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
+                }
+            }
+        })
     }
 }

@@ -66,7 +66,23 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     }
     
     func addNewImageElement(at viewController: UIViewController) {
-        self.photoPickerService?.presentImagePicker(at: viewController)
+        self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission in
+            switch permission {
+            case .notDetermined:
+                break
+            case .restricted:
+                break
+            case .denied:
+                break
+            case .authorized:
+                self.photoPickerService?.presentImagePicker(at: viewController)
+                
+            case .limited:
+                break
+            @unknown default:
+                break
+            }
+        })
     }
     
     func addNewImageElementFromCamera(at viewController: UIViewController) {
@@ -93,8 +109,9 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
 }
 
 extension CreatePostViewModel: PhotoPickerServiceDelegate {
-    func imagePickerServiceDidPick(didPickImage image: UIImage?) {
-        
+    func imagePickerServiceDidPick(didPickImage image: UIImage) {
+        let viewModel = PhotoCollectionViewCellViewModel(image: image)
+        self.delegate?.didAddNewImage(viewModel: viewModel)
     }
     
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError) {

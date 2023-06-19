@@ -107,6 +107,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        postImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        postImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         self.placeholderImageView.anchor(top: postImageView.topAnchor,
                                          left: postImageView.leftAnchor,
                                          bottom: postImageView.bottomAnchor,

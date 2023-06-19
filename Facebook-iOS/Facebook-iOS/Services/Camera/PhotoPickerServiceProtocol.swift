@@ -8,7 +8,7 @@ import PhotosUI
 import UIKit
 
 protocol PhotoPickerServiceDelegate: AnyObject {
-    func imagePickerServiceDidPick(didPickImage image: UIImage?)
+    func imagePickerServiceDidPick(didPickImage image: UIImage)
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError)
     func imagePickerServiceDidCancel()
 }

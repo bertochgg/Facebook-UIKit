@@ -56,7 +56,7 @@ class CreatePostView: UIView {
     private lazy var photoCarousel: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = -5 // Vertical spacing
+        layout.minimumLineSpacing = 33 // Vertical spacing
         layout.minimumInteritemSpacing = 33 // Horizontal spacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
@@ -147,8 +147,8 @@ extension CreatePostView: UITextViewDelegate {
 extension CreatePostView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(
-            width: (photoCarousel.frame.size.width / 4) - 8,
-            height: (photoCarousel.frame.size.width / 3) - 3
+            width: (photoCarousel.frame.size.width / 4) - 10,
+            height: (photoCarousel.frame.size.width / 4) - 8
         )
     }
     

@@ -57,7 +57,6 @@ class CreatePostViewController: UIViewController {
         print("Current count: \(String(describing: navigationController?.viewControllers.count))")
         
         createPostViewModel.delegate = self
-        
         createPostViewModel.fetchProfileData()
         createPostViewModel.addPlaceholderElement()
     }
@@ -81,7 +80,18 @@ class CreatePostViewController: UIViewController {
 extension CreatePostViewController: CreatePostViewModelDelegate {
     
     func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel) {
+        DispatchQueue.main.async {
+            self.createPostView.viewModels.append(viewModel)
+            self.createPostView.applySnapshot()
+        }
         
+        if let originalPlaceholderIndex = createPostView.viewModels.firstIndex(where: { $0.isPlaceholder }) {
+            let originalPlaceholder = createPostView.viewModels.remove(at: originalPlaceholderIndex)
+            DispatchQueue.main.async {
+                self.createPostView.viewModels.append(originalPlaceholder)
+                self.createPostView.applySnapshot()
+            }
+        }
     }
     
     func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel) {
@@ -150,22 +160,5 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         actionSheet.addAction(galleryAction)
         actionSheet.addAction(cancelAction)
         self.present(actionSheet, animated: true, completion: nil)
-    }
-}
-
-extension CreatePostViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true, completion: nil) // Maybe when disappears we should add image to datasource?
-        guard !results.isEmpty else { return }
-        
-        results.first?.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] object, error in
-            if let error = error {
-                print("PHPickerResult loading failed with error: \(error)")
-            } else if let image = object as? UIImage {
-                DispatchQueue.main.async {
-                    // Maybe here we should call a function to add image ?
-                }
-            }
-        })
     }
 }
