@@ -114,11 +114,21 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError) {
         let title = "Camera not available"
         let message = error.localizedString
-        presentAccessErrorAlerts(title: title, message: message)
+        DispatchQueue.main.async {
+            self.presentAccessErrorAlerts(title: title, message: message)
+        }
     }
     
     func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError) {
         let title = "Camera access denied"
+        let message = error.localizedString
+        DispatchQueue.main.async {
+            self.presentAccessErrorAlerts(title: title, message: message)
+        }
+    }
+    
+    func didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError) {
+        let title = "An error ocurred"
         let message = error.localizedString
         DispatchQueue.main.async {
             self.presentAccessErrorAlerts(title: title, message: message)

@@ -11,6 +11,7 @@ enum PhotoPickerServiceError: Error {
     case cameraNotAvailable
     case cameraAccessDenied
     case photoLibraryAccessDenied
+    case photoPickedError
     
     var localizedString: String {
         switch self {
@@ -20,6 +21,8 @@ enum PhotoPickerServiceError: Error {
             return "Camera access denied, if you want to access the camera please change access settings."
         case .photoLibraryAccessDenied:
             return "Photo library access denied, if you want to access the photo library please change access settings."
+        case .photoPickedError:
+            return "When trying to pick the image, please check if the image's format is supported."
         }
     }
 }

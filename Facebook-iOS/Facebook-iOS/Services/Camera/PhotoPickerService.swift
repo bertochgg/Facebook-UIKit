@@ -70,12 +70,31 @@ extension PhotoPickerService: PHPickerViewControllerDelegate {
         results.first?.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] object, error in
             if let error = error {
                 print("PHPickerResult loading failed with error: \(error)")
-                self?.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoLibraryAccessDenied)
+                self?.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoPickedError)
             } else if let image = object as? UIImage {
                 DispatchQueue.main.async {
                     self?.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
                 }
             }
         })
+    }
+}
+
+extension PhotoPickerService: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true)
+        
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            self.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoPickedError)
+            return
+        }
+        DispatchQueue.main.async {
+            self.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }

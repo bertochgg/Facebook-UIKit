@@ -19,6 +19,7 @@ protocol CreatePostViewModelDelegate: AnyObject {
     
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError)
     func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError)
+    func didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError)
 }
 
 protocol CreatePostViewModelProtocol: AnyObject {
@@ -66,14 +67,14 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     }
     
     func addNewImageElement(at viewController: UIViewController) {
-        self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission in
+        self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission  in
             switch permission {
             case .notDetermined:
                 break
             case .restricted:
                 break
             case .denied:
-                break
+                self.delegate?.didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError.photoLibraryAccessDenied)
             case .authorized:
                 self.photoPickerService?.presentImagePicker(at: viewController)
                 
@@ -86,10 +87,10 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     }
     
     func addNewImageElementFromCamera(at viewController: UIViewController) {
-        photoPickerService?.isCameraAvailable(completion: { available, error in
+        photoPickerService?.isCameraAvailable { available, error in
             if available {
                 print("si entre a la camara :3")
-                self.photoPickerService?.requestCameraAccess(completion: { permission, error in
+                self.photoPickerService?.requestCameraAccess { permission, error in
                     if permission {
                         // show camera ui
                         DispatchQueue.main.async {
@@ -98,12 +99,12 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
                     } else if let error = error {
                         self.delegate?.didReceiveDeniedAccessToCamera(error: error)
                     }
-                })
+                }
             } else if let error = error {
                 print("No entre")
                 self.delegate?.didCheckCameraAvailabilityWithError(error: error)
             }
-        })
+        }
     }
     
 }
@@ -115,10 +116,6 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
     }
     
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError) {
-        
-    }
-    
-    func imagePickerServiceDidCancel() {
-        
+        self.delegate?.didReceiveDeniedAccessToLibrary(error: error)
     }
 }
