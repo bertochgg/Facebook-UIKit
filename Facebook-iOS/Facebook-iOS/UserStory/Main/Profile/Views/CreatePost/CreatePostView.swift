@@ -98,6 +98,13 @@ class CreatePostView: UIView {
         }
     }
     
+    func removeViewModel(at index: Int) {
+        guard index >= 0 && index < viewModels.count else { return }
+        print("Index: \(index)")
+        viewModels.remove(at: index)
+        applySnapshot()
+    }
+    
     private func setupViews() {
         self.views.forEach { view in
             addSubview(view)
@@ -123,7 +130,7 @@ class CreatePostView: UIView {
                                     height: 232)
         
         self.photoCarousel.anchor(top: messageTextView.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor,
-                                  paddingTop: 24)
+                                  paddingTop: 9)
     }
     
     private func dismissKeyboardForTextView() {
@@ -147,13 +154,13 @@ extension CreatePostView: UITextViewDelegate {
 extension CreatePostView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(
-            width: (photoCarousel.frame.size.width / 4) - 10,
+            width: (photoCarousel.frame.size.width / 4) - 8,
             height: (photoCarousel.frame.size.width / 4) - 8
         )
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 29, bottom: 0, right: 24)
+        return UIEdgeInsets(top: 6, left: 17, bottom: 0, right: 24)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -170,7 +177,7 @@ extension CreatePostView {
                 return UICollectionViewCell()
             }
             cell.delegate = self.delegate
-            cell.configure(with: viewModel)
+            cell.configure(with: viewModel, index: indexPath.item)
             return cell
         }
     }

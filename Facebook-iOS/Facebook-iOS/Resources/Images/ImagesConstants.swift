@@ -24,6 +24,7 @@ enum ImagesNames {
     static let placeholderImage = UIImage(named: "placeholder image")
     static let addPhotoIcon = UIImage(named: "Add_square")
     static let closeCreatePostButtonImage = UIImage(named: "Close_NavBar_Btn")
+    static let cancelImageButton = UIImage(named: "Close_round_fill")
     // Default Images
     static let defaultProfileImage = UIImage(named: "default profile image")
 }

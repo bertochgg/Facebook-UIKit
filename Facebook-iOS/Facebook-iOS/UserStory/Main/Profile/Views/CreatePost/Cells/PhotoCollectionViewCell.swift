@@ -9,6 +9,7 @@ import UIKit
 
 protocol PhotoCollectionViewCellDelegate: AnyObject {
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell)
+    func didTapCancelImageButton(index: Int)
 }
 
 struct PhotoCollectionViewCellViewModel: Hashable {
@@ -33,8 +34,10 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     private lazy var views = [
         postImageView,
         placeholderImageView,
-        addPhotoButton
+        addPhotoButton,
+        cancelImageButton
     ]
+    private var index = 0
     
     private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
@@ -65,6 +68,15 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    private lazy var cancelImageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(ImagesNames.cancelImageButton, for: .normal)
+        button.contentMode = .scaleAspectFill
+        button.tintColor = .red
+        button.addTarget(self, action: #selector(cancelImageButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         views.forEach { view in
@@ -87,18 +99,23 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         postImageView.image = nil
     }
     
-    func configure(with viewModel: PhotoCollectionViewCellViewModel) {
+    func configure(with viewModel: PhotoCollectionViewCellViewModel, index: Int) {
+        self.index = index
         if viewModel.isPlaceholder {
             postImageView.isHidden = false
             placeholderImageView.isHidden = false
             placeholderImageView.image = viewModel.image
             addPhotoButton.isHidden = false
+            cancelImageButton.isHidden = false
         } else {
             postImageView.isHidden = false
             placeholderImageView.isHidden = true
             addPhotoButton.isHidden = true
             postImageView.image = viewModel.image
-            postImageView.isUserInteractionEnabled = false
+            cancelImageButton.isHidden = false
+            postImageView.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(editImage))
+            postImageView.addGestureRecognizer(tapGesture)
         }
     }
     
@@ -107,8 +124,11 @@ class PhotoCollectionViewCell: UICollectionViewCell {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        postImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        postImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        self.postImageView.anchor(top: cancelImageButton.bottomAnchor,
+                                  left: cancelImageButton.rightAnchor,
+                                  bottom: contentView.bottomAnchor,
+                                  right: contentView.rightAnchor,
+                                  paddingTop: -6, paddingLeft: -6)
         self.placeholderImageView.anchor(top: postImageView.topAnchor,
                                          left: postImageView.leftAnchor,
                                          bottom: postImageView.bottomAnchor,
@@ -117,12 +137,26 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         self.addPhotoButton.anchor(bottom: postImageView.bottomAnchor, right: postImageView.rightAnchor,
                                    paddingBottom: 6, paddingRight: 6,
                                    width: 24, height: 24)
+        self.cancelImageButton.anchor(top: contentView.topAnchor, left: contentView.leftAnchor,
+                                 paddingTop: 0, paddingLeft: 0,
+                                 width: 18, height: 18)
     }
     
     @objc
     private func addPhotoButtonTapped() {
         print("Adding new photo")
         self.delegate?.didTapAddPhotoButton(cell: self)
+    }
+    
+    @objc
+    private func cancelImageButtonTapped() {
+        print("deleting image")
+        self.delegate?.didTapCancelImageButton(index: self.index)
+    }
+    
+    @objc
+    private func editImage() {
+        print("I am editing image")
     }
 
 }

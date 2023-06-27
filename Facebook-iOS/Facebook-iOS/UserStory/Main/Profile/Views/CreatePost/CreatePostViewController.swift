@@ -149,6 +149,10 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 }
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
+    func didTapCancelImageButton(index: Int) {
+        createPostView.removeViewModel(at: index)
+    }
+    
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {
         imagePickerOptionsActionSheet()
     }
