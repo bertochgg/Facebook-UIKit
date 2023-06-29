@@ -10,6 +10,7 @@ import UIKit
 protocol PhotoCollectionViewCellDelegate: AnyObject {
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell)
     func didTapCancelImageButton(cell: PhotoCollectionViewCell)
+    func didTapUpdateImageButton(cell: PhotoCollectionViewCell)
 }
 
 struct PhotoCollectionViewCellViewModel: Hashable {
@@ -157,6 +158,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @objc
     private func editImage() {
         print("I am editing image")
+        self.delegate?.didTapUpdateImageButton(cell: self)
     }
 
 }

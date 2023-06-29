@@ -10,6 +10,7 @@ import UIKit
 protocol PhotoPickerServiceDelegate: AnyObject {
     func imagePickerServiceDidPick(didPickImage image: UIImage)
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError)
+    func imagePickerServiceDidPickForUpdate(didPickImage newImage: UIImage)
 }
 
 protocol PhotoPickerServiceProtocol: AnyObject {

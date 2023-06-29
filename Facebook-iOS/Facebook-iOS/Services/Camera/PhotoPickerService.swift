@@ -74,6 +74,7 @@ extension PhotoPickerService: PHPickerViewControllerDelegate {
             } else if let image = object as? UIImage {
                 DispatchQueue.main.async {
                     self?.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
+                    self?.photoPickerDelegate?.imagePickerServiceDidPickForUpdate(didPickImage: image)
                 }
             }
         })

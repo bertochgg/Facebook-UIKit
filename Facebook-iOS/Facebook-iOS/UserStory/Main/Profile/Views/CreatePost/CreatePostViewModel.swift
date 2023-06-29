@@ -17,6 +17,7 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel)
     func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel)
     func didRemoveImage(viewModel: PhotoCollectionViewCellViewModel)
+    func didUpdateImage(viewModel: PhotoCollectionViewCellViewModel)
     
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError)
     func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError)
@@ -32,6 +33,7 @@ protocol CreatePostViewModelProtocol: AnyObject {
     func addNewImageElement(at viewController: UIViewController)
     func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
+    func editImageElement(for viewModel: PhotoCollectionViewCellViewModel, at viewController: UIViewController)
 }
 
 final class CreatePostViewModel {
@@ -47,10 +49,6 @@ final class CreatePostViewModel {
 }
 
 extension CreatePostViewModel: CreatePostViewModelProtocol {
-    func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel) {
-        self.delegate?.didRemoveImage(viewModel: viewModel)
-    }
-    
     func fetchProfileData() {
         profileNetworkService.fetchProfileData { [weak self] result in
             switch result {
@@ -112,6 +110,29 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         }
     }
     
+    func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel) {
+        self.delegate?.didRemoveImage(viewModel: viewModel)
+    }
+    
+    func editImageElement(for viewModel: PhotoCollectionViewCellViewModel, at viewController: UIViewController) {
+        self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission  in
+            switch permission {
+            case .notDetermined:
+                break
+            case .restricted:
+                break
+            case .denied:
+                self.delegate?.didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError.photoLibraryAccessDenied)
+            case .authorized:
+                self.photoPickerService?.presentImagePicker(at: viewController)
+            case .limited:
+                break
+            @unknown default:
+                break
+            }
+        })
+    }
+    
 }
 
 extension CreatePostViewModel: PhotoPickerServiceDelegate {
@@ -122,5 +143,10 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
     
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError) {
         self.delegate?.didReceiveDeniedAccessToLibrary(error: error)
+    }
+    
+    func imagePickerServiceDidPickForUpdate(didPickImage newImage: UIImage) {
+        let viewModel = PhotoCollectionViewCellViewModel(image: newImage)
+        self.delegate?.didUpdateImage(viewModel: viewModel)
     }
 }
