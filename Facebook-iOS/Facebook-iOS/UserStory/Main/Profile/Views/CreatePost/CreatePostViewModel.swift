@@ -16,6 +16,7 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
     func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel)
     func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel)
+    func didRemoveImage(viewModel: PhotoCollectionViewCellViewModel)
     
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError)
     func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError)
@@ -30,6 +31,7 @@ protocol CreatePostViewModelProtocol: AnyObject {
     func addPlaceholderElement()
     func addNewImageElement(at viewController: UIViewController)
     func addNewImageElementFromCamera(at viewController: UIViewController)
+    func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
 }
 
 final class CreatePostViewModel {
@@ -45,6 +47,9 @@ final class CreatePostViewModel {
 }
 
 extension CreatePostViewModel: CreatePostViewModelProtocol {
+    func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel) {
+        self.delegate?.didRemoveImage(viewModel: viewModel)
+    }
     
     func fetchProfileData() {
         profileNetworkService.fetchProfileData { [weak self] result in

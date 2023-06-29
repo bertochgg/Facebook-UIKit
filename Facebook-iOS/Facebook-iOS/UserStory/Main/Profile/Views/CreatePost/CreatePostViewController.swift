@@ -78,6 +78,14 @@ class CreatePostViewController: UIViewController {
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
+    func didRemoveImage(viewModel: PhotoCollectionViewCellViewModel) {
+        DispatchQueue.main.async {
+            if let index = self.createPostView.viewModels.firstIndex(of: viewModel) {
+                self.createPostView.viewModels.remove(at: index)
+                self.createPostView.applySnapshot()
+            }
+        }
+    }
     
     func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel) {
         DispatchQueue.main.async {
@@ -149,8 +157,10 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 }
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
-    func didTapCancelImageButton(index: Int) {
-        createPostView.removeViewModel(at: index)
+    func didTapCancelImageButton(cell: PhotoCollectionViewCell) {
+        if let viewModel = cell.viewModel {
+            createPostViewModel.removeImageElement(for: viewModel)
+        }
     }
     
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {

@@ -9,7 +9,7 @@ import UIKit
 
 protocol PhotoCollectionViewCellDelegate: AnyObject {
     func didTapAddPhotoButton(cell: PhotoCollectionViewCell)
-    func didTapCancelImageButton(index: Int)
+    func didTapCancelImageButton(cell: PhotoCollectionViewCell)
 }
 
 struct PhotoCollectionViewCellViewModel: Hashable {
@@ -37,7 +37,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         addPhotoButton,
         cancelImageButton
     ]
-    private var index = 0
+    private(set) var viewModel: PhotoCollectionViewCellViewModel?
     
     private lazy var postImageView: UIImageView = {
         let imageView = UIImageView()
@@ -45,9 +45,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.backgroundColor = .createPostMessageTextViewPlaceholderColor
-        imageView.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addPhotoButtonTapped))
-        imageView.addGestureRecognizer(tapGesture)
         return imageView
     }()
     
@@ -99,14 +96,17 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         postImageView.image = nil
     }
     
-    func configure(with viewModel: PhotoCollectionViewCellViewModel, index: Int) {
-        self.index = index
+    func configure(with viewModel: PhotoCollectionViewCellViewModel) {
+        self.viewModel = viewModel
         if viewModel.isPlaceholder {
             postImageView.isHidden = false
             placeholderImageView.isHidden = false
             placeholderImageView.image = viewModel.image
             addPhotoButton.isHidden = false
-            cancelImageButton.isHidden = false
+            cancelImageButton.isHidden = true
+            postImageView.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addPhotoButtonTapped))
+            postImageView.addGestureRecognizer(tapGesture)
         } else {
             postImageView.isHidden = false
             placeholderImageView.isHidden = true
@@ -151,7 +151,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @objc
     private func cancelImageButtonTapped() {
         print("deleting image")
-        self.delegate?.didTapCancelImageButton(index: self.index)
+        self.delegate?.didTapCancelImageButton(cell: self)
     }
     
     @objc

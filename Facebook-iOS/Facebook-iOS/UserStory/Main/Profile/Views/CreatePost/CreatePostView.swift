@@ -98,13 +98,6 @@ class CreatePostView: UIView {
         }
     }
     
-    func removeViewModel(at index: Int) {
-        guard index >= 0 && index < viewModels.count else { return }
-        print("Index: \(index)")
-        viewModels.remove(at: index)
-        applySnapshot()
-    }
-    
     private func setupViews() {
         self.views.forEach { view in
             addSubview(view)
@@ -160,7 +153,7 @@ extension CreatePostView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 6, left: 17, bottom: 0, right: 24)
+        return UIEdgeInsets(top: 6, left: 14, bottom: 0, right: 24)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -177,7 +170,7 @@ extension CreatePostView {
                 return UICollectionViewCell()
             }
             cell.delegate = self.delegate
-            cell.configure(with: viewModel, index: indexPath.item)
+            cell.configure(with: viewModel)
             return cell
         }
     }
