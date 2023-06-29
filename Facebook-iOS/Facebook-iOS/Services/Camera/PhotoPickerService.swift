@@ -8,6 +8,7 @@ import UIKit
 
 final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
     weak var photoPickerDelegate: PhotoPickerServiceDelegate?
+    var isUpdatingExistingImage: Bool = false
     
     init(delegate: PhotoPickerServiceDelegate?) {
         super.init()
@@ -68,13 +69,18 @@ extension PhotoPickerService: PHPickerViewControllerDelegate {
         guard !results.isEmpty else { return }
 
         results.first?.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] object, error in
+            guard let self = self else { return }
             if let error = error {
                 print("PHPickerResult loading failed with error: \(error)")
-                self?.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoPickedError)
+                self.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoPickedError)
             } else if let image = object as? UIImage {
                 DispatchQueue.main.async {
-                    self?.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
-                    self?.photoPickerDelegate?.imagePickerServiceDidPickForUpdate(didPickImage: image)
+                    if self.isUpdatingExistingImage {
+                        self.photoPickerDelegate?.imagePickerServiceDidPickForUpdate(didPickImage: image)
+                    } else {
+                        self.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
+                    }
+                    
                 }
             }
         })

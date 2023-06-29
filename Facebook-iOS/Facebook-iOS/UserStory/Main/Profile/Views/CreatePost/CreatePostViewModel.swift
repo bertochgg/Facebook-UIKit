@@ -33,7 +33,8 @@ protocol CreatePostViewModelProtocol: AnyObject {
     func addNewImageElement(at viewController: UIViewController)
     func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
-    func editImageElement(for viewModel: PhotoCollectionViewCellViewModel, at viewController: UIViewController)
+    func editImageElement(at viewController: UIViewController)
+    func toogleEditingMode()
 }
 
 final class CreatePostViewModel {
@@ -114,23 +115,12 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         self.delegate?.didRemoveImage(viewModel: viewModel)
     }
     
-    func editImageElement(for viewModel: PhotoCollectionViewCellViewModel, at viewController: UIViewController) {
-        self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission  in
-            switch permission {
-            case .notDetermined:
-                break
-            case .restricted:
-                break
-            case .denied:
-                self.delegate?.didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError.photoLibraryAccessDenied)
-            case .authorized:
-                self.photoPickerService?.presentImagePicker(at: viewController)
-            case .limited:
-                break
-            @unknown default:
-                break
-            }
-        })
+    func editImageElement(at viewController: UIViewController) {
+        self.photoPickerService?.presentImagePicker(at: viewController)
+    }
+    
+    func toogleEditingMode() {
+        self.photoPickerService?.isUpdatingExistingImage.toggle()
     }
     
 }
@@ -146,6 +136,7 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
     }
     
     func imagePickerServiceDidPickForUpdate(didPickImage newImage: UIImage) {
+        self.toogleEditingMode()
         let viewModel = PhotoCollectionViewCellViewModel(image: newImage)
         self.delegate?.didUpdateImage(viewModel: viewModel)
     }

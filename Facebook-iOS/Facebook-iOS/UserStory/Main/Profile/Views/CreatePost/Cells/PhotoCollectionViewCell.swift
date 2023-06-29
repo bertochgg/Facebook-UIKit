@@ -8,17 +8,23 @@
 import UIKit
 
 protocol PhotoCollectionViewCellDelegate: AnyObject {
-    func didTapAddPhotoButton(cell: PhotoCollectionViewCell)
+    func didTapAddPhotoButton()
     func didTapCancelImageButton(cell: PhotoCollectionViewCell)
-    func didTapUpdateImageButton(cell: PhotoCollectionViewCell)
+    func didTapUpdateImageButton(viewModel: PhotoCollectionViewCellViewModel?)
 }
 
 struct PhotoCollectionViewCellViewModel: Hashable {
-    let id: UUID = UUID()
+    var id: UUID
     let image: UIImage?
     let isPlaceholder: Bool
     
-    init(image: UIImage?) {
+    init(id: UUID? = nil, image: UIImage?) {
+        if let id {
+            self.id = id
+        } else {
+            self.id = UUID()
+        }
+        
         if image == ImagesNames.placeholderImage {
             self.isPlaceholder = true
             self.image = ImagesNames.placeholderImage
@@ -26,6 +32,12 @@ struct PhotoCollectionViewCellViewModel: Hashable {
             self.isPlaceholder = false
             self.image = image
         }
+    }
+}
+
+extension PhotoCollectionViewCellViewModel: Equatable {
+    static func == (_ lhs: PhotoCollectionViewCellViewModel, _ rhs: PhotoCollectionViewCellViewModel) -> Bool {
+        lhs.id == rhs.id
     }
 }
 
@@ -146,7 +158,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @objc
     private func addPhotoButtonTapped() {
         print("Adding new photo")
-        self.delegate?.didTapAddPhotoButton(cell: self)
+        self.delegate?.didTapAddPhotoButton()
     }
     
     @objc
@@ -158,7 +170,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @objc
     private func editImage() {
         print("I am editing image")
-        self.delegate?.didTapUpdateImageButton(cell: self)
+        self.delegate?.didTapUpdateImageButton(viewModel: self.viewModel)
     }
 
 }

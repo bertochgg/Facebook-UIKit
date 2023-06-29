@@ -13,6 +13,7 @@ class CreatePostViewController: UIViewController {
     weak var coordinator: (any CreatePostCoordinatorProtocol)?
     private let createPostView = CreatePostView()
     private let createPostViewModel: CreatePostViewModelProtocol = CreatePostViewModel()
+    private var editingImageID: UUID?
     
     private lazy var closeAddPostButton: UIButton = {
         let button = UIButton(type: .system)
@@ -79,11 +80,15 @@ class CreatePostViewController: UIViewController {
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
     func didUpdateImage(viewModel: PhotoCollectionViewCellViewModel) {
+        guard let viewModelID = self.editingImageID else { return }
+        let updateViewModel = PhotoCollectionViewCellViewModel(id: viewModelID, image: viewModel.image)
         DispatchQueue.main.async {
-            if let index = self.createPostView.viewModels.firstIndex(of: viewModel) {
-                self.createPostViewModel.editImageElement(for: viewModel, at: self)
+            if let index = self.createPostView.viewModels.firstIndex(of: updateViewModel) {
+                self.createPostView.viewModels[index] = updateViewModel
+                self.createPostView.applySnapshot()
             }
         }
+        self.editingImageID = nil
     }
     
     func didRemoveImage(viewModel: PhotoCollectionViewCellViewModel) {
@@ -111,8 +116,10 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     }
     
     func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel) {
-        createPostView.viewModels.append(viewModel)
-        createPostView.applySnapshot()
+        DispatchQueue.main.async {
+            self.createPostView.viewModels.append(viewModel)
+            self.createPostView.applySnapshot()
+        }
         
         if let originalPlaceholderIndex = createPostView.viewModels.firstIndex(where: { $0.isPlaceholder }) {
             let originalPlaceholder = createPostView.viewModels.remove(at: originalPlaceholderIndex)
@@ -165,8 +172,11 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 }
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
-    func didTapUpdateImageButton(cell: PhotoCollectionViewCell) {
-        imagePickerOptionsActionSheet()
+    func didTapUpdateImageButton(viewModel: PhotoCollectionViewCellViewModel?) {
+        guard let viewModel else { return }
+        self.editingImageID = viewModel.id
+        createPostViewModel.editImageElement(at: self)
+        createPostViewModel.toogleEditingMode()
     }
     
     func didTapCancelImageButton(cell: PhotoCollectionViewCell) {
@@ -175,7 +185,7 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         }
     }
     
-    func didTapAddPhotoButton(cell: PhotoCollectionViewCell) {
+    func didTapAddPhotoButton() {
         imagePickerOptionsActionSheet()
     }
     
@@ -197,4 +207,5 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         actionSheet.addAction(cancelAction)
         self.present(actionSheet, animated: true, completion: nil)
     }
+    
 }

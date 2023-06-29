@@ -15,6 +15,7 @@ protocol PhotoPickerServiceDelegate: AnyObject {
 
 protocol PhotoPickerServiceProtocol: AnyObject {
     var photoPickerDelegate: PhotoPickerServiceDelegate? { get set }
+    var isUpdatingExistingImage: Bool { get set }
 
     func isCameraAvailable(completion: @escaping (Bool, PhotoPickerServiceError?) -> Void)
     func requestCameraAccess(completion: @escaping (Bool, PhotoPickerServiceError?) -> Void)
