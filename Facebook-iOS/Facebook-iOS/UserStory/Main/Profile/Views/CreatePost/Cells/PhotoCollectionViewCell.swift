@@ -146,10 +146,10 @@ class PhotoCollectionViewCell: UICollectionViewCell {
                                          left: postImageView.leftAnchor,
                                          bottom: postImageView.bottomAnchor,
                                          right: postImageView.rightAnchor,
-                                         paddingTop: 25, paddingLeft: 25, paddingBottom: 25, paddingRight: 25)
+                                         paddingTop: 22, paddingLeft: 22, paddingBottom: 22, paddingRight: 20)
         self.addPhotoButton.anchor(bottom: postImageView.bottomAnchor, right: postImageView.rightAnchor,
-                                   paddingBottom: 6, paddingRight: 6,
-                                   width: 24, height: 24)
+                                   paddingBottom: 5, paddingRight: 5,
+                                   width: 20, height: 20)
         self.cancelImageButton.anchor(top: contentView.topAnchor, left: contentView.leftAnchor,
                                  paddingTop: 0, paddingLeft: 0,
                                  width: 18, height: 18)
