@@ -31,7 +31,9 @@ final class CreatePostCoordinator: CreatePostCoordinatorProtocol {
     }
     
     func showCreatePostViewController() {
-        let createPostViewController = CreatePostViewController()
+        let photoPickerService: PhotoPickerServiceProtocol = PhotoPickerService()
+        let createPostViewModel: CreatePostViewModelProtocol = CreatePostViewModel(photoPickerService: photoPickerService)
+        let createPostViewController = CreatePostViewController(createPostViewModel: createPostViewModel)
         createPostViewController.coordinator = self
         createPostViewController.hidesBottomBarWhenPushed = true
         navigationController?.setNavigationBarHidden(false, animated: true)

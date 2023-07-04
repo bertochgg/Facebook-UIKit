@@ -8,12 +8,6 @@ import UIKit
 
 final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
     weak var photoPickerDelegate: PhotoPickerServiceDelegate?
-    var isUpdatingExistingImage: Bool = false
-    
-    init(delegate: PhotoPickerServiceDelegate?) {
-        super.init()
-        self.photoPickerDelegate = delegate
-    }
     
     // Checks if there is a camera on device / Also check camera status
     func isCameraAvailable(completion: @escaping (Bool, PhotoPickerServiceError?) -> Void) {
@@ -75,12 +69,7 @@ extension PhotoPickerService: PHPickerViewControllerDelegate {
                 self.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoPickedError)
             } else if let image = object as? UIImage {
                 DispatchQueue.main.async {
-                    if self.isUpdatingExistingImage {
-                        self.photoPickerDelegate?.imagePickerServiceDidPickForUpdate(didPickImage: image)
-                    } else {
-                        self.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
-                    }
-                    
+                    self.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
                 }
             }
         })

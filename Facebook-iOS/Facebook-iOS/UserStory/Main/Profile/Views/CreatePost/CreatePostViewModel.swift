@@ -34,7 +34,7 @@ protocol CreatePostViewModelProtocol: AnyObject {
     func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
     func editImageElement(at viewController: UIViewController)
-    func toogleEditingMode()
+    func toggleUpdatingMode()
 }
 
 final class CreatePostViewModel {
@@ -43,9 +43,11 @@ final class CreatePostViewModel {
     private let profileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
     private let photoPickerService: PhotoPickerServiceProtocol?
     
-    init() {
-        photoPickerService = PhotoPickerService(delegate: photoPickerDelegate)
-        photoPickerService?.photoPickerDelegate = self
+    private var isUpdatingExistingImage: Bool = false
+    
+    init(photoPickerService: PhotoPickerServiceProtocol) {
+        self.photoPickerService = photoPickerService
+        self.photoPickerService?.photoPickerDelegate = self
     }
 }
 
@@ -73,18 +75,11 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     func addNewImageElement(at viewController: UIViewController) {
         self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission  in
             switch permission {
-            case .notDetermined:
-                break
-            case .restricted:
-                break
             case .denied:
                 self.delegate?.didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError.photoLibraryAccessDenied)
             case .authorized:
                 self.photoPickerService?.presentImagePicker(at: viewController)
-                
-            case .limited:
-                break
-            @unknown default:
+            default:
                 break
             }
         })
@@ -92,21 +87,22 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     
     func addNewImageElementFromCamera(at viewController: UIViewController) {
         photoPickerService?.isCameraAvailable { available, error in
-            if available {
-                print("si entre a la camara :3")
-                self.photoPickerService?.requestCameraAccess { permission, error in
-                    if permission {
-                        // show camera ui
-                        DispatchQueue.main.async {
-                            self.photoPickerService?.presentCamera(at: viewController)
-                        }
-                    } else if let error = error {
-                        self.delegate?.didReceiveDeniedAccessToCamera(error: error)
-                    }
-                }
-            } else if let error = error {
-                print("No entre")
+            guard let error = error else { return }
+            guard available else {
                 self.delegate?.didCheckCameraAvailabilityWithError(error: error)
+                return
+            }
+            
+            self.photoPickerService?.requestCameraAccess { permission, error in
+                guard let error = error else { return }
+                guard permission else {
+                    self.delegate?.didReceiveDeniedAccessToCamera(error: error)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.photoPickerService?.presentCamera(at: viewController)
+                }
             }
         }
     }
@@ -119,25 +115,23 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         self.photoPickerService?.presentImagePicker(at: viewController)
     }
     
-    func toogleEditingMode() {
-        self.photoPickerService?.isUpdatingExistingImage.toggle()
+    func toggleUpdatingMode() {
+        self.isUpdatingExistingImage.toggle()
     }
-    
 }
 
 extension CreatePostViewModel: PhotoPickerServiceDelegate {
     func imagePickerServiceDidPick(didPickImage image: UIImage) {
         let viewModel = PhotoCollectionViewCellViewModel(image: image)
-        self.delegate?.didAddNewImage(viewModel: viewModel)
+        if isUpdatingExistingImage {
+            self.delegate?.didUpdateImage(viewModel: viewModel)
+        } else {
+            self.delegate?.didAddNewImage(viewModel: viewModel)
+        }
     }
     
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError) {
         self.delegate?.didReceiveDeniedAccessToLibrary(error: error)
     }
     
-    func imagePickerServiceDidPickForUpdate(didPickImage newImage: UIImage) {
-        self.toogleEditingMode()
-        let viewModel = PhotoCollectionViewCellViewModel(image: newImage)
-        self.delegate?.didUpdateImage(viewModel: viewModel)
-    }
 }

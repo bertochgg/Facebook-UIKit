@@ -4,15 +4,13 @@
 //
 //  Created by Humberto Garcia on 09/06/23.
 //
-import Photos
-import PhotosUI
 import UIKit
 
 class CreatePostViewController: UIViewController {
     
     weak var coordinator: (any CreatePostCoordinatorProtocol)?
     private let createPostView = CreatePostView()
-    private let createPostViewModel: CreatePostViewModelProtocol = CreatePostViewModel()
+    private let createPostViewModel: CreatePostViewModelProtocol?
     private var editingImageID: UUID?
     
     private lazy var closeAddPostButton: UIButton = {
@@ -51,15 +49,24 @@ class CreatePostViewController: UIViewController {
         navigationItem.setHidesBackButton(true, animated: true)
     }
     
+    init(createPostViewModel: CreatePostViewModelProtocol?) {
+        self.createPostViewModel = createPostViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         configureBarButtonItems()
         print("Current count: \(String(describing: navigationController?.viewControllers.count))")
         
-        createPostViewModel.delegate = self
-        createPostViewModel.fetchProfileData()
-        createPostViewModel.addPlaceholderElement()
+        createPostViewModel?.delegate = self
+        createPostViewModel?.fetchProfileData()
+        createPostViewModel?.addPlaceholderElement()
     }
     
     private func configureBarButtonItems() {
@@ -80,6 +87,7 @@ class CreatePostViewController: UIViewController {
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
     func didUpdateImage(viewModel: PhotoCollectionViewCellViewModel) {
+        createPostViewModel?.toggleUpdatingMode()
         guard let viewModelID = self.editingImageID else { return }
         let updateViewModel = PhotoCollectionViewCellViewModel(id: viewModelID, image: viewModel.image)
         DispatchQueue.main.async {
@@ -173,15 +181,15 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
     func didTapUpdateImageButton(viewModel: PhotoCollectionViewCellViewModel?) {
+        createPostViewModel?.toggleUpdatingMode()
         guard let viewModel else { return }
         self.editingImageID = viewModel.id
-        createPostViewModel.editImageElement(at: self)
-        createPostViewModel.toogleEditingMode()
+        createPostViewModel?.editImageElement(at: self)
     }
     
     func didTapCancelImageButton(cell: PhotoCollectionViewCell) {
         if let viewModel = cell.viewModel {
-            createPostViewModel.removeImageElement(for: viewModel)
+            createPostViewModel?.removeImageElement(for: viewModel)
         }
     }
     
@@ -193,11 +201,11 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         let actionSheet = UIAlertController(title: "Select photo", message: nil, preferredStyle: .actionSheet)
         
         let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default) { _ in
-            self.createPostViewModel.addNewImageElementFromCamera(at: self)
+            self.createPostViewModel?.addNewImageElementFromCamera(at: self)
         }
         
         let galleryAction = UIAlertAction(title: "Select from Gallery", style: .default) { _ in
-            self.createPostViewModel.addNewImageElement(at: self)
+            self.createPostViewModel?.addNewImageElement(at: self)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)

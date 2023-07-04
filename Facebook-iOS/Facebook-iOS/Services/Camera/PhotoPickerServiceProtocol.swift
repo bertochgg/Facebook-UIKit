@@ -10,12 +10,10 @@ import UIKit
 protocol PhotoPickerServiceDelegate: AnyObject {
     func imagePickerServiceDidPick(didPickImage image: UIImage)
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError)
-    func imagePickerServiceDidPickForUpdate(didPickImage newImage: UIImage)
 }
 
 protocol PhotoPickerServiceProtocol: AnyObject {
     var photoPickerDelegate: PhotoPickerServiceDelegate? { get set }
-    var isUpdatingExistingImage: Bool { get set }
 
     func isCameraAvailable(completion: @escaping (Bool, PhotoPickerServiceError?) -> Void)
     func requestCameraAccess(completion: @escaping (Bool, PhotoPickerServiceError?) -> Void)

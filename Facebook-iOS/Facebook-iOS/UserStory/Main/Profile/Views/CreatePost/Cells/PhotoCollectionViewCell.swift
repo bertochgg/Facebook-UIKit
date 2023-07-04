@@ -14,7 +14,7 @@ protocol PhotoCollectionViewCellDelegate: AnyObject {
 }
 
 struct PhotoCollectionViewCellViewModel: Hashable {
-    var id: UUID
+    let id: UUID
     let image: UIImage?
     let isPlaceholder: Bool
     
