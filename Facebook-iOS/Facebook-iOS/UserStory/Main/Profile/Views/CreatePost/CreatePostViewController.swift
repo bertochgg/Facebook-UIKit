@@ -11,7 +11,6 @@ class CreatePostViewController: UIViewController {
     weak var coordinator: (any CreatePostCoordinatorProtocol)?
     private let createPostView = CreatePostView()
     private let createPostViewModel: CreatePostViewModelProtocol?
-    private var editingImageID: UUID?
     
     private lazy var closeAddPostButton: UIButton = {
         let button = UIButton(type: .system)
@@ -86,55 +85,20 @@ class CreatePostViewController: UIViewController {
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
-    func didUpdateImage(viewModel: PhotoCollectionViewCellViewModel) {
-        createPostViewModel?.toggleUpdatingMode()
-        guard let viewModelID = self.editingImageID else { return }
-        let updateViewModel = PhotoCollectionViewCellViewModel(id: viewModelID, image: viewModel.image)
-        DispatchQueue.main.async {
-            if let index = self.createPostView.viewModels.firstIndex(of: updateViewModel) {
-                self.createPostView.viewModels[index] = updateViewModel
-                self.createPostView.applySnapshot()
-            }
-        }
-        self.editingImageID = nil
+    func didUpdateImage(viewModels: [PhotoCollectionViewCellViewModel]) {
+        self.createPostView.applySnapshot(with: viewModels)
+    }
+
+    func didRemoveImage(viewModels: [PhotoCollectionViewCellViewModel]) {
+        self.createPostView.applySnapshot(with: viewModels)
+    }
+
+    func didAddNewImage(viewModels: [PhotoCollectionViewCellViewModel]) {
+        self.createPostView.applySnapshot(with: viewModels)
     }
     
-    func didRemoveImage(viewModel: PhotoCollectionViewCellViewModel) {
-        DispatchQueue.main.async {
-            if let index = self.createPostView.viewModels.firstIndex(of: viewModel) {
-                self.createPostView.viewModels.remove(at: index)
-                self.createPostView.applySnapshot()
-            }
-        }
-    }
-    
-    func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel) {
-        DispatchQueue.main.async {
-            self.createPostView.viewModels.append(viewModel)
-            self.createPostView.applySnapshot()
-        }
-        
-        if let originalPlaceholderIndex = createPostView.viewModels.firstIndex(where: { $0.isPlaceholder }) {
-            let originalPlaceholder = createPostView.viewModels.remove(at: originalPlaceholderIndex)
-            DispatchQueue.main.async {
-                self.createPostView.viewModels.append(originalPlaceholder)
-                self.createPostView.applySnapshot()
-            }
-        }
-    }
-    
-    func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel) {
-        DispatchQueue.main.async {
-            self.createPostView.viewModels.append(viewModel)
-            self.createPostView.applySnapshot()
-        }
-        
-        if let originalPlaceholderIndex = createPostView.viewModels.firstIndex(where: { $0.isPlaceholder }) {
-            let originalPlaceholder = createPostView.viewModels.remove(at: originalPlaceholderIndex)
-            
-            createPostView.viewModels.append(originalPlaceholder)
-            createPostView.applySnapshot()
-        }
+    func didAddPlaceholder(viewModels: [PhotoCollectionViewCellViewModel]) {
+        self.createPostView.applySnapshot(with: viewModels)
     }
     
     func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
@@ -181,12 +145,9 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 
 extension CreatePostViewController: PhotoCollectionViewCellDelegate {
     func didTapUpdateImageButton(viewModel: PhotoCollectionViewCellViewModel?) {
-        createPostViewModel?.toggleUpdatingMode()
-        guard let viewModel else { return }
-        self.editingImageID = viewModel.id
-        createPostViewModel?.editImageElement(at: self)
+        createPostViewModel?.editImageElement(at: self, viewModel: viewModel)
     }
-    
+
     func didTapCancelImageButton(cell: PhotoCollectionViewCell) {
         if let viewModel = cell.viewModel {
             createPostViewModel?.removeImageElement(for: viewModel)
@@ -201,7 +162,7 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         let actionSheet = UIAlertController(title: "Select photo", message: nil, preferredStyle: .actionSheet)
         
         let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default) { _ in
-            self.createPostViewModel?.addNewImageElementFromCamera(at: self)
+            // self.createPostViewModel?.addNewImageElementFromCamera(at: self)
         }
         
         let galleryAction = UIAlertAction(title: "Select from Gallery", style: .default) { _ in

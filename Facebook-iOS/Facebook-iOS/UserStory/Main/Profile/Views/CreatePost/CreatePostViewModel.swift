@@ -14,10 +14,10 @@ private enum Constants {
 
 protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
-    func didAddPlaceholder(viewModel: PhotoCollectionViewCellViewModel)
-    func didAddNewImage(viewModel: PhotoCollectionViewCellViewModel)
-    func didRemoveImage(viewModel: PhotoCollectionViewCellViewModel)
-    func didUpdateImage(viewModel: PhotoCollectionViewCellViewModel)
+    func didAddPlaceholder(viewModels: [PhotoCollectionViewCellViewModel])
+    func didAddNewImage(viewModels: [PhotoCollectionViewCellViewModel])
+    func didRemoveImage(viewModels: [PhotoCollectionViewCellViewModel])
+    func didUpdateImage(viewModels: [PhotoCollectionViewCellViewModel])
     
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError)
     func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError)
@@ -26,24 +26,23 @@ protocol CreatePostViewModelDelegate: AnyObject {
 
 protocol CreatePostViewModelProtocol: AnyObject {
     var delegate: CreatePostViewModelDelegate? { get set }
-    var photoPickerDelegate: PhotoPickerServiceDelegate? { get set }
     func fetchProfileData()
     
     func addPlaceholderElement()
     func addNewImageElement(at viewController: UIViewController)
-    func addNewImageElementFromCamera(at viewController: UIViewController)
+    //    func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
-    func editImageElement(at viewController: UIViewController)
-    func toggleUpdatingMode()
+    func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?)
 }
 
 final class CreatePostViewModel {
     weak var delegate: CreatePostViewModelDelegate?
-    weak var photoPickerDelegate: PhotoPickerServiceDelegate?
     private let profileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
     private let photoPickerService: PhotoPickerServiceProtocol?
     
     private var isUpdatingExistingImage: Bool = false
+    private var viewModels: [PhotoCollectionViewCellViewModel] = []
+    private var editingImageID: UUID?
     
     init(photoPickerService: PhotoPickerServiceProtocol) {
         self.photoPickerService = photoPickerService
@@ -69,7 +68,13 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     func addPlaceholderElement() {
         guard let placeHolderImage = ImagesNames.placeholderImage else { return }
         let viewModel = PhotoCollectionViewCellViewModel(image: placeHolderImage)
-        delegate?.didAddPlaceholder(viewModel: viewModel)
+        viewModels.append(viewModel)
+        delegate?.didAddPlaceholder(viewModels: viewModels)
+        
+        if let originalPlaceholderIndex = viewModels.firstIndex(where: { $0.isPlaceholder }) {
+            let originalPlaceholder = viewModels.remove(at: originalPlaceholderIndex)
+            viewModels.append(originalPlaceholder)
+        }
     }
     
     func addNewImageElement(at viewController: UIViewController) {
@@ -85,48 +90,70 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         })
     }
     
-    func addNewImageElementFromCamera(at viewController: UIViewController) {
-        photoPickerService?.isCameraAvailable { available, error in
-            guard let error = error else { return }
-            guard available else {
-                self.delegate?.didCheckCameraAvailabilityWithError(error: error)
-                return
-            }
-            
-            self.photoPickerService?.requestCameraAccess { permission, error in
-                guard let error = error else { return }
-                guard permission else {
-                    self.delegate?.didReceiveDeniedAccessToCamera(error: error)
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.photoPickerService?.presentCamera(at: viewController)
-                }
-            }
-        }
-    }
+    //    func addNewImageElementFromCamera(at viewController: UIViewController) {
+    //        photoPickerService?.isCameraAvailable { available, error in
+    //            guard let error = error else { return }
+    //            guard available else {
+    //                self.delegate?.didCheckCameraAvailabilityWithError(error: error)
+    //                return
+    //            }
+    //
+    //            self.photoPickerService?.requestCameraAccess { permission, error in
+    //                guard let error = error else { return }
+    //                guard permission else {
+    //                    self.delegate?.didReceiveDeniedAccessToCamera(error: error)
+    //                    return
+    //                }
+    //
+    //                DispatchQueue.main.async {
+    //                    self.photoPickerService?.presentCamera(at: viewController)
+    //                }
+    //            }
+    //        }
+    //    }
     
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel) {
-        self.delegate?.didRemoveImage(viewModel: viewModel)
+        
+        if let index = self.viewModels.firstIndex(of: viewModel) {
+            self.viewModels.remove(at: index)
+        }
+        
+        self.delegate?.didRemoveImage(viewModels: viewModels)
     }
     
-    func editImageElement(at viewController: UIViewController) {
+    func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?) {
+        guard let viewModel else { return }
+        editingImageID = viewModel.id
+        toggleUpdatingMode()
         self.photoPickerService?.presentImagePicker(at: viewController)
     }
     
-    func toggleUpdatingMode() {
+    private func toggleUpdatingMode() {
         self.isUpdatingExistingImage.toggle()
     }
 }
 
 extension CreatePostViewModel: PhotoPickerServiceDelegate {
     func imagePickerServiceDidPick(didPickImage image: UIImage) {
-        let viewModel = PhotoCollectionViewCellViewModel(image: image)
         if isUpdatingExistingImage {
-            self.delegate?.didUpdateImage(viewModel: viewModel)
+            guard let viewModelID = self.editingImageID else { return }
+            let updateViewModel = PhotoCollectionViewCellViewModel(id: viewModelID, image: image)
+            DispatchQueue.main.async {
+                if let index = self.viewModels.firstIndex(of: updateViewModel) {
+                    self.viewModels[index] = updateViewModel
+                }
+            }
+            self.editingImageID = nil
+            self.delegate?.didUpdateImage(viewModels: viewModels)
+            toggleUpdatingMode()
         } else {
-            self.delegate?.didAddNewImage(viewModel: viewModel)
+            let viewModel = PhotoCollectionViewCellViewModel(image: image)
+            viewModels.append(viewModel)
+            if let originalPlaceholderIndex = viewModels.firstIndex(where: { $0.isPlaceholder }) {
+                let originalPlaceholder = viewModels.remove(at: originalPlaceholderIndex)
+                self.viewModels.append(originalPlaceholder)
+            }
+            self.delegate?.didAddNewImage(viewModels: viewModels)
         }
     }
     

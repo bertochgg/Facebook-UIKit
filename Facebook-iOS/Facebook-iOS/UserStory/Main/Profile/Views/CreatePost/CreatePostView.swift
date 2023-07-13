@@ -12,7 +12,6 @@ class CreatePostView: UIView {
     
     weak var delegate: PhotoCollectionViewCellDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
-    var viewModels: [PhotoCollectionViewCellViewModel] = []
     private lazy var views = [
         profileImageView,
         usernameLabel,
@@ -73,7 +72,6 @@ class CreatePostView: UIView {
         setupViews()
         setupConstraints()
         configureDataSource()
-        applySnapshot()
     }
     
     required init?(coder: NSCoder) {
@@ -175,7 +173,7 @@ extension CreatePostView {
         }
     }
     
-    func applySnapshot() {
+    func applySnapshot(with viewModels: [PhotoCollectionViewCellViewModel]) {
         guard let dataSource = dataSource else { return }
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, PhotoCollectionViewCellViewModel>()
