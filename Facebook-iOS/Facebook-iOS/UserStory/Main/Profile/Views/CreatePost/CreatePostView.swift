@@ -180,7 +180,6 @@ extension CreatePostView {
         snapshot.appendSections([0])
         
         snapshot.appendItems(viewModels) // Append the imageView
-        photoCarousel.reloadData()
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     

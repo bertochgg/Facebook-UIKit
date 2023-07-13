@@ -162,7 +162,7 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         let actionSheet = UIAlertController(title: "Select photo", message: nil, preferredStyle: .actionSheet)
         
         let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default) { _ in
-            // self.createPostViewModel?.addNewImageElementFromCamera(at: self)
+            self.createPostViewModel?.addNewImageElementFromCamera(at: self)
         }
         
         let galleryAction = UIAlertAction(title: "Select from Gallery", style: .default) { _ in
