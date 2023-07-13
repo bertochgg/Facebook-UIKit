@@ -122,7 +122,7 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     }
     
     func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?) {
-        guard let viewModel else { return }
+        guard let viewModel = viewModel else { return }
         editingImageID = viewModel.id
         toggleUpdatingMode()
         self.photoPickerService?.presentImagePicker(at: viewController)
@@ -145,7 +145,6 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
             
             self.editingImageID = nil
             DispatchQueue.main.async {
-                print("View Model ID: \(updateViewModel.id)")
                 self.delegate?.didUpdateImage(viewModels: self.viewModels)
             }
             

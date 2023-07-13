@@ -19,7 +19,7 @@ struct PhotoCollectionViewCellViewModel: Hashable {
     let isPlaceholder: Bool
     
     init(id: UUID? = nil, image: UIImage?) {
-        if let id {
+        if let id = id {
             self.id = id
         } else {
             self.id = UUID()
@@ -33,9 +33,7 @@ struct PhotoCollectionViewCellViewModel: Hashable {
             self.image = image
         }
     }
-}
-
-extension PhotoCollectionViewCellViewModel: Equatable {
+    
     static func == (_ lhs: PhotoCollectionViewCellViewModel, _ rhs: PhotoCollectionViewCellViewModel) -> Bool {
         lhs.id == rhs.id
     }
