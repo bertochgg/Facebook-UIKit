@@ -15,7 +15,7 @@ protocol PhotoCollectionViewCellDelegate: AnyObject {
 
 struct PhotoCollectionViewCellViewModel: Hashable {
     let id: UUID
-    var image: UIImage?
+    let image: UIImage?
     let isPlaceholder: Bool
     
     init(id: UUID? = nil, image: UIImage?) {
@@ -114,22 +114,21 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     func configure(with viewModel: PhotoCollectionViewCellViewModel) {
         self.viewModel = viewModel
+        postImageView.isHidden = false
+        postImageView.image = viewModel.image
+        postImageView.isUserInteractionEnabled = true
+        
         if viewModel.isPlaceholder {
-            postImageView.isHidden = false
             placeholderImageView.isHidden = false
             placeholderImageView.image = viewModel.image
             addPhotoButton.isHidden = false
             cancelImageButton.isHidden = true
-            postImageView.isUserInteractionEnabled = true
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addPhotoButtonTapped))
             postImageView.addGestureRecognizer(tapGesture)
         } else {
-            postImageView.isHidden = false
             placeholderImageView.isHidden = true
             addPhotoButton.isHidden = true
-            postImageView.image = viewModel.image
             cancelImageButton.isHidden = false
-            postImageView.isUserInteractionEnabled = true
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(editImage))
             postImageView.addGestureRecognizer(tapGesture)
         }

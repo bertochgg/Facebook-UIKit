@@ -127,7 +127,8 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
             guard let viewModelID = self.editingImageID else { return }
             
             if let index = self.viewModels.firstIndex(where: { $0.id == viewModelID }) {
-                self.viewModels[index].image = image
+                let updatedViewModel = PhotoCollectionViewCellViewModel(id: self.viewModels[index].id, image: image)
+                self.viewModels[index] = updatedViewModel
                 self.delegate?.didUpdateImage(viewModels: self.viewModels)
             }
             

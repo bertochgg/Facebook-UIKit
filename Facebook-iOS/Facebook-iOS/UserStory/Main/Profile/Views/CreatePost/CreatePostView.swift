@@ -145,8 +145,8 @@ extension CreatePostView: UITextViewDelegate {
 extension CreatePostView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(
-            width: (photoCarousel.frame.size.width / 4) - 8,
-            height: (photoCarousel.frame.size.width / 4) - 7
+            width: (photoCarousel.frame.size.width / 4) - 2,
+            height: (photoCarousel.frame.size.width / 4) - 1
         )
     }
     

@@ -8,15 +8,14 @@
 import UIKit
 
 class CreatePostDataSource: NSObject {
-    weak var delegate: PhotoCollectionViewCellDelegate?
+    private weak var delegate: PhotoCollectionViewCellDelegate?
     private let collectionView: UICollectionView
-    private var viewModels: [PhotoCollectionViewCellViewModel]
+    private var viewModels: [PhotoCollectionViewCellViewModel] = []
     private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
 
-    init(collectionView: UICollectionView, viewModels: [PhotoCollectionViewCellViewModel], delegate: PhotoCollectionViewCellDelegate?) {
-        self.delegate = delegate
+    init(collectionView: UICollectionView, delegate: PhotoCollectionViewCellDelegate?) {
         self.collectionView = collectionView
-        self.viewModels = viewModels
+        self.delegate = delegate
         super.init()
         configureDataSource()
         applySnapshot()

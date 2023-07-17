@@ -86,19 +86,19 @@ class CreatePostViewController: UIViewController {
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
     func didUpdateImage(viewModels: [PhotoCollectionViewCellViewModel]) {
-        self.createPostView.applySnapshot(with: viewModels)
+        updateView(with: viewModels)
     }
 
     func didRemoveImage(viewModels: [PhotoCollectionViewCellViewModel]) {
-        self.createPostView.applySnapshot(with: viewModels)
+        updateView(with: viewModels)
     }
 
     func didAddNewImage(viewModels: [PhotoCollectionViewCellViewModel]) {
-        self.createPostView.applySnapshot(with: viewModels)
+        updateView(with: viewModels)
     }
     
     func didAddPlaceholder(viewModels: [PhotoCollectionViewCellViewModel]) {
-        self.createPostView.applySnapshot(with: viewModels)
+        updateView(with: viewModels)
     }
     
     func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
@@ -107,39 +107,29 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     
     // Errors
     func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError) {
-        let title = "Camera not available"
-        let message = error.localizedString
-        DispatchQueue.main.async {
-            self.presentAccessErrorAlerts(title: title, message: message)
-        }
+        presentAccessErrorAlerts(title: "Camera not available", message: error.localizedString)
     }
     
     func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError) {
-        let title = "Camera access denied"
-        let message = error.localizedString
-        DispatchQueue.main.async {
-            self.presentAccessErrorAlerts(title: title, message: message)
-        }
+        presentAccessErrorAlerts(title: "Camera access denied", message: error.localizedString)
     }
     
     func didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError) {
-        let title = "An error ocurred"
-        let message = error.localizedString
-        DispatchQueue.main.async {
-            self.presentAccessErrorAlerts(title: title, message: message)
-        }
+        presentAccessErrorAlerts(title: "An error ocurred", message: error.localizedString)
     }
     
     private func presentAccessErrorAlerts(title: String, message: String) {
-        let alertController = UIAlertController(title: title,
-                                                message: message,
-                                                preferredStyle: .alert)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
             alertController.dismiss(animated: true)
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func updateView(with viewModels: [PhotoCollectionViewCellViewModel]) {
+        self.createPostView.applySnapshot(with: viewModels)
     }
 }
 
@@ -176,5 +166,4 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         actionSheet.addAction(cancelAction)
         self.present(actionSheet, animated: true, completion: nil)
     }
-    
 }
