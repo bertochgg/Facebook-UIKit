@@ -115,7 +115,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     func configure(with viewModel: PhotoCollectionViewCellViewModel) {
         self.viewModel = viewModel
         postImageView.isHidden = false
-        postImageView.image = viewModel.image
         postImageView.isUserInteractionEnabled = true
         
         if viewModel.isPlaceholder {
@@ -126,6 +125,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addPhotoButtonTapped))
             postImageView.addGestureRecognizer(tapGesture)
         } else {
+            postImageView.image = viewModel.image
             placeholderImageView.isHidden = true
             addPhotoButton.isHidden = true
             cancelImageButton.isHidden = false
