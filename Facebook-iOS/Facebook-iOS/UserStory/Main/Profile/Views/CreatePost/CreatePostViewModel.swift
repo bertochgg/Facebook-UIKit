@@ -8,10 +8,6 @@
 import Foundation
 import UIKit
 
-private enum Constants {
-    static let defaultProfileImage = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"
-}
-
 protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
     func didAddPlaceholder(viewModels: [PhotoCollectionViewCellViewModel])
@@ -70,11 +66,6 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         let viewModel = PhotoCollectionViewCellViewModel(image: placeHolderImage)
         viewModels.append(viewModel)
         delegate?.didAddPlaceholder(viewModels: viewModels)
-        
-        if let originalPlaceholderIndex = viewModels.firstIndex(where: { $0.isPlaceholder }) {
-            let originalPlaceholder = viewModels.remove(at: originalPlaceholderIndex)
-            viewModels.append(originalPlaceholder)
-        }
     }
     
     func addNewImageElement(at viewController: UIViewController) {
@@ -105,15 +96,12 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    self.photoPickerService?.presentCamera(at: viewController)
-                }
+                self.photoPickerService?.presentCamera(at: viewController)
             }
         }
     }
     
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel) {
-        
         if let index = self.viewModels.firstIndex(of: viewModel) {
             self.viewModels.remove(at: index)
         }
@@ -140,10 +128,7 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
             
             if let index = self.viewModels.firstIndex(where: { $0.id == viewModelID }) {
                 self.viewModels[index].image = image
-                
-                DispatchQueue.main.async {
-                    self.delegate?.didUpdateImage(viewModels: self.viewModels)
-                }
+                self.delegate?.didUpdateImage(viewModels: self.viewModels)
             }
             
             self.editingImageID = nil
@@ -157,9 +142,7 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
                 self.viewModels.append(originalPlaceholder)
             }
             
-            DispatchQueue.main.async {
-                self.delegate?.didAddNewImage(viewModels: self.viewModels)
-            }
+            self.delegate?.didAddNewImage(viewModels: self.viewModels)
         }
     }
     

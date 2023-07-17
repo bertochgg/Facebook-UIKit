@@ -53,7 +53,9 @@ final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .camera
         imagePicker.delegate = viewController as? (UIImagePickerControllerDelegate & UINavigationControllerDelegate)
-        viewController.present(imagePicker, animated: true)
+        DispatchQueue.main.async {
+            viewController.present(imagePicker, animated: true)
+        }
     }
 }
 
