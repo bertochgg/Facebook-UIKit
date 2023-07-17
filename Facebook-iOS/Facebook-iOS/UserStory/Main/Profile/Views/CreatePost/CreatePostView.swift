@@ -7,6 +7,11 @@
 
 import UIKit
 import UITextView_Placeholder
+//
+//protocol CreatePostViewDelegate {
+//    func isMessageTextViewEmpty() -> Bool
+//    func isPhotoCarouselEmpty() -> Bool
+//}
 
 class CreatePostView: UIView {
     
@@ -72,6 +77,7 @@ class CreatePostView: UIView {
         setupViews()
         setupConstraints()
         configureDataSource()
+        isPhotoCarouselEmpty()
     }
     
     required init?(coder: NSCoder) {
@@ -93,6 +99,15 @@ class CreatePostView: UIView {
             self.usernameLabel.text = safeUsername
         } else {
             self.usernameLabel.text = "Username"
+        }
+    }
+    
+    func isPhotoCarouselEmpty() -> Bool {
+        if photoCarousel.numberOfItems(inSection: 0) == 1 {
+            print("Only placeholder image")
+            return true
+        } else {
+            return false
         }
     }
     
