@@ -137,17 +137,16 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
     func imagePickerServiceDidPick(didPickImage image: UIImage) {
         if isUpdatingExistingImage {
             guard let viewModelID = self.editingImageID else { return }
-            let updateViewModel = PhotoCollectionViewCellViewModel(id: viewModelID, image: image)
             
-            if let index = self.viewModels.firstIndex(of: updateViewModel) {
-                self.viewModels[index] = updateViewModel
+            if let index = self.viewModels.firstIndex(where: { $0.id == viewModelID }) {
+                self.viewModels[index].image = image
+                
+                DispatchQueue.main.async {
+                    self.delegate?.didUpdateImage(viewModels: self.viewModels)
+                }
             }
             
             self.editingImageID = nil
-            DispatchQueue.main.async {
-                self.delegate?.didUpdateImage(viewModels: self.viewModels)
-            }
-            
             toggleUpdatingMode()
         } else {
             let viewModel = PhotoCollectionViewCellViewModel(image: image)

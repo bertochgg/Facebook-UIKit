@@ -15,7 +15,7 @@ protocol PhotoCollectionViewCellDelegate: AnyObject {
 
 struct PhotoCollectionViewCellViewModel: Hashable {
     let id: UUID
-    let image: UIImage?
+    var image: UIImage?
     let isPlaceholder: Bool
     
     init(id: UUID? = nil, image: UIImage?) {
@@ -34,8 +34,13 @@ struct PhotoCollectionViewCellViewModel: Hashable {
         }
     }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(image)
+    }
+    
     static func == (_ lhs: PhotoCollectionViewCellViewModel, _ rhs: PhotoCollectionViewCellViewModel) -> Bool {
-        lhs.id == rhs.id
+        lhs.id == rhs.id && lhs.image == rhs.image
     }
 }
 
