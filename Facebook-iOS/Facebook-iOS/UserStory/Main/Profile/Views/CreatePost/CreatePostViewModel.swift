@@ -167,4 +167,10 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
         self.delegate?.didReceiveDeniedAccessToLibrary(error: error)
     }
     
+    func imagePickerServiceDidCancel() {
+        if isUpdatingExistingImage {
+            editingImageID = nil
+            toggleUpdatingMode()
+        }
+    }
 }

@@ -60,10 +60,14 @@ final class PhotoPickerService: NSObject, PhotoPickerServiceProtocol {
 extension PhotoPickerService: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
-        guard !results.isEmpty else { return }
-
-        results.first?.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { [weak self] object, error in
+        guard !results.isEmpty else {
+            self.photoPickerDelegate?.imagePickerServiceDidCancel()
+            return
+        }
+        
+        results.first?.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
             guard let self = self else { return }
+            
             if let error = error {
                 print("PHPickerResult loading failed with error: \(error)")
                 self.photoPickerDelegate?.imagePickerServiceDidError(didFailWithError: PhotoPickerServiceError.photoPickedError)
@@ -72,7 +76,7 @@ extension PhotoPickerService: PHPickerViewControllerDelegate {
                     self.photoPickerDelegate?.imagePickerServiceDidPick(didPickImage: image)
                 }
             }
-        })
+        }
     }
 }
 
