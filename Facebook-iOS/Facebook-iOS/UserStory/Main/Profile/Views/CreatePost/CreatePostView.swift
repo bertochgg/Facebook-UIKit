@@ -11,7 +11,7 @@ import UITextView_Placeholder
 class CreatePostView: UIView {
     
     weak var delegate: PhotoCollectionViewCellDelegate?
-    private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
+    private var diffableDataSource: CreatePostDataSource?
     private lazy var views = [
         profileImageView,
         usernameLabel,
@@ -65,13 +65,14 @@ class CreatePostView: UIView {
         return collectionView
     }()
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, delegate: PhotoCollectionViewCellDelegate?) {
         super.init(frame: frame)
+        self.delegate = delegate
+        diffableDataSource = CreatePostDataSource(collectionView: photoCarousel, delegate: delegate)
         photoCarousel.delegate = self
         self.backgroundColor = .white
         setupViews()
         setupConstraints()
-        configureDataSource()
     }
     
     required init?(coder: NSCoder) {
@@ -161,26 +162,7 @@ extension CreatePostView: UICollectionViewDelegateFlowLayout {
 }
 
 extension CreatePostView {
-    private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>(collectionView: photoCarousel) { collectionView, indexPath, viewModel in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier,
-                                                                for: indexPath) as? PhotoCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            cell.delegate = self.delegate
-            cell.configure(with: viewModel)
-            return cell
-        }
-    }
-    
     func applySnapshot(with viewModels: [PhotoCollectionViewCellViewModel]) {
-        guard let dataSource = dataSource else { return }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Int, PhotoCollectionViewCellViewModel>()
-        snapshot.appendSections([0])
-        
-        snapshot.appendItems(viewModels) // Append the imageView
-        dataSource.apply(snapshot, animatingDifferences: false)
+        diffableDataSource?.update(with: viewModels)
     }
-    
 }

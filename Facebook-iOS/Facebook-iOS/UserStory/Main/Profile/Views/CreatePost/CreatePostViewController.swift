@@ -9,7 +9,7 @@ import UIKit
 class CreatePostViewController: UIViewController {
     
     weak var coordinator: (any CreatePostCoordinatorProtocol)?
-    private let createPostView = CreatePostView()
+    private var createPostView: CreatePostView?
     private let createPostViewModel: CreatePostViewModelProtocol?
     
     private lazy var closeAddPostButton: UIButton = {
@@ -42,8 +42,8 @@ class CreatePostViewController: UIViewController {
     }()
     
     override func loadView() {
+        createPostView = CreatePostView(frame: .zero, delegate: self)
         self.view = createPostView
-        createPostView.delegate = self
         navigationItem.titleView = titleLabel
         navigationItem.setHidesBackButton(true, animated: true)
     }
@@ -102,7 +102,7 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     }
     
     func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
-        createPostView.configure(with: viewModel)
+        createPostView?.configure(with: viewModel)
     }
     
     // Errors
@@ -125,11 +125,13 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
             alertController.dismiss(animated: true)
         }
         alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     private func updateView(with viewModels: [PhotoCollectionViewCellViewModel]) {
-        self.createPostView.applySnapshot(with: viewModels)
+        self.createPostView?.applySnapshot(with: viewModels)
     }
 }
 
