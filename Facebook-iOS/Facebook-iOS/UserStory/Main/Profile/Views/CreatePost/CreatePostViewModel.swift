@@ -108,6 +108,7 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel) {
         if let index = self.viewModels.firstIndex(of: viewModel) {
             self.viewModels.remove(at: index)
+            print("View models amount: \(viewModels.count)")
         }
         
         self.delegate?.updateCollectionViewItems(with: viewModels)

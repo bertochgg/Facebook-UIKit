@@ -102,7 +102,7 @@ class CreatePostView: UIView {
     }
     
     func isPhotoCarouselEmpty() -> Bool {
-        return photoCarousel.numberOfItems(inSection: 0) == 0
+        return photoCarousel.numberOfItems(inSection: 0) <= 1
     }
     
     private func setupViews() {

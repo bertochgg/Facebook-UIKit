@@ -6,6 +6,13 @@
 //
 import UIKit
 
+private enum Constants {
+    enum Alerts {
+        static let noPostContentErrorTitle = "Error while creating new post"
+        static let noPostContentErrorInstructions = "You need to either provide a message or an image."
+    }
+}
+
 class CreatePostViewController: UIViewController {
     
     weak var coordinator: (any CreatePostCoordinatorProtocol)?
@@ -29,7 +36,6 @@ class CreatePostViewController: UIViewController {
         button.setTitleColor(.gray, for: .highlighted)
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(addPostButtonTapped), for: .touchUpInside)
-        button.isEnabled = false
         return button
     }()
     
@@ -81,11 +87,15 @@ class CreatePostViewController: UIViewController {
     
     @objc
     private func addPostButtonTapped() {
-        let isMessageEmpty = createPostView.isMessageTextViewEmpty()
-        let isPhotoCarouselEmpty = createPostView.isPhotoCarouselEmpty()
-        
-        if isMessageEmpty || isPhotoCarouselEmpty {
+        let isMessageEmpty = createPostView?.isMessageTextViewEmpty()
+        let isPhotoCarouselEmpty = createPostView?.isPhotoCarouselEmpty()
+        guard let isMessageEmpty = isMessageEmpty,
+              let isPhotoCarouselEmpty = isPhotoCarouselEmpty else { return }
+        if isMessageEmpty && isPhotoCarouselEmpty {
             print("Cannot create post - UI elements are empty")
+            let title = Constants.Alerts.noPostContentErrorTitle
+            let message = Constants.Alerts.noPostContentErrorInstructions
+            self.presentErrorAlerts(title: title, message: message)
         } else {
             print("Creating Post")
         }
@@ -105,10 +115,10 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     
     // Errors
     func didReceivePhotoServiceError(title: String, error: PhotoPickerServiceError) {
-        presentAccessErrorAlerts(title: title, message: error.localizedString)
+        presentErrorAlerts(title: title, message: error.localizedString)
     }
     
-    private func presentAccessErrorAlerts(title: String, message: String) {
+    private func presentErrorAlerts(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
