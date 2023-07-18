@@ -29,6 +29,7 @@ class CreatePostViewController: UIViewController {
         button.setTitleColor(.gray, for: .highlighted)
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(addPostButtonTapped), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -80,8 +81,16 @@ class CreatePostViewController: UIViewController {
     
     @objc
     private func addPostButtonTapped() {
-        print("Adding Post")
+        let isMessageEmpty = createPostView.isMessageTextViewEmpty()
+        let isPhotoCarouselEmpty = createPostView.isPhotoCarouselEmpty()
+        
+        if isMessageEmpty || isPhotoCarouselEmpty {
+            print("Cannot create post - UI elements are empty")
+        } else {
+            print("Creating Post")
+        }
     }
+
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
@@ -125,7 +134,9 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
             alertController.dismiss(animated: true)
         }
         alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     private func updateView(with viewModels: [PhotoCollectionViewCellViewModel]) {
