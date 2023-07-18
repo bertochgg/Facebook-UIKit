@@ -37,7 +37,7 @@ final class CreatePostDataSource {
         snapshot.appendSections([0])
         snapshot.appendItems(viewModels)
 
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
     func update(with viewModels: [PhotoCollectionViewCellViewModel]) {

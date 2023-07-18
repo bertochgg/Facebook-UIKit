@@ -14,7 +14,7 @@ class FacebookAuthService: FacebookAuthServiceProtocol {
         
         self.loginManager.logIn(permissions: [.publicProfile, .email]) { loginResult in
             switch loginResult {
-            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+            case .success( _, _, let accessToken):
                 // Handle successful login
                 print("Logged in with Facebook!")
                 
