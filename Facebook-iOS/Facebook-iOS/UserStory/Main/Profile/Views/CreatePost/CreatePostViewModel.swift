@@ -8,16 +8,20 @@
 import Foundation
 import UIKit
 
+private enum Constants {
+    enum Errors {
+        static let libraryAccessDenied = "Camera access denied"
+        static let cameraNotFound = "Camera not found in the device"
+        static let imagePickedError = "Image picked with invalid format"
+        static let cameraAccessDenied = "Permission for camera denied"
+    }
+}
+
 protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
-    func didAddPlaceholder(viewModels: [PhotoCollectionViewCellViewModel])
-    func didAddNewImage(viewModels: [PhotoCollectionViewCellViewModel])
-    func didRemoveImage(viewModels: [PhotoCollectionViewCellViewModel])
-    func didUpdateImage(viewModels: [PhotoCollectionViewCellViewModel])
+    func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel])
     
-    func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError)
-    func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError)
-    func didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError)
+    func didReceivePhotoServiceError(title: String, error: PhotoPickerServiceError)
 }
 
 protocol CreatePostViewModelProtocol: AnyObject {
@@ -65,14 +69,14 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         guard let placeHolderImage = ImagesNames.placeholderImage else { return }
         let viewModel = PhotoCollectionViewCellViewModel(image: placeHolderImage)
         viewModels.append(viewModel)
-        delegate?.didAddPlaceholder(viewModels: viewModels)
+        delegate?.updateCollectionViewItems(with: viewModels)
     }
     
     func addNewImageElement(at viewController: UIViewController) {
         self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission  in
             switch permission {
             case .denied:
-                self.delegate?.didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError.photoLibraryAccessDenied)
+                self.delegate?.didReceivePhotoServiceError(title: Constants.Errors.libraryAccessDenied, error: PhotoPickerServiceError.photoLibraryAccessDenied)
             case .authorized:
                 self.photoPickerService?.presentImagePicker(at: viewController)
             default:
@@ -85,14 +89,14 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         photoPickerService?.isCameraAvailable { available, error in
             guard let error = error else { return }
             guard available else {
-                self.delegate?.didCheckCameraAvailabilityWithError(error: error)
+                self.delegate?.didReceivePhotoServiceError(title: Constants.Errors.cameraNotFound, error: error)
                 return
             }
             
             self.photoPickerService?.requestCameraAccess { permission, error in
                 guard let error = error else { return }
                 guard permission else {
-                    self.delegate?.didReceiveDeniedAccessToCamera(error: error)
+                    self.delegate?.didReceivePhotoServiceError(title: Constants.Errors.cameraAccessDenied, error: error)
                     return
                 }
                 
@@ -106,7 +110,7 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
             self.viewModels.remove(at: index)
         }
         
-        self.delegate?.didRemoveImage(viewModels: viewModels)
+        self.delegate?.updateCollectionViewItems(with: viewModels)
     }
     
     func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?) {
@@ -129,7 +133,7 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
             if let index = self.viewModels.firstIndex(where: { $0.id == viewModelID }) {
                 let updatedViewModel = PhotoCollectionViewCellViewModel(id: self.viewModels[index].id, image: image)
                 self.viewModels[index] = updatedViewModel
-                self.delegate?.didUpdateImage(viewModels: self.viewModels)
+                self.delegate?.updateCollectionViewItems(with: self.viewModels)
             }
             
             self.editingImageID = nil
@@ -143,12 +147,12 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
                 self.viewModels.append(originalPlaceholder)
             }
             
-            self.delegate?.didAddNewImage(viewModels: self.viewModels)
+            self.delegate?.updateCollectionViewItems(with: self.viewModels)
         }
     }
     
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError) {
-        self.delegate?.didReceiveDeniedAccessToLibrary(error: error)
+        self.delegate?.didReceivePhotoServiceError(title: Constants.Errors.imagePickedError, error: error)
     }
     
     func imagePickerServiceDidCancel() {

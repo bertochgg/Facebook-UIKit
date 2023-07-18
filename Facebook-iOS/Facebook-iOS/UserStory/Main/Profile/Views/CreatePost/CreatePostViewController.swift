@@ -85,19 +85,8 @@ class CreatePostViewController: UIViewController {
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
-    func didUpdateImage(viewModels: [PhotoCollectionViewCellViewModel]) {
-        updateView(with: viewModels)
-    }
-
-    func didRemoveImage(viewModels: [PhotoCollectionViewCellViewModel]) {
-        updateView(with: viewModels)
-    }
-
-    func didAddNewImage(viewModels: [PhotoCollectionViewCellViewModel]) {
-        updateView(with: viewModels)
-    }
     
-    func didAddPlaceholder(viewModels: [PhotoCollectionViewCellViewModel]) {
+    func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel]) {
         updateView(with: viewModels)
     }
     
@@ -106,16 +95,8 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     }
     
     // Errors
-    func didCheckCameraAvailabilityWithError(error: PhotoPickerServiceError) {
-        presentAccessErrorAlerts(title: "Camera not available", message: error.localizedString)
-    }
-    
-    func didReceiveDeniedAccessToCamera(error: PhotoPickerServiceError) {
-        presentAccessErrorAlerts(title: "Camera access denied", message: error.localizedString)
-    }
-    
-    func didReceiveDeniedAccessToLibrary(error: PhotoPickerServiceError) {
-        presentAccessErrorAlerts(title: "An error ocurred", message: error.localizedString)
+    func didReceivePhotoServiceError(title: String, error: PhotoPickerServiceError) {
+        presentAccessErrorAlerts(title: title, message: error.localizedString)
     }
     
     private func presentAccessErrorAlerts(title: String, message: String) {
