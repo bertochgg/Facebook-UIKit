@@ -7,7 +7,9 @@
 
 import UIKit
 
-class CreatePostDataSource {
+private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>
+
+final class CreatePostDataSource {
     weak var delegate: PhotoCollectionViewCellDelegate?
     private let collectionView: UICollectionView
     private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>?
@@ -19,10 +21,9 @@ class CreatePostDataSource {
     }
 
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, PhotoCollectionViewCellViewModel>(collectionView: collectionView) { [weak self] collectionView, indexPath, viewModel in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else {
-                return UICollectionViewCell()
-            }
+        dataSource = DiffableDataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, viewModel in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath)
+                     as? PhotoCollectionViewCell else { return UICollectionViewCell() }
             cell.delegate = self?.delegate
             cell.configure(with: viewModel)
             return cell
@@ -36,7 +37,7 @@ class CreatePostDataSource {
         snapshot.appendSections([0])
         snapshot.appendItems(viewModels)
 
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
     func update(with viewModels: [PhotoCollectionViewCellViewModel]) {

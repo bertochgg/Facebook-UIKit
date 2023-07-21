@@ -41,7 +41,7 @@ class CreatePostView: UIView {
         textView.alpha = 1
         textView.textColor = .black
         textView.placeholder = "What's on your mind?"
-        textView.placeholderColor = .createPostMessageTextViewPlaceholderColor
+        textView.placeholderColor = .createPostMessageTextViewPlaceholder
         textView.font = .robotoRegular16
         textView.textContainerInset = UIEdgeInsets(top: 12,
                                                    left: 13,
@@ -55,7 +55,7 @@ class CreatePostView: UIView {
     private lazy var photoCarousel: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 33 // Vertical spacing
+        layout.minimumLineSpacing = 30 // Vertical spacing
         layout.minimumInteritemSpacing = 33 // Horizontal spacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
@@ -155,7 +155,7 @@ extension CreatePostView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(
             width: (photoCarousel.frame.size.width / 4) - 2,
-            height: (photoCarousel.frame.size.width / 4) - 1
+            height: (photoCarousel.frame.size.width / 4) - 2
         )
     }
     

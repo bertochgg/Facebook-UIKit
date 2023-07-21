@@ -13,37 +13,6 @@ protocol PhotoCollectionViewCellDelegate: AnyObject {
     func didTapUpdateImageButton(viewModel: PhotoCollectionViewCellViewModel?)
 }
 
-struct PhotoCollectionViewCellViewModel: Hashable {
-    let id: UUID
-    let image: UIImage?
-    let isPlaceholder: Bool
-    
-    init(id: UUID? = nil, image: UIImage?) {
-        if let id = id {
-            self.id = id
-        } else {
-            self.id = UUID()
-        }
-        
-        if image == ImagesNames.placeholderImage {
-            self.isPlaceholder = true
-            self.image = ImagesNames.placeholderImage
-        } else {
-            self.isPlaceholder = false
-            self.image = image
-        }
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-        hasher.combine(image)
-    }
-    
-    static func == (_ lhs: PhotoCollectionViewCellViewModel, _ rhs: PhotoCollectionViewCellViewModel) -> Bool {
-        lhs.id == rhs.id && lhs.image == rhs.image
-    }
-}
-
 class PhotoCollectionViewCell: UICollectionViewCell {
     static var identifier: String { return String(describing: self) }
     weak var delegate: PhotoCollectionViewCellDelegate?
@@ -60,7 +29,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
-        imageView.backgroundColor = .createPostMessageTextViewPlaceholderColor
+        imageView.backgroundColor = .createPostMessageTextViewPlaceholder
         return imageView
     }()
     

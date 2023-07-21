@@ -38,6 +38,7 @@
 		5F76A2542A09A93200349063 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2532A09A93200349063 /* ProfileCoordinator.swift */; };
 		5F76A2562A09A96C00349063 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2552A09A96C00349063 /* FeedViewModel.swift */; };
 		5F76A2582A09A98700349063 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F76A2572A09A98700349063 /* ProfileViewModel.swift */; };
+		5F7ED8C12A67416A00339CD5 /* PhotoCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7ED8C02A67416A00339CD5 /* PhotoCollectionViewCellViewModel.swift */; };
 		5F8DEB722A0D8DBF002B8835 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */; };
 		5F8DEB742A0DA500002B8835 /* UIView+Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */; };
 		5F8E81202A391ABC00787032 /* UIButton+Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E811F2A391ABC00787032 /* UIButton+Highlight.swift */; };
@@ -68,7 +69,6 @@
 		5FD5349E2A1D365D0064C950 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD5349D2A1D365D0064C950 /* FeedView.swift */; };
 		5FD6CE962A09693800FA785C /* KeyChainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6CE952A09693800FA785C /* KeyChainServiceProtocol.swift */; };
 		5FD6CE982A0969F200FA785C /* KeychainServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6CE972A0969F200FA785C /* KeychainServiceError.swift */; };
-		5FD7019B29F8D89600C81E85 /* Reference.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FD7019A29F8D89600C81E85 /* Reference.storyboard */; };
 		5FD7019D29F8F7BB00C81E85 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7019C29F8F7BB00C81E85 /* SignInViewModel.swift */; };
 		5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */; };
 		5FD923A129F98F8700633203 /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */; };
@@ -156,6 +156,7 @@
 		5F76A2532A09A93200349063 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		5F76A2552A09A96C00349063 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5F76A2572A09A98700349063 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		5F7ED8C02A67416A00339CD5 /* PhotoCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		5F8DEB712A0D8DBF002B8835 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		5F8DEB732A0DA500002B8835 /* UIView+Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Padding.swift"; sourceTree = "<group>"; };
 		5F8E811F2A391ABC00787032 /* UIButton+Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Highlight.swift"; sourceTree = "<group>"; };
@@ -186,7 +187,6 @@
 		5FD5349D2A1D365D0064C950 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		5FD6CE952A09693800FA785C /* KeyChainServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainServiceProtocol.swift; sourceTree = "<group>"; };
 		5FD6CE972A0969F200FA785C /* KeychainServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainServiceError.swift; sourceTree = "<group>"; };
-		5FD7019A29F8D89600C81E85 /* Reference.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reference.storyboard; sourceTree = "<group>"; };
 		5FD7019C29F8F7BB00C81E85 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		5FD7F9A229F878A800DD2AF1 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		5FD923A029F98F8700633203 /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
@@ -427,7 +427,6 @@
 			children = (
 				5FDB34172A0434A50067A320 /* Main */,
 				5FDD790829FAE64600CE9C1C /* SignIn */,
-				5FD7019A29F8D89600C81E85 /* Reference.storyboard */,
 				5FDCD6B62A02F28A00AA6E73 /* BaseViewController.swift */,
 			);
 			path = UserStory;
@@ -528,6 +527,7 @@
 			children = (
 				5FC291852A38E0BB003DDB58 /* PhotoCollectionViewCell.swift */,
 				5FB6AD082A609C9400B69B4F /* PhotoCollectionViewDataSource.swift */,
+				5F7ED8C02A67416A00339CD5 /* PhotoCollectionViewCellViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -893,7 +893,6 @@
 				04D52D6C2809F5B900D4C010 /* Services_TODO.txt in Resources */,
 				047DC73C281934EB00717EEC /* Localization_TODO.txt in Resources */,
 				047DC73A2819341000717EEC /* Colors.xcassets in Resources */,
-				5FD7019B29F8D89600C81E85 /* Reference.storyboard in Resources */,
 				04D52D6F2809F62900D4C010 /* Protocols_TODO.txt in Resources */,
 				5FDBDDD92A12C94C00CA4B8D /* Roboto-Regular.ttf in Resources */,
 				04D52D692809F55800D4C010 /* UIKit_Extensions_TODO.txt in Resources */,
@@ -923,6 +922,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		04D52D4F2809EC4400D4C010 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1073,6 +1073,7 @@
 		};
 		D1D0681A5897599DD45C93E0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1141,6 +1142,7 @@
 				5FD175D52A0B6323008C5A4B /* UserProfileData.swift in Sources */,
 				5F910AE72A65FF3E00D74D93 /* PostEditorViewModel.swift in Sources */,
 				5F30BE412A12EF3E00BF3F0B /* UIImage+DownloadImage.swift in Sources */,
+				5F7ED8C12A67416A00339CD5 /* PhotoCollectionViewCellViewModel.swift in Sources */,
 				5FDB34232A0479480067A320 /* ImagesConstants.swift in Sources */,
 				5FB7CC632A1BD61E0052209B /* ImageSliderCollectionViewCell.swift in Sources */,
 				5FC291832A38D4B5003DDB58 /* UITextView+DoneButton.swift in Sources */,
