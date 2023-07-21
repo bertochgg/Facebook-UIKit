@@ -87,23 +87,26 @@ class CreatePostViewController: UIViewController {
     
     @objc
     private func addPostButtonTapped() {
-        let isMessageEmpty = createPostView?.isMessageTextViewEmpty()
-        let isPhotoCarouselEmpty = createPostView?.isPhotoCarouselEmpty()
-        guard let isMessageEmpty = isMessageEmpty,
-              let isPhotoCarouselEmpty = isPhotoCarouselEmpty else { return }
-        if isMessageEmpty && isPhotoCarouselEmpty {
-            print("Cannot create post - UI elements are empty")
-            let title = Constants.Alerts.noPostContentErrorTitle
-            let message = Constants.Alerts.noPostContentErrorInstructions
-            self.presentErrorAlerts(title: title, message: message)
-        } else {
-            print("Creating Post")
-        }
+        let isMessageEmpty = createPostView?.isMessageTextViewEmpty() ?? true
+        let isCollectionViewEmpty = createPostView?.isPhotoCarouselEmpty() ?? true
+        createPostViewModel?.validatePost(isMessageEmpty: isMessageEmpty, isCollectionViewEmpty: isCollectionViewEmpty)
     }
 
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
+    func didValidatePost(isValid: Bool) {
+        if isValid {
+            print("Creating Post")
+            // Perform the network request to create the post
+            // ...
+        } else {
+            print("Cannot create post - UI elements are empty")
+            let title = Constants.Alerts.noPostContentErrorTitle
+            let message = Constants.Alerts.noPostContentErrorInstructions
+            self.presentErrorAlerts(title: title, message: message)
+        }
+    }
     
     func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel]) {
         updateView(with: viewModels)

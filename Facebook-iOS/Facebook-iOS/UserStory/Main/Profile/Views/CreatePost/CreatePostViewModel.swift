@@ -20,6 +20,7 @@ private enum Constants {
 protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
     func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel])
+    func didValidatePost(isValid: Bool)
     
     func didReceivePhotoServiceError(title: String, error: PhotoPickerServiceError)
 }
@@ -33,6 +34,7 @@ protocol CreatePostViewModelProtocol: AnyObject {
     func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
     func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?)
+    func validatePost(isMessageEmpty: Bool, isCollectionViewEmpty: Bool)
 }
 
 final class CreatePostViewModel {
@@ -119,6 +121,18 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         editingImageID = viewModel.id
         toggleUpdatingMode()
         self.photoPickerService?.presentImagePicker(at: viewController)
+    }
+    
+    func validatePost(isMessageEmpty: Bool, isCollectionViewEmpty: Bool) {
+        let isMessageEmpty = isMessageEmpty
+        let isPhotoCarouselEmpty = isCollectionViewEmpty
+        let isValid = !shouldShowPostEmptyAlert(isMessageEmpty: isMessageEmpty, isImageEmpty: isPhotoCarouselEmpty)
+        
+        delegate?.didValidatePost(isValid: isValid)
+    }
+    
+    private func shouldShowPostEmptyAlert(isMessageEmpty: Bool, isImageEmpty: Bool) -> Bool {
+        return isMessageEmpty && isImageEmpty
     }
     
     private func toggleUpdatingMode() {
