@@ -97,7 +97,6 @@
 		5FDFCA4129F5B3AC00E41A5F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */; };
 		5FF4DE9A2A159779002F16C3 /* CustomProfileLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4DE992A159779002F16C3 /* CustomProfileLabel.swift */; };
 		61C181CCF1F7735CEDAB988D /* Pods_App_Facebook_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B0769E5513789A098B1E06 /* Pods_App_Facebook_iOS.framework */; };
-		7F618E392A72E29600C6E4FB /* PostEditorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F618E382A72E29600C6E4FB /* PostEditorModel.swift */; };
 		B032E04476ADF3C218F4B0A4 /* Pods_App_Facebook_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3712D4409C66C44EF8F8F67 /* Pods_App_Facebook_iOSUITests.framework */; };
 		DC0C2845F5CC992B49280B68 /* Pods_App_Facebook_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC3A1A075D7C5B540D36784C /* Pods_App_Facebook_iOSTests.framework */; };
 /* End PBXBuildFile section */
@@ -216,7 +215,6 @@
 		5FDFCA4029F5B3AC00E41A5F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		5FF4DE992A159779002F16C3 /* CustomProfileLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileLabel.swift; sourceTree = "<group>"; };
 		7E05FEFB5EC52FFA0886D0B1 /* Pods-App-Facebook-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		7F618E382A72E29600C6E4FB /* PostEditorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostEditorModel.swift; path = ../../../../../../../../Documents/PostEditorModel.swift; sourceTree = "<group>"; };
 		7F618E3B2A72E2FD00C6E4FB /* PostEditorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditorModel.swift; sourceTree = "<group>"; };
 		835884B22417993333F3A885 /* Pods-App-Facebook-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOS.debug.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOS/Pods-App-Facebook-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		A5A62398235DFA42D9783365 /* Pods-App-Facebook-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-Facebook-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-App-Facebook-iOSUITests/Pods-App-Facebook-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -738,7 +736,6 @@
 				5FDE133F2A33A36700B0AF91 /* CreatePostViewController.swift */,
 				5FDE13432A33CDFB00B0AF91 /* CreatePostViewModel.swift */,
 				5F8E81212A3A248300787032 /* CreatePostDataViewModel.swift */,
-				7F618E382A72E29600C6E4FB /* PostEditorModel.swift */,
 			);
 			path = CreatePost;
 			sourceTree = "<group>";
@@ -1163,7 +1160,6 @@
 				5FC575652A2471470030EEC3 /* FeedTableViewCellViewModel.swift in Sources */,
 				5FCF14E22A3B9CA700E5CDDD /* PhotoPickerServiceProtocol.swift in Sources */,
 				5FD7F9A329F878A800DD2AF1 /* AppCoordinator.swift in Sources */,
-				7F618E392A72E29600C6E4FB /* PostEditorModel.swift in Sources */,
 				5FD923A529F99AF000633203 /* UIColor+Hex.swift in Sources */,
 				5FF4DE9A2A159779002F16C3 /* CustomProfileLabel.swift in Sources */,
 			);
