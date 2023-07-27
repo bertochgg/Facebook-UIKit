@@ -53,6 +53,7 @@ class CreatePostViewController: UIViewController {
         self.view = createPostView
         navigationItem.titleView = titleLabel
         navigationItem.setHidesBackButton(true, animated: true)
+        createPostView?.createPostViewDelegate = self
     }
     
     init(createPostViewModel: CreatePostViewModelProtocol?) {
@@ -79,6 +80,12 @@ class CreatePostViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeAddPostButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addPostButton)
     }
+
+    private func updateCreatePostButton() {
+        let isMessageEmpty = createPostView?.isMessageTextViewEmpty() ?? true
+        let isPhotoCarouselEmpty = createPostView?.isPhotoCarouselEmpty() ?? true
+        createPostViewModel?.validatePost(isMessageEmpty: isMessageEmpty, isCollectionViewEmpty: isPhotoCarouselEmpty)
+    }
     
     @objc
     private func closeAddPostButtonTapped() {
@@ -87,9 +94,7 @@ class CreatePostViewController: UIViewController {
     
     @objc
     private func addPostButtonTapped() {
-        let isMessageEmpty = createPostView?.isMessageTextViewEmpty() ?? true
-        let isCollectionViewEmpty = createPostView?.isPhotoCarouselEmpty() ?? true
-        createPostViewModel?.validatePost(isMessageEmpty: isMessageEmpty, isCollectionViewEmpty: isCollectionViewEmpty)
+        updateCreatePostButton()
     }
 
 }
@@ -98,8 +103,6 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     func didValidatePost(isValid: Bool) {
         if isValid {
             print("Creating Post")
-            // Perform the network request to create the post
-            // ...
         } else {
             print("Cannot create post - UI elements are empty")
             let title = Constants.Alerts.noPostContentErrorTitle
@@ -170,5 +173,11 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         actionSheet.addAction(galleryAction)
         actionSheet.addAction(cancelAction)
         self.present(actionSheet, animated: true, completion: nil)
+    }
+}
+
+extension CreatePostViewController: CreatePostViewDelegate {
+    func isMessageTextViewEmpty(textView: UITextView) -> Bool {
+        return textView.text.isEmpty
     }
 }

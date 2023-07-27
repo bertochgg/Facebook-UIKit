@@ -8,8 +8,12 @@
 import UIKit
 import UITextView_Placeholder
 
+protocol CreatePostViewDelegate: AnyObject {
+    func isMessageTextViewEmpty(textView: UITextView) -> Bool
+}
+
 class CreatePostView: UIView {
-    
+    weak var createPostViewDelegate: CreatePostViewDelegate?
     weak var delegate: PhotoCollectionViewCellDelegate?
     private var diffableDataSource: CreatePostDataSource?
     private lazy var views = [
@@ -98,7 +102,8 @@ class CreatePostView: UIView {
     }
     
     func isMessageTextViewEmpty() -> Bool {
-        return messageTextView.text.isEmpty
+        let isMessageTextViewEmpty = createPostViewDelegate?.isMessageTextViewEmpty(textView: messageTextView)
+        return isMessageTextViewEmpty ?? false
     }
     
     func isPhotoCarouselEmpty() -> Bool {

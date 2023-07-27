@@ -124,15 +124,8 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     }
     
     func validatePost(isMessageEmpty: Bool, isCollectionViewEmpty: Bool) {
-        let isMessageEmpty = isMessageEmpty
-        let isPhotoCarouselEmpty = isCollectionViewEmpty
-        let isValid = !shouldShowPostEmptyAlert(isMessageEmpty: isMessageEmpty, isImageEmpty: isPhotoCarouselEmpty)
-        
+        let isValid = !(isMessageEmpty && isCollectionViewEmpty)
         delegate?.didValidatePost(isValid: isValid)
-    }
-    
-    private func shouldShowPostEmptyAlert(isMessageEmpty: Bool, isImageEmpty: Bool) -> Bool {
-        return isMessageEmpty && isImageEmpty
     }
     
     private func toggleUpdatingMode() {
