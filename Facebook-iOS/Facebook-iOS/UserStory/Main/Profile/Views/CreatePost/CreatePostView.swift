@@ -10,7 +10,7 @@ import UITextView_Placeholder
 
 class CreatePostView: UIView {
     weak var delegate: PhotoCollectionViewCellDelegate?
-    var getMessageTextViewText: String? {
+    var messageText: String? {
         return messageTextView.text
     }
 
