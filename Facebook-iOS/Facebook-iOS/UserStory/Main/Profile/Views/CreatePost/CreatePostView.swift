@@ -10,6 +10,10 @@ import UITextView_Placeholder
 
 class CreatePostView: UIView {
     weak var delegate: PhotoCollectionViewCellDelegate?
+    var getMessageTextViewText: String? {
+        return messageTextView.text
+    }
+
     private var diffableDataSource: CreatePostDataSource?
     private lazy var views = [
         profileImageView,
@@ -33,7 +37,7 @@ class CreatePostView: UIView {
         return label
     }()
     
-    private(set) lazy var messageTextView: UITextView = {
+    private lazy var messageTextView: UITextView = {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
         textView.backgroundColor = .createPostMessageTextViewColor.withAlphaComponent(0.5)
@@ -95,7 +99,7 @@ class CreatePostView: UIView {
             self.usernameLabel.text = "Username"
         }
     }
-    
+
     private func setupViews() {
         self.views.forEach { view in
             addSubview(view)

@@ -80,10 +80,12 @@ class CreatePostViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addPostButton)
     }
 
-    private func updateCreatePostButton() {
-        createPostViewModel?.validatePost(textView: createPostView?.messageTextView)
+    private func shouldShowPostValidationAlert() {
+        let messageText = createPostView?.getMessageTextViewText
+        let isTextViewEmpty = createPostViewModel?.isMessageTextViewEmpty(text: messageText)
+        createPostViewModel?.validatePost(isMessageTextViewEmpty: isTextViewEmpty ?? true)
     }
-    
+
     @objc
     private func closeAddPostButtonTapped() {
         self.coordinator?.finish()
@@ -91,7 +93,7 @@ class CreatePostViewController: UIViewController {
     
     @objc
     private func addPostButtonTapped() {
-        updateCreatePostButton()
+        shouldShowPostValidationAlert()
     }
 
 }

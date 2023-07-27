@@ -32,7 +32,8 @@ protocol CreatePostViewModelProtocol: AnyObject {
     func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
     func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?)
-    func validatePost(textView: UITextView?)
+    func validatePost(isMessageTextViewEmpty: Bool)
+    func isMessageTextViewEmpty(text: String?) -> Bool
 }
 
 final class CreatePostViewModel {
@@ -121,20 +122,21 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         self.photoPickerService?.presentImagePicker(at: viewController)
     }
     
-    func validatePost(textView: UITextView?) {
-        let isCollectionViewEmpty = self.isCollectionViewEmpty()
-        let isMessageTextViewEmpty = self.isMessageTextViewEmpty(textView: textView)
+    func validatePost(isMessageTextViewEmpty: Bool) {
+        let isCollectionViewEmpty = self.isViewModelsEmpty()
+        let isMessageTextViewEmpty = isMessageTextViewEmpty
         let isValid = !(isCollectionViewEmpty && isMessageTextViewEmpty)
         delegate?.didValidatePost(isValid: isValid)
     }
 
-    private func isCollectionViewEmpty() -> Bool {
-        let isViewModelsEmpty = viewModels.isEmpty || (viewModels.count == 1 && viewModels.first?.isPlaceholder == true)
-        return isViewModelsEmpty
+    func isMessageTextViewEmpty(text: String?) -> Bool {
+        guard let text = text else { return true }
+        return text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
-    private func isMessageTextViewEmpty(textView: UITextView?) -> Bool {
-        return textView?.text.isEmpty ?? true
+    private func isViewModelsEmpty() -> Bool {
+        let isViewModelsEmpty = viewModels.isEmpty || (viewModels.count == 1 && viewModels.first?.isPlaceholder == true)
+        return isViewModelsEmpty
     }
 
     private func toggleUpdatingMode() {
