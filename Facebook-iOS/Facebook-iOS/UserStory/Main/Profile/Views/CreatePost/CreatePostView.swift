@@ -8,12 +8,7 @@
 import UIKit
 import UITextView_Placeholder
 
-protocol CreatePostViewDelegate: AnyObject {
-    func isMessageTextViewEmpty(textView: UITextView) -> Bool
-}
-
 class CreatePostView: UIView {
-    weak var createPostViewDelegate: CreatePostViewDelegate?
     weak var delegate: PhotoCollectionViewCellDelegate?
     private var diffableDataSource: CreatePostDataSource?
     private lazy var views = [
@@ -38,7 +33,7 @@ class CreatePostView: UIView {
         return label
     }()
     
-    private lazy var messageTextView: UITextView = {
+    private(set) lazy var messageTextView: UITextView = {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
         textView.backgroundColor = .createPostMessageTextViewColor.withAlphaComponent(0.5)
@@ -99,15 +94,6 @@ class CreatePostView: UIView {
         } else {
             self.usernameLabel.text = "Username"
         }
-    }
-    
-    func isMessageTextViewEmpty() -> Bool {
-        let isMessageTextViewEmpty = createPostViewDelegate?.isMessageTextViewEmpty(textView: messageTextView)
-        return isMessageTextViewEmpty ?? false
-    }
-    
-    func isPhotoCarouselEmpty() -> Bool {
-        return photoCarousel.numberOfItems(inSection: 0) <= 1
     }
     
     private func setupViews() {

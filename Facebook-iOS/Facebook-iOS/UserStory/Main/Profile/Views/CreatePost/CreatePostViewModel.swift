@@ -4,8 +4,6 @@
 //
 //  Created by Humberto Garcia on 09/06/23.
 //
-
-import Foundation
 import UIKit
 
 private enum Constants {
@@ -21,7 +19,7 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
     func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel])
     func didValidatePost(isValid: Bool)
-    
+
     func didReceivePhotoServiceError(title: String, error: PhotoPickerServiceError)
 }
 
@@ -34,7 +32,7 @@ protocol CreatePostViewModelProtocol: AnyObject {
     func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
     func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?)
-    func validatePost(isMessageEmpty: Bool, isCollectionViewEmpty: Bool)
+    func validatePost(textView: UITextView?)
 }
 
 final class CreatePostViewModel {
@@ -123,11 +121,22 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
         self.photoPickerService?.presentImagePicker(at: viewController)
     }
     
-    func validatePost(isMessageEmpty: Bool, isCollectionViewEmpty: Bool) {
-        let isValid = !(isMessageEmpty && isCollectionViewEmpty)
+    func validatePost(textView: UITextView?) {
+        let isCollectionViewEmpty = self.isCollectionViewEmpty()
+        let isMessageTextViewEmpty = self.isMessageTextViewEmpty(textView: textView)
+        let isValid = !(isCollectionViewEmpty && isMessageTextViewEmpty)
         delegate?.didValidatePost(isValid: isValid)
     }
-    
+
+    private func isCollectionViewEmpty() -> Bool {
+        let isViewModelsEmpty = viewModels.isEmpty || (viewModels.count == 1 && viewModels.first?.isPlaceholder == true)
+        return isViewModelsEmpty
+    }
+
+    private func isMessageTextViewEmpty(textView: UITextView?) -> Bool {
+        return textView?.text.isEmpty ?? true
+    }
+
     private func toggleUpdatingMode() {
         self.isUpdatingExistingImage.toggle()
     }

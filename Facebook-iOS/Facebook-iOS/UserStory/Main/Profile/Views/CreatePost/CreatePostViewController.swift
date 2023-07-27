@@ -53,7 +53,6 @@ class CreatePostViewController: UIViewController {
         self.view = createPostView
         navigationItem.titleView = titleLabel
         navigationItem.setHidesBackButton(true, animated: true)
-        createPostView?.createPostViewDelegate = self
     }
     
     init(createPostViewModel: CreatePostViewModelProtocol?) {
@@ -82,9 +81,7 @@ class CreatePostViewController: UIViewController {
     }
 
     private func updateCreatePostButton() {
-        let isMessageEmpty = createPostView?.isMessageTextViewEmpty() ?? true
-        let isPhotoCarouselEmpty = createPostView?.isPhotoCarouselEmpty() ?? true
-        createPostViewModel?.validatePost(isMessageEmpty: isMessageEmpty, isCollectionViewEmpty: isPhotoCarouselEmpty)
+        createPostViewModel?.validatePost(textView: createPostView?.messageTextView)
     }
     
     @objc
@@ -110,7 +107,7 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
             self.presentErrorAlerts(title: title, message: message)
         }
     }
-    
+
     func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel]) {
         updateView(with: viewModels)
     }
@@ -173,11 +170,5 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
         actionSheet.addAction(galleryAction)
         actionSheet.addAction(cancelAction)
         self.present(actionSheet, animated: true, completion: nil)
-    }
-}
-
-extension CreatePostViewController: CreatePostViewDelegate {
-    func isMessageTextViewEmpty(textView: UITextView) -> Bool {
-        return textView.text.isEmpty
     }
 }
