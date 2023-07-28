@@ -124,7 +124,6 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
     
     func validatePost(isMessageTextViewEmpty: Bool) {
         let isCollectionViewEmpty = self.isViewModelsEmpty()
-        let isMessageTextViewEmpty = isMessageTextViewEmpty
         let isValid = !(isCollectionViewEmpty && isMessageTextViewEmpty)
         delegate?.didValidatePost(isValid: isValid)
     }
