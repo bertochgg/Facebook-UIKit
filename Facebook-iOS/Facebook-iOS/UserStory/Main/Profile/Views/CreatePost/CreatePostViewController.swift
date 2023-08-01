@@ -10,15 +10,19 @@ private enum Constants {
     enum Alerts {
         static let noPostContentErrorTitle = "Error while creating new post"
         static let noPostContentErrorInstructions = "You need to either provide a message or an image."
+        static let messageReachedLimitTitle = "Message's characters limit"
+        static let messageReachedLimitDescription = "You are allowed to only enter 300 characters"
+        static let forbiddenWordFoundTitle = "Forbidden word found"
+        static let forbiddenWordFoundDescription = "Please check if there is a forbidden word in your message and try again."
     }
 }
 
 class CreatePostViewController: UIViewController {
-    
+
     weak var coordinator: (any CreatePostCoordinatorProtocol)?
     private var createPostView: CreatePostView?
     private let createPostViewModel: CreatePostViewModelProtocol?
-    
+
     private lazy var closeAddPostButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(ImagesNames.closeCreatePostButtonImage, for: .normal)
@@ -27,7 +31,7 @@ class CreatePostViewController: UIViewController {
         button.addTarget(self, action: #selector(closeAddPostButtonTapped), for: .touchUpInside)
         return button
     }()
-    
+
     private lazy var addPostButton: UIButton = {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
@@ -38,7 +42,7 @@ class CreatePostViewController: UIViewController {
         button.addTarget(self, action: #selector(addPostButtonTapped), for: .touchUpInside)
         return button
     }()
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .robotoBold14
@@ -47,53 +51,50 @@ class CreatePostViewController: UIViewController {
         label.text = "Create Post"
         return label
     }()
-    
+
     override func loadView() {
         createPostView = CreatePostView(frame: .zero, delegate: self)
         self.view = createPostView
         navigationItem.titleView = titleLabel
         navigationItem.setHidesBackButton(true, animated: true)
     }
-    
+
     init(createPostViewModel: CreatePostViewModelProtocol?) {
         self.createPostViewModel = createPostViewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         configureBarButtonItems()
         print("Current count: \(String(describing: navigationController?.viewControllers.count))")
-        
+
         createPostViewModel?.delegate = self
         createPostViewModel?.fetchProfileData()
         createPostViewModel?.addPlaceholderElement()
     }
-    
+
     private func configureBarButtonItems() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeAddPostButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addPostButton)
     }
 
-    private func validatePostTextView() -> Bool {
-        let isTextViewEmpty = createPostViewModel?.isMessageTextViewEmpty(text: createPostView?.messageText)
-        return isTextViewEmpty ?? true
-    }
-
     private func validatePostContent() {
-        createPostViewModel?.validatePost(isMessageTextViewEmpty: validatePostTextView())
+        let messageText = createPostView?.messageText
+        createPostViewModel?.setMessageText(message: messageText ?? "")
+        createPostViewModel?.validatePost()
     }
 
     @objc
     private func closeAddPostButtonTapped() {
         self.coordinator?.finish()
     }
-    
+
     @objc
     private func addPostButtonTapped() {
         validatePostContent()
@@ -102,6 +103,22 @@ class CreatePostViewController: UIViewController {
 }
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
+    func didFoundForbiddenWord(isForbiddenWord: Bool) {
+        if isForbiddenWord {
+            let title = Constants.Alerts.forbiddenWordFoundTitle
+            let message = Constants.Alerts.forbiddenWordFoundDescription
+            self.presentErrorAlerts(title: title, message: message)
+        }
+    }
+
+    func didReachMessageLimit(reachedLimit: Bool) {
+        if reachedLimit {
+            let title = Constants.Alerts.messageReachedLimitTitle
+            let message = Constants.Alerts.messageReachedLimitDescription
+            self.presentErrorAlerts(title: title, message: message)
+        }
+    }
+
     func didValidatePost(isValid: Bool) {
         if isValid {
             print("Creating Post")
@@ -116,19 +133,19 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel]) {
         updateView(with: viewModels)
     }
-    
+
     func didDisplayProfileData(viewModel: CreatePostDataViewModel) {
         createPostView?.configure(with: viewModel)
     }
-    
+
     // Errors
     func didReceivePhotoServiceError(title: String, error: PhotoPickerServiceError) {
         presentErrorAlerts(title: title, message: error.localizedString)
     }
-    
+
     private func presentErrorAlerts(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
+
         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
             alertController.dismiss(animated: true)
         }
@@ -137,7 +154,7 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    
+
     private func updateView(with viewModels: [PhotoCollectionViewCellViewModel]) {
         self.createPostView?.applySnapshot(with: viewModels)
     }
@@ -153,24 +170,24 @@ extension CreatePostViewController: PhotoCollectionViewCellDelegate {
             createPostViewModel?.removeImageElement(for: viewModel)
         }
     }
-    
+
     func didTapAddPhotoButton() {
         imagePickerOptionsActionSheet()
     }
-    
+
     private func imagePickerOptionsActionSheet() {
         let actionSheet = UIAlertController(title: "Select photo", message: nil, preferredStyle: .actionSheet)
-        
+
         let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default) { _ in
             self.createPostViewModel?.addNewImageElementFromCamera(at: self)
         }
-        
+
         let galleryAction = UIAlertAction(title: "Select from Gallery", style: .default) { _ in
             self.createPostViewModel?.addNewImageElement(at: self)
         }
-        
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
+
         actionSheet.addAction(takePhotoAction)
         actionSheet.addAction(galleryAction)
         actionSheet.addAction(cancelAction)

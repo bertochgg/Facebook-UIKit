@@ -19,6 +19,8 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func didDisplayProfileData(viewModel: CreatePostDataViewModel)
     func updateCollectionViewItems(with viewModels: [PhotoCollectionViewCellViewModel])
     func didValidatePost(isValid: Bool)
+    func didReachMessageLimit(reachedLimit: Bool)
+    func didFoundForbiddenWord(isForbiddenWord: Bool)
 
     func didReceivePhotoServiceError(title: String, error: PhotoPickerServiceError)
 }
@@ -26,25 +28,27 @@ protocol CreatePostViewModelDelegate: AnyObject {
 protocol CreatePostViewModelProtocol: AnyObject {
     var delegate: CreatePostViewModelDelegate? { get set }
     func fetchProfileData()
-    
+
     func addPlaceholderElement()
     func addNewImageElement(at viewController: UIViewController)
     func addNewImageElementFromCamera(at viewController: UIViewController)
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel)
     func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?)
-    func validatePost(isMessageTextViewEmpty: Bool)
-    func isMessageTextViewEmpty(text: String?) -> Bool
+    func validatePost()
+    func isMessageValid(text: String?) -> Bool
+    func setMessageText(message: String)
 }
 
 final class CreatePostViewModel {
     weak var delegate: CreatePostViewModelDelegate?
     private let profileNetworkService: ProfileNetworkServiceProtocol = ProfileNetworkService()
     private let photoPickerService: PhotoPickerServiceProtocol?
-    
+    private var message: String?
+
     private var isUpdatingExistingImage: Bool = false
     private var viewModels: [PhotoCollectionViewCellViewModel] = []
     private var editingImageID: UUID?
-    
+
     init(photoPickerService: PhotoPickerServiceProtocol) {
         self.photoPickerService = photoPickerService
         self.photoPickerService?.photoPickerDelegate = self
@@ -63,16 +67,16 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
                 print("Error fetching user profile data: \(error)")
             }
         }
-        
+
     }
-    
+
     func addPlaceholderElement() {
         guard let placeHolderImage = ImagesNames.placeholderImage else { return }
         let viewModel = PhotoCollectionViewCellViewModel(image: placeHolderImage)
         viewModels.append(viewModel)
         delegate?.updateCollectionViewItems(with: viewModels)
     }
-    
+
     func addNewImageElement(at viewController: UIViewController) {
         self.photoPickerService?.requestPhotoLibraryAuthorization(for: .readWrite, completion: { permission  in
             switch permission {
@@ -85,7 +89,7 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
             }
         })
     }
-    
+
     func addNewImageElementFromCamera(at viewController: UIViewController) {
         photoPickerService?.isCameraAvailable { available, error in
             guard let error = error else { return }
@@ -93,44 +97,65 @@ extension CreatePostViewModel: CreatePostViewModelProtocol {
                 self.delegate?.didReceivePhotoServiceError(title: Constants.Errors.cameraNotFound, error: error)
                 return
             }
-            
+
             self.photoPickerService?.requestCameraAccess { permission, error in
                 guard let error = error else { return }
                 guard permission else {
                     self.delegate?.didReceivePhotoServiceError(title: Constants.Errors.cameraAccessDenied, error: error)
                     return
                 }
-                
+
                 self.photoPickerService?.presentCamera(at: viewController)
             }
         }
     }
-    
+
     func removeImageElement(for viewModel: PhotoCollectionViewCellViewModel) {
         if let index = self.viewModels.firstIndex(of: viewModel) {
             self.viewModels.remove(at: index)
             print("View models amount: \(viewModels.count)")
         }
-        
+
         self.delegate?.updateCollectionViewItems(with: viewModels)
     }
-    
+
     func editImageElement(at viewController: UIViewController, viewModel: PhotoCollectionViewCellViewModel?) {
         guard let viewModel = viewModel else { return }
         editingImageID = viewModel.id
         toggleUpdatingMode()
         self.photoPickerService?.presentImagePicker(at: viewController)
     }
-    
-    func validatePost(isMessageTextViewEmpty: Bool) {
+
+    func validatePost() {
         let isCollectionViewEmpty = self.isViewModelsEmpty()
-        let isValid = !(isCollectionViewEmpty && isMessageTextViewEmpty)
+        let isTextViewEmpty = isMessageValid(text: message)
+        let isTextViewUnderOrEqualTo300Chars = textHasLessThanOrEqualTo300Chars(text: message)
+
+        let isValid = !(isCollectionViewEmpty && isTextViewEmpty) && isTextViewUnderOrEqualTo300Chars
+        delegate?.didReachMessageLimit(reachedLimit: !isTextViewUnderOrEqualTo300Chars)
         delegate?.didValidatePost(isValid: isValid)
     }
 
-    func isMessageTextViewEmpty(text: String?) -> Bool {
+    func isMessageValid(text: String?) -> Bool {
         guard let text = text else { return true }
-        return text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let forbiddenWords = ["Android", "Google", "beer"]
+
+        let containsForbiddenWord = forbiddenWords.contains { forbiddenWord in
+            trimmedText.localizedCaseInsensitiveContains(forbiddenWord)
+        }
+        delegate?.didFoundForbiddenWord(isForbiddenWord: containsForbiddenWord)
+
+        return trimmedText.isEmpty || containsForbiddenWord
+    }
+
+    func setMessageText(message: String) {
+        self.message = message
+    }
+
+    private func textHasLessThanOrEqualTo300Chars(text: String?) -> Bool {
+        guard let text = text else { return true }
+        return text.count <= 300
     }
 
     private func isViewModelsEmpty() -> Bool {
@@ -147,32 +172,32 @@ extension CreatePostViewModel: PhotoPickerServiceDelegate {
     func imagePickerServiceDidPick(didPickImage image: UIImage) {
         if isUpdatingExistingImage {
             guard let viewModelID = self.editingImageID else { return }
-            
+
             if let index = self.viewModels.firstIndex(where: { $0.id == viewModelID }) {
                 let updatedViewModel = PhotoCollectionViewCellViewModel(id: self.viewModels[index].id, image: image)
                 self.viewModels[index] = updatedViewModel
                 self.delegate?.updateCollectionViewItems(with: self.viewModels)
             }
-            
+
             self.editingImageID = nil
             toggleUpdatingMode()
         } else {
             let viewModel = PhotoCollectionViewCellViewModel(image: image)
             viewModels.append(viewModel)
-            
+
             if let originalPlaceholderIndex = viewModels.firstIndex(where: { $0.isPlaceholder }) {
                 let originalPlaceholder = viewModels.remove(at: originalPlaceholderIndex)
                 self.viewModels.append(originalPlaceholder)
             }
-            
+
             self.delegate?.updateCollectionViewItems(with: self.viewModels)
         }
     }
-    
+
     func imagePickerServiceDidError(didFailWithError error: PhotoPickerServiceError) {
         self.delegate?.didReceivePhotoServiceError(title: Constants.Errors.imagePickedError, error: error)
     }
-    
+
     func imagePickerServiceDidCancel() {
         if isUpdatingExistingImage {
             editingImageID = nil
