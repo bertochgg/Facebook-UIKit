@@ -1,20 +1,16 @@
 PODS:
-  - SwiftLint (0.47.0)
   - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
-  - SwiftLint (~> 0.47.0)
   - "UITextView+Placeholder"
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - SwiftLint
+  trunk:
     - "UITextView+Placeholder"
 
 SPEC CHECKSUMS:
-  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: d82fa421eb6bf7a385a314aacb644b6f4e397112
+PODFILE CHECKSUM: 3e595fe18d9b9a3817912b0c50bf08cb1dc97927
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.2
